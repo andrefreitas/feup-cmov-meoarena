@@ -1,1 +1,0 @@
-Aplicação Móvel Meo Arena
