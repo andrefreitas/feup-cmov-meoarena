@@ -4,7 +4,6 @@ var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
 var OrderedproductsSchema   = new Schema({
-	//id: automaticamente atribuído pelo mongodb?!
 	price: Number
 });
 

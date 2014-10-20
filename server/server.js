@@ -10,6 +10,7 @@ var bodyParser = require('body-parser');
 
 var mongoose   = require('mongoose');
 mongoose.connect('mongodb://localhost/meoarena');
+var Customer     = require('./app/models/customer');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -34,23 +35,36 @@ router.get('/', function(req, res) {
 	res.json({ message: 'hooray! weleeeecome to our api!' });
 });
 
+// Customers route
+
 router.route('/customers')
 
 	// Create a customer
 	.post(function(req, res){
 		var customer = new Customer();
 		customer.name = req.body.name;
+		customer.nif = req.body.nif;
 		customer.email = req.body.email;
 		customer.password = req.body.password;
-		customer.pin =
+		customer.pin = 1234;
 
 		customer.save(function(err){
 			if(err)
 				res.send(err);
-
-
+				res.json({ id: customer.id, pin: customer.pin });
 		});
 
+
+
+	})
+
+	.get(function(req, res) {
+		Customer.find(function(err, customers) {
+			if (err)
+				res.send(err);
+
+			res.json(customers);
+		});
 	});
 
 // more routes for our API will happen here
