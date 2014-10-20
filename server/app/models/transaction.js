@@ -3,11 +3,11 @@
 var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
-var ShowSchema   = new Schema({
+var TransactionSchema   = new Schema({
 	//id: automaticamente atribuído pelo mongodb?!
-	name: String,
+	description: String,
 	date: Date,
-	ticketPrice: Number
+	amount: Number
 });
 
-module.exports = mongoose.model('Show', ShowSchema);
+module.exports = mongoose.model('Transaction', TransactionSchema);

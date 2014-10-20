@@ -3,11 +3,11 @@
 var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
-var ShowSchema   = new Schema({
+var CreditcardSchema   = new Schema({
 	//id: automaticamente atribuído pelo mongodb?!
-	name: String,
-	date: Date,
-	ticketPrice: Number
+	type: String,
+	number: Number,
+	validity: Date
 });
 
-module.exports = mongoose.model('Show', ShowSchema);
+module.exports = mongoose.model('Creditcard', CreditcardSchema);

@@ -3,11 +3,9 @@
 var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
-var ShowSchema   = new Schema({
+var OrderedproductsSchema   = new Schema({
 	//id: automaticamente atribuído pelo mongodb?!
-	name: String,
-	date: Date,
-	ticketPrice: Number
+	price: Number
 });
 
-module.exports = mongoose.model('Show', ShowSchema);
+module.exports = mongoose.model('Orderedproducts', OrderedproductsSchema);
