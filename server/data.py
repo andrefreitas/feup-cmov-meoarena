@@ -27,3 +27,10 @@ def getCustomer(id):
 
 def deleteCustomer(id):
   return db.customers.remove({"_id" : ObjectId(id)})
+
+def login(email, password):
+    customer = db.customers.find_one({"email": email, "password": password})
+    if (customer):
+        return True
+    else:
+        return False
