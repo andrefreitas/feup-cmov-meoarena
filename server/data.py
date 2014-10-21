@@ -21,3 +21,9 @@ def addCreditCard(customerID, type, number, validity):
          "number" : number,
          "validity" : validity }
   db.customers.update({"_id": ObjectId(customerID)}, {"$set" : {"creditCard" : doc}})
+
+def getCustomer(id):
+  return db.customers.find_one({"_id" : ObjectId(id)})
+
+def deleteCustomer(id):
+  return db.customers.remove({"_id" : ObjectId(id)})

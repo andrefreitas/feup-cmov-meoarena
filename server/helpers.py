@@ -1,7 +1,6 @@
 import hashlib
 import random
 
-
 def encryptPassword(password):
   return hashlib.md5(password.encode()).hexdigest()
 
