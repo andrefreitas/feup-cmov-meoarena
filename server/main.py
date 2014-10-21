@@ -1,4 +1,4 @@
-from bottle import route, run, template, request
+from bottle import route, run, template, request, response
 import data
 
 @route('/api/customers', method="POST")
@@ -10,19 +10,25 @@ def customers_create():
     creditCard = { "ccType" : request.params.get("ccType"),
                    "ccNumber" : request.params.get("ccNumber"),
                    "ccValidity" : request.params.get("ccValidity")}
+    response.content_type = 'application/json'
     return data.createCustomer(name, email, password, nif, creditCard)
 
 
 @route('/api/shows', method="GET")
 def shows_all():
+    response.content_type = 'application/json'
     return data.getShows()
 
 @route('/api/login', method="POST")
 def login():
     email = request.params.get("email")
     password = request.params.get("password")
-    return "Hello World!"
-    #return data.login(email,password)
+    response.content_type = 'application/json'
+    result = data.login(email,password)
+    if(result):
+        return {"id" : str(result["_id"])}
+    else:
+        response.status = 400
 
 
 run(host='localhost', port=8080, reloader=True)

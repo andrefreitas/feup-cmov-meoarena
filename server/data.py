@@ -45,9 +45,9 @@ def getShows():
     return dumps(db.shows.find())
 
 def login(email, password):
-    customer = db.customers.find_one({"email": email, "password": password})
+    customer = db.customers.find_one({"email": email, "password": encryptPassword(password)})
     if (customer):
-        return True
+        return customer
     else:
         return False
 
