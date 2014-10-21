@@ -11,7 +11,11 @@ def customers_create():
                    "ccNumber" : request.params.get("ccNumber"),
                    "ccValidity" : request.params.get("ccValidity")}
     response.content_type = 'application/json'
-    return data.createCustomer(name, email, password, nif, creditCard)
+    answer = data.createCustomer(name, email, password, nif, creditCard)
+    if (answer):
+        return answer
+    else:
+        response.status = 400
 
 
 @route('/api/shows', method="GET")

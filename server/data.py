@@ -7,16 +7,19 @@ from bson.json_util import dumps
 db = MongoClient()['meoarena']
 
 def createCustomer(name, email, password, nif, creditCard):
-  pin = generatePIN()
-  doc = {"name" : name,
-         "email" : email,
-         "password": encryptPassword(password),
-         "nif" : nif,
-         "pin" : pin
-         }
-  customerID = db.customers.insert(doc)
-  addCreditCard(customerID, creditCard['ccType'], creditCard['ccNumber'], creditCard['ccValidity'])
-  return { "id" : str(customerID), "pin" : pin}
+  if (db.customers.find_one({"email": email})):
+    return False
+  else:
+    pin = generatePIN()
+    doc = {"name" : name,
+           "email" : email,
+           "password": encryptPassword(password),
+           "nif" : nif,
+           "pin" : pin
+           }
+    customerID = db.customers.insert(doc)
+    addCreditCard(customerID, creditCard['ccType'], creditCard['ccNumber'], creditCard['ccValidity'])
+    return { "id" : str(customerID), "pin" : pin}
 
 def addCreditCard(customerID, type, number, validity):
   doc = {"type" : type,
@@ -61,4 +64,3 @@ def login(email, password):
         return customer
     else:
         return False
-

@@ -31,7 +31,6 @@ class TestApi(unittest.TestCase):
 
     r = requests.post("http://localhost:8080/api/customers", params = payload)
     self.assertEqual(r.status_code, 400)
-
     data.deleteCustomer(answer["id"])
 
   def testLogin(self):
