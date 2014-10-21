@@ -3,8 +3,8 @@
 var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
-var OrderedproductsSchema   = new Schema({
+var OrderedproductSchema   = new Schema({
 	price: Number
 });
 
-module.exports = mongoose.model('Orderedproducts', OrderedproductsSchema);
+module.exports = mongoose.model('Orderedproduct', OrderedproductSchema);
