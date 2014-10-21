@@ -33,7 +33,7 @@ def deleteCustomer(id):
 
 def createShow(name, dateString, price, seats):
     # dateString in format (DD/MM/YYYY)
-    dateInstance = datetime.datetime.strptime(dateString,"%d/%m/%Y")
+    dateInstance = parseDate(dateString,"%d/%m/%Y")
     doc = { "name" : name,
             "date" : dateInstance,
             "price" : price,
@@ -42,7 +42,18 @@ def createShow(name, dateString, price, seats):
     return {"id" : showID}
 
 def getShows():
-    return dumps(db.shows.find())
+    cursor = db.shows.find()
+    results = []
+    for doc in cursor:
+        doc["id"] = str(doc["_id"])
+        doc["date"] = "{:%d/%m/%Y}".format(doc["date"])
+        del doc["_id"]
+        results.append(doc)
+    return dumps(results)
+
+
+def deleteShow(id):
+    return db.shows.remove({"_id" : ObjectId(id)})
 
 def login(email, password):
     customer = db.customers.find_one({"email": email, "password": encryptPassword(password)})
