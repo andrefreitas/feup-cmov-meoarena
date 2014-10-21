@@ -12,4 +12,10 @@ def customers_create():
                    "ccValidity" : request.params.get("ccValidity")}
     return data.createCustomer(name, email, password, nif, creditCard)
 
+@route('/api/shows', method="GET")
+def shows_all():
+    return data.getShows()
+
+
+
 run(host='localhost', port=8080, reloader=True)
