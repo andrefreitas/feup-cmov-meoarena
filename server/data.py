@@ -31,8 +31,6 @@ def getCustomer(id):
 def deleteCustomer(id):
   return db.customers.remove({"_id" : ObjectId(id)})
 
-
-
 def createShow(name, dateString, price, seats):
     # dateString in format (DD/MM/YYYY)
     dateInstance = datetime.datetime.strptime(dateString,"%d/%m/%Y")
@@ -46,5 +44,10 @@ def createShow(name, dateString, price, seats):
 def getShows():
     return dumps(db.shows.find())
 
-
+def login(email, password):
+    customer = db.customers.find_one({"email": email, "password": password})
+    if (customer):
+        return True
+    else:
+        return False
 
