@@ -42,7 +42,8 @@ class TestApi(unittest.TestCase):
     self.assertEqual(loginAnswer.status_code, 400)
     data.deleteCustomer(answer["id"])
 
-
+def testListingProdutcs(self):
+    
 
 
 
