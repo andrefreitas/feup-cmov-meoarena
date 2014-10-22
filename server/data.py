@@ -65,8 +65,9 @@ def login(email, password):
     else:
         return False
 
-def createProduct(name, price):
-    doc = { "name" : name,
+def createProduct(description, name, price):
+    doc = { "description" : description,
+            "name" : name,
             "price" : price}
     productID = db.products.insert(doc)
     return {"id" : productID}
