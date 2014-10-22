@@ -34,5 +34,10 @@ def login():
     else:
         response.status = 400
 
+@route('/api/products', method="GET")
+def products_all():
+    response.content_type = 'application/json'
+    return data.getProducts()
+
 
 run(host='localhost', port=8080, reloader=True)

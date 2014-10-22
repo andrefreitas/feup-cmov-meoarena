@@ -64,3 +64,16 @@ def login(email, password):
         return customer
     else:
         return False
+
+def createProduct(description, name, price):
+    doc = { "description" : description,
+            "name" : name,
+            "price" : price}
+    productID = db.products.insert(doc)
+    return {"id" : productID}
+
+def getProducts():
+    return dumps(db.products.find())
+
+def deleteProduct(id):
+    return db.products.remove({"_id" : ObjectId(id)})

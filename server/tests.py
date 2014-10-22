@@ -47,6 +47,7 @@ class TestApi(unittest.TestCase):
     self.assertEqual(loginAnswer.status_code, 400)
     data.deleteCustomer(answer["id"])
 
+
   def testListingShows(self):
     show1 = data.createShow("Tony Carreira", "31/10/2014", 22.50, 100)
     show2 = data.createShow("John Legend", "08/11/2014", 12, 300)
@@ -96,6 +97,22 @@ class TestApi(unittest.TestCase):
       transactions = data.getTransactions(customer["id"])
       results = list(filter(lambda transaction: transaction["date"]  == todayDate and transaction["amount"] == 67.5 and "3" in transaction["description"] and "Tony Carreira" in transaction["description"], transactions))
       self.assertTrue(len(results) == 1)
+
+
+  def testListingProducts(self):
+    product1 = data.createProduct("Cafe Expresso", "coffee", 0.50)
+    product2 = data.createProduct("Pipocas", "popcorn", 2.75)
+    product3 = data.createProduct("Sumo Laranja", "juice", 1)
+    answer = requests.get("http://localhost:8080/api/products").json()
+    results = list(filter(lambda product: product["description"] == "Cafe Expresso" and product["name"] == "coffee" and product["price"] == 0.50, answer))
+    self.assertTrue(len(results) == 1)
+    results = list(filter(lambda product: product["description"] == "Pipocas" and product["name"] == "popcorn" and product["price"] == 2.75, answer))
+    self.assertTrue(len(results) == 1)
+    results = list(filter(lambda product: product["description"] == "Sumo Laranja" and product["name"] == "juice" and product["price"] == 1, answer))
+    self.assertTrue(len(results) == 1)
+    data.deleteProduct(product1["id"])
+    data.deleteProduct(product2["id"])
+    data.deleteProduct(product3["id"])
 
 
 
