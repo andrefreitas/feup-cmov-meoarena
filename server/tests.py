@@ -28,6 +28,9 @@ class TestApi(unittest.TestCase):
     self.assertEqual(customer["creditCard"]["number"], payload["ccNumber"])
     self.assertEqual(customer["creditCard"]["validity"], payload["ccValidity"])
     self.assertEqual(customer["_id"], ObjectId(answer["id"]))
+
+    r = requests.post("http://localhost:8080/api/customers", params = payload)
+    self.assertEqual(r.status_code, 400)
     data.deleteCustomer(answer["id"])
 
   def testLogin(self):
@@ -42,10 +45,21 @@ class TestApi(unittest.TestCase):
     self.assertEqual(loginAnswer.status_code, 400)
     data.deleteCustomer(answer["id"])
 
-def testListingProdutcs(self):
-    
 
-
+  def testListingShows(self):
+    show1 = data.createShow("Tony Carreira", "31/10/2014", 22.50, 100)
+    show2 = data.createShow("John Legend", "08/11/2014", 12, 300)
+    show3 = data.createShow("Paulo Gonzo", "14/11/2014", 3, 70)
+    answer = requests.get("http://localhost:8080/api/shows").json()
+    results = list(filter(lambda show: show["name"] == "Tony Carreira" and show["price"] == 22.50 and show["seats"] == 100 and show["date"] == "31/10/2014", answer))
+    self.assertTrue(len(results) > 0)
+    results = list(filter(lambda show: show["name"] == "John Legend" and show["price"] == 12 and show["seats"] == 300 and show["date"] == "08/11/2014", answer))
+    self.assertTrue(len(results) > 0)
+    results = list(filter(lambda show: show["name"] == "Paulo Gonzo" and show["price"] == 3 and show["seats"] == 70 and show["date"] == "14/11/2014", answer))
+    self.assertTrue(len(results) > 0)
+    data.deleteShow(show1["id"])
+    data.deleteShow(show2["id"])
+    data.deleteShow(show3["id"])
 
 if __name__ == '__main__':
   unittest.main()
