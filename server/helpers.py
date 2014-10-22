@@ -12,4 +12,4 @@ def parseDate(dateString, format):
     return datetime.datetime.strptime(dateString, format)
 
 def formatDate(dateInstance):
-    "{:%d/%m/%Y}".format(dateInstance)
+    return "{:%d/%m/%Y}".format(dateInstance)

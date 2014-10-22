@@ -18,6 +18,8 @@ def customers_create():
         response.status = 400
 
 
+
+
 @route('/api/shows', method="GET")
 def shows_all():
     response.content_type = 'application/json'
@@ -38,6 +40,17 @@ def login():
 def products_all():
     response.content_type = 'application/json'
     return data.getProducts()
+
+@route('/api/tickets', method="POST")
+def tickets_create():
+    customerID = request.params.get("customerID")
+    showID = request.params.get("showID")
+    pin = request.params.get("pin")
+    quantity = request.params.get("quantity")
+    response.content_type = 'application/json'
+    answer = data.createTicket(customerID, showID, pin, quantity)
+    return answer
+
 
 
 run(host='localhost', port=8080, reloader=True)

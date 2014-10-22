@@ -34,6 +34,7 @@ def getCustomer(id):
 def deleteCustomer(id):
   return db.customers.remove({"_id" : ObjectId(id)})
 
+
 def createShow(name, dateString, price, seats):
     # dateString in format (DD/MM/YYYY)
     dateInstance = parseDate(dateString,"%d/%m/%Y")
@@ -42,7 +43,7 @@ def createShow(name, dateString, price, seats):
             "price" : price,
             "seats" : seats}
     showID = db.shows.insert(doc)
-    return {"id" : showID}
+    return {"id" : str(showID)}
 
 def getShows():
     cursor = db.shows.find()
@@ -70,10 +71,39 @@ def createProduct(description, name, price):
             "name" : name,
             "price" : price}
     productID = db.products.insert(doc)
-    return {"id" : productID}
+    return {"id" : str(productID)}
 
 def getProducts():
     return dumps(db.products.find())
 
 def deleteProduct(id):
     return db.products.remove({"_id" : ObjectId(id)})
+
+
+def createTicket(customerID, showID, pin, quantity):
+    customer = db.customers.find_one({"_id": ObjectId(customerID), "pin": int(pin)})
+    show = db.shows.find_one({"_id": ObjectId(showID)})
+
+    if (customer and show):
+        ticket = db.tickets.find({"showID": ObjectId(showID)}).sort("seats", -1).limit(1)
+        if (ticket.count() > 0):
+            if (ticket["seat"] + int(quantity) > show["seats"]):
+                return False
+            else:
+                seat = ticket["seat"] + 1
+        else:
+            seat = 1
+
+            tickets = []
+            for i in range (seat, seat + int(quantity) -1, 1):
+                doc = { "seat" : seat,
+                        "showID" : ObjectId(showID),
+                        "status" : "unused",
+                        "date" : datetime.datetime.today()}
+                ticketID = db.tickets.insert(doc)
+                ticket = db.tickets.find_one("_id", ObjectId(ticketID))
+                tickets.append(ticket)
+            return dumps(tickets)
+            #return str(seat)
+    else:
+        return "no customer"
