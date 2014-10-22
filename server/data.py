@@ -72,4 +72,7 @@ def createProduct(name, price):
     return {"id" : productID}
 
 def getProducts():
-    return dumps(db.shows.find())
+    return dumps(db.products.find())
+
+def deleteProduct(id):
+    return db.products.remove({"_id" : ObjectId(id)})

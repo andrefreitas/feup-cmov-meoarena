@@ -61,5 +61,21 @@ class TestApi(unittest.TestCase):
     data.deleteShow(show2["id"])
     data.deleteShow(show3["id"])
 
+  def testListingProducts(self):
+    product1 = data.createProduct("Cafe", 0.50)
+    product2 = data.createProduct("Pipocas", 2.75)
+    product3 = data.createProduct("Sumo Laranja", 1)
+    answer = requests.get("http://localhost:8080/api/products").json()
+    results = list(filter(lambda product: product["name"] == "Cafe" and product["price"] == 0.50, answer))
+    self.assertTrue(len(results) == 1)
+    results = list(filter(lambda product: product["name"] == "Pipocas" and product["price"] == 2.75, answer))
+    self.assertTrue(len(results) == 1)
+    results = list(filter(lambda product: product["name"] == "Sumo Laranja" and product["price"] == 1, answer))
+    self.assertTrue(len(results) == 1)
+    data.deleteProduct(product1["id"])
+    data.deleteProduct(product2["id"])
+    data.deleteProduct(product3["id"])
+
+
 if __name__ == '__main__':
   unittest.main()
