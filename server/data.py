@@ -49,7 +49,7 @@ def getShows():
     results = []
     for doc in cursor:
         doc["id"] = str(doc["_id"])
-        doc["date"] = "{:%d/%m/%Y}".format(doc["date"])
+        doc["date"] = formatDate(doc["date"])
         del doc["_id"]
         results.append(doc)
     return dumps(results)
