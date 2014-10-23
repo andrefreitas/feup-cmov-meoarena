@@ -79,29 +79,34 @@ class TestApi(unittest.TestCase):
       self.assertEqual(answer.status_code, 200)
 
       #Buy tickets invalid
-      payload["quantity"] = 98
+      payload["quantity"] = 99
       answer = requests.post("http://localhost:8080/api/tickets", params = payload)
       self.assertEqual(answer.status_code, 400)
 
-      """# Get purchased tickets
-      tickets = requests.get("http://localhost:8080/api/tickets", params =  {"customerID" : customer["id"]})
+      # Get purchased tickets
+      tickets = requests.get("http://localhost:8080/api/tickets", params =  {"customerID" : customer["id"]}).json()
       results = list(filter(lambda ticket: "id" in ticket and "seat" in ticket and ticket["status"] == "unused" and ticket["date"] == todayDate and ticket["showID"] == show1["id"], tickets))
       self.assertTrue(len(results) == 3)
 
       # Get vouchers
-      vouchers = requests.get("http://localhost:8080/api/vouchers", params =  {"customerID" : customer["id"]})
+      vouchers = requests.get("http://localhost:8080/api/vouchers", params =  {"customerID" : customer["id"]}).json()
       results = list(filter(lambda voucher: "id" in voucher and (voucher["product"] == "coffee" or voucher["product"] == "popcorn") and voucher["discount"] == 1 and voucher["status"] == "unused", vouchers))
       self.assertTrue(len(results) == 3)
 
-      # Check that the transactions were recorded
-      transactions = data.getTransactions(customer["id"])
-      results = list(filter(lambda transaction: transaction["date"]  == todayDate and transaction["amount"] == 67.5 and "3" in transaction["description"] and "Tony Carreira" in transaction["description"], transactions))
-      self.assertTrue(len(results) == 1)"""
 
+      # Check that the transactions were recorded
+      transactions = requests.get("http://localhost:8080/api/transactions", params = {"customerID": customer["id"]}).json()
+      results = list(filter(lambda transaction: transaction["date"]  == todayDate and transaction["amount"] == 67.5 and "3" in transaction["description"] and "Tony Carreira" in transaction["description"], transactions))
+      self.assertTrue(len(results) == 1)
+
+      data.deleteTickets(show1["id"], customer["id"])
       data.deleteCustomer(customer["id"])
       data.deleteShow(show1["id"])
       data.deleteProduct(product1["id"])
       data.deleteProduct(product2["id"])
+      data.deleteTransactions(customer["id"])
+      data.deleteVouchers(customer["id"])
+
 
 
   def testListingProducts(self):

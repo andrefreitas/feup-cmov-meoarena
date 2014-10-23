@@ -80,30 +80,110 @@ def deleteProduct(id):
     return db.products.remove({"_id" : ObjectId(id)})
 
 
-def createTicket(customerID, showID, pin, quantity):
+def buyTicket(customerID, showID, pin, quantity):
     customer = db.customers.find_one({"_id": ObjectId(customerID), "pin": int(pin)})
     show = db.shows.find_one({"_id": ObjectId(showID)})
 
     if (customer and show):
-        ticket = db.tickets.find({"showID": ObjectId(showID)}).sort("seats", -1).limit(1)
+        ticket = db.tickets.find({"showID": ObjectId(showID)}).sort("seat", -1).limit(1)
         if (ticket.count() > 0):
-            if (ticket["seat"] + int(quantity) > show["seats"]):
+            if (int(ticket[0]["seat"]) + int(quantity) > int(show["seats"])):
                 return False
             else:
-                seat = ticket["seat"] + 1
+                seat = int(ticket[0]["seat"]) + 1
         else:
             seat = 1
 
-            tickets = []
-            for i in range (seat, seat + int(quantity) -1, 1):
-                doc = { "seat" : seat,
-                        "showID" : ObjectId(showID),
-                        "status" : "unused",
-                        "date" : datetime.datetime.today()}
-                ticketID = db.tickets.insert(doc)
-                ticket = db.tickets.find_one("_id", ObjectId(ticketID))
-                tickets.append(ticket)
-            return dumps(tickets)
-            #return str(seat)
+        tickets = []
+        for i in range (seat, seat + int(quantity), 1):
+            ticketID = createTicket(i, showID, customerID)
+            createFreeVoucher(customerID)
+            ticket = db.tickets.find_one({"_id": ObjectId(ticketID)})
+            ticket["id"] =  str(ticket["_id"])
+            ticket["showID"] = str(ticket["showID"])
+            ticket["date"] = formatDate(ticket["date"])
+            del ticket["_id"]
+            tickets.append(ticket)
+        createTransaction(customerID, float(show["price"]), int(quantity), show["name"])
+        return dumps(tickets)
     else:
-        return "no customer"
+        return "no customer or show"
+
+
+def createTicket(seat, showID, customerID):
+    doc = { "seat" : seat,
+            "customerID": ObjectId(customerID),
+            "showID" : ObjectId(showID),
+            "status" : "unused",
+            "date" : datetime.datetime.today()
+            }
+    ticketID = db.tickets.insert(doc)
+    return ticketID
+
+def getTickets(customerID):
+    cursor = db.tickets.find({"customerID": ObjectId(customerID)})
+    results = []
+    for doc in cursor:
+        doc["id"] = str(doc["_id"])
+        doc["customerID"] = str(doc["customerID"])
+        doc["showID"] = str(doc["showID"])
+        doc["date"] = formatDate(doc["date"])
+        del doc["_id"]
+        results.append(doc)
+    return dumps(results)
+
+def deleteTickets(showID, customerID):
+    return db.tickets.remove({"showID": ObjectId(showID), "customerID": ObjectId(customerID)})
+
+def createFreeVoucher(customerID):
+    number = random.randint(0, 1)
+    if (number == 1):
+        product = "coffee"
+    else:
+        product = "popcorn"
+
+    voucher = {
+        "product": product,
+        "status": "unused",
+        "discount": 1,
+        "customerID": ObjectId(customerID)
+    }
+
+    db.vouchers.insert(voucher)
+
+def getVouchers(customerID):
+    cursor = db.vouchers.find({"customerID": ObjectId(customerID)})
+    results = []
+    for doc in cursor:
+        doc["id"] = str(doc["_id"])
+        doc["customerID"] = str(doc["customerID"])
+        del doc["_id"]
+        results.append(doc)
+    return dumps(results)
+
+def deleteVouchers(customerID):
+    return db.vouchers.remove({"customerID": ObjectId(customerID)})
+
+def createTransaction(customerID, ticketPrice, quantity, name):
+    transaction = {
+        "description": str(quantity) + "  bilhetes para " + name,
+        "amount": quantity * ticketPrice,
+        "date": datetime.datetime.today(),
+        "customerID": ObjectId(customerID)
+    }
+
+    db.transactions.insert(transaction)
+
+def getTransactions(customerID):
+    cursor = db.transactions.find({"customerID": ObjectId(customerID)})
+    results = []
+    for doc in cursor:
+        doc["id"] = str(doc["_id"])
+        doc["customerID"] = str(doc["customerID"])
+        doc["date"] = formatDate(doc["date"])
+        del doc["_id"]
+        results.append(doc)
+    return dumps(results)
+
+def deleteTransactions(customerID):
+    return db.transactions.remove({"customerID": ObjectId(customerID)})

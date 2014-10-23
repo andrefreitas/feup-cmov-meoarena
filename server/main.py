@@ -48,9 +48,28 @@ def tickets_create():
     pin = request.params.get("pin")
     quantity = request.params.get("quantity")
     response.content_type = 'application/json'
-    answer = data.createTicket(customerID, showID, pin, quantity)
-    return answer
+    answer = data.buyTicket(customerID, showID, pin, quantity)
+    if(answer):
+        return answer
+    else:
+        response.status = 400
 
+@route('/api/tickets', method="GET")
+def tickets_all():
+    customerID = request.params.get("customerID")
+    response.content_type = 'application/json'
+    return data.getTickets(customerID)
 
+@route('/api/vouchers', method="GET")
+def tickets_all():
+    customerID = request.params.get("customerID")
+    response.content_type = 'application/json'
+    return data.getVouchers(customerID)
+
+@route('/api/transactions', method="GET")
+def tickets_all():
+    customerID = request.params.get("customerID")
+    response.content_type = 'application/json'
+    return data.getTransactions(customerID)
 
 run(host='localhost', port=8080, reloader=True)
