@@ -72,4 +72,4 @@ def tickets_all():
     response.content_type = 'application/json'
     return data.getTransactions(customerID)
 
-run(host='localhost', port=8080, reloader=True)
+run(host='localhost', port=8080, reloader=True, server='cherrypy')
