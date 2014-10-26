@@ -18,8 +18,6 @@ def customers_create():
         response.status = 400
 
 
-
-
 @route('/api/shows', method="GET")
 def shows_all():
     response.content_type = 'application/json'
