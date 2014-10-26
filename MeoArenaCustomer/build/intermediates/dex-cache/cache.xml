@@ -2,6 +2,12 @@
 <pre-dex-items>
 
     <item
+        dex="/Users/andre/git/meoarena/MeoArenaCustomer/app/build/intermediates/pre-dexed/debug/android-async-http-1.4.5-c13c25b65246b2368adad84f84089e666fb01a7e.jar"
+        jar="/Users/andre/.gradle/caches/modules-2/files-2.1/com.loopj.android/android-async-http/1.4.5/77bf7cacf9cefe19dc105e5425d2eb1bb5285881/android-async-http-1.4.5.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="77bf7cacf9cefe19dc105e5425d2eb1bb5285881"/>
+    <item
         dex="/Users/andre/git/meoarena/MeoArenaCustomer/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0-bdda85564b445fa2991d633462184168e259d7ca.jar"
         jar="/Users/andre/android-sdks/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
         jumboMode="false"
