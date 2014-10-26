@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pre-dex-items>
+
+    <item
+        dex="/Users/andre/git/meoarena/MeoArenaCustomer/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0-bdda85564b445fa2991d633462184168e259d7ca.jar"
+        jar="/Users/andre/android-sdks/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
+    <item
+        dex="/Users/andre/git/meoarena/MeoArenaCustomer/app/build/intermediates/pre-dexed/debug/classes-1c1db1fd4cc1817ff0c666ddd0a71476481d14ba.jar"
+        jar="/Users/andre/git/meoarena/MeoArenaCustomer/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
+
+</pre-dex-items>
