@@ -3,7 +3,7 @@ import data
 
 @route('/', method="GET")
 def home():
-    return "MeoArena"
+    return "Dev MeoArena"
 
 @route('/api/customers', method="POST")
 def customers_create():
