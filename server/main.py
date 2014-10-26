@@ -1,6 +1,10 @@
 from bottle import route, run, template, request, response
 import data
 
+@route('/', method="GET")
+def home():
+    return "MeoArena"
+
 @route('/api/customers', method="POST")
 def customers_create():
     name = request.params.get("name")
