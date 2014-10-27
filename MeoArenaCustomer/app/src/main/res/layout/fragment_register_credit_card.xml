@@ -1,10 +1,104 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="org.feup.meoarenacustomer.app.RegisterCreditCardFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_height="wrap_content"
+        android:text="@string/credit_card_title"
+        android:id="@+id/creditCardTextView"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/numberEditText"
+        android:textSize="22dp"
+        android:textStyle="bold"/>
 
-</FrameLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Tipo de cartão"
+        android:textSize="18sp"
+        android:id="@+id/typeTextView"
+        android:layout_below="@+id/creditCardTextView"
+        android:layout_alignStart="@+id/creditCardTextView"
+      />
+
+    <ImageView
+        android:layout_width="40sp"
+        android:layout_height="25sp"
+        android:id="@+id/typeImageView"
+        android:src="@drawable/credit_card"
+        android:layout_toEndOf="@+id/typeTextView"
+        android:layout_marginLeft="20dp"
+        android:layout_alignBottom="@+id/typeTextView" />
+
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="@string/credit_card_number_hint"
+        android:ems="10"
+        android:id="@+id/numberEditText"
+        android:layout_below="@+id/typeTextView"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/credit_card_validity"
+        android:textSize="18sp"
+        android:id="@+id/validityTextView"
+        android:layout_below="@+id/numberEditText"
+        android:layout_alignStart="@+id/creditCardTextView" />
+
+
+    <EditText
+        android:layout_width="60sp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/numberEditText"
+        android:inputType="number"
+        android:ems="10"
+        android:hint="@string/credit_card_month"
+        android:id="@+id/monthEditText"
+        android:layout_toStartOf="@+id/yearEditText"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"/>
+
+    <EditText
+        android:layout_width="70sp"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:layout_below="@+id/numberEditText"
+        android:ems="10"
+        android:hint="@string/credit_card_year"
+        android:id="@+id/yearEditText"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:text="@string/finish_registration"
+        android:id="@+id/button2"
+        android:layout_below="@+id/monthEditText"
+        android:layout_alignEnd="@+id/yearEditText" />
+
+
+</RelativeLayout>
