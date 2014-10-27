@@ -10,16 +10,17 @@ import android.widget.ImageView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.content.Intent;
 
 import org.json.*;
 import com.loopj.android.http.*;
-
 import org.apache.http.Header;
 
 public class LoginActivity extends Activity {
     EditText emailEditText;
     EditText passwordEditText;
     Button loginButton;
+    Button registerButton;
     String email;
     String password;
     API api;
@@ -31,6 +32,7 @@ public class LoginActivity extends Activity {
 
         api = new API();
         login();
+        register();
 
     }
 
@@ -104,6 +106,18 @@ public class LoginActivity extends Activity {
             }
         });
 
+    }
+
+    public void register(){
+        registerButton = (Button) findViewById(R.id.registerButton);
+
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+
+            }
+        });
     }
 
 }
