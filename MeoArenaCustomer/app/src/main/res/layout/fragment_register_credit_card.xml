@@ -96,7 +96,7 @@
         android:layout_marginTop="20dp"
         android:layout_height="wrap_content"
         android:text="@string/finish_registration"
-        android:id="@+id/button2"
+        android:id="@+id/registerButton"
         android:layout_below="@+id/monthEditText"
         android:layout_alignEnd="@+id/yearEditText" />
 

@@ -1,6 +1,7 @@
 package org.feup.meoarenacustomer.app;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
@@ -10,12 +11,39 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.View.OnTouchListener;
+import android.view.View;
+import android.view.MotionEvent;
 
 
-public class RegisterActivity extends FragmentActivity  {
+public class RegisterActivity extends FragmentActivity implements RegisterDetailsFragment.OnHeadlineSelectedListener, RegisterCreditCardFragment.OnHeadlineSelectedListener{
+
+
+
     private static final int NUM_PAGES = 2;
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
+
+    private String name;
+    private String nif;
+    private String email;
+    private String password;
+
+    public void goToCreditCard() {
+        mPager.setCurrentItem(1);
+    }
+
+    public void setDetails(String name, String nif, String email, String password){
+        this.name = name;
+        this.nif = nif;
+        this.email = email;
+        this.password = password;
+    }
+
+    public boolean register(String ccNumber, String ccType, String ccValidity){
+        Log.d("RegisterActivity", "Chegou aqui");
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +56,7 @@ public class RegisterActivity extends FragmentActivity  {
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+
     }
 
 

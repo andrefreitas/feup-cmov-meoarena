@@ -31,13 +31,29 @@ public class Helpers {
 
 
     static public boolean isValidNif(String nif){
-        if (nif != null && nif.length() == 9) {
+        if ( nif.length() == 9) {
             return true;
         }
         return false;
     }
 
+    static public boolean isValidYear(String year){
+        if(year == null || year.equals("")) return false;
+        int yearInt = Integer.parseInt(year);
+        if (yearInt > 0) {
+            return true;
+        }
+        return false;
+    }
 
+    static public boolean isValidMonth(String month){
+        if(month == null || month.equals("")) return false;
+        int monthInt = Integer.parseInt(month);
+        if (month != null && monthInt > 0 && monthInt < 13) {
+            return true;
+        }
+        return false;
+    }
 
     static public String getCreditCardType(String creditCardNumber){
         String patternVisa = "^4[0-9]{12}(?:[0-9]{3})?$";

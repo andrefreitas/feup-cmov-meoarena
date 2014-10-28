@@ -31,6 +31,8 @@
     <string name="credit_card_validity_hint">MM/AA</string>
     <string name="login_details_title">Login</string>
     <string name="finish_registration">Completar registo</string>
-
+    <string name="invalid_credit_card_number">Número de Cartão de Crédito inválido</string>
+    <string name="invalid_credit_card_month">Mês inválido</string>
+    <string name="invalid_credit_card_year">Ano inválido</string>
 
 </resources>
