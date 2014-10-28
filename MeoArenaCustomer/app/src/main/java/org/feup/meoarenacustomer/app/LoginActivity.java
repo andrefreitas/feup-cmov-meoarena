@@ -83,7 +83,11 @@ public class LoginActivity extends Activity {
                         try {
                             String id = response.getString("id");
                             Log.d("LoginActivity",  "Login success with customer id  " + id);
-                            Toast.makeText(getApplicationContext(), "ID: " + id, Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                            intent.putExtra("id", id);
+                            startActivity(intent);
+
                         } catch (Exception e) {
                             Log.e("LoginActivity", "Failed to get JSON Object String 'id' ");
                             Toast.makeText(getApplicationContext(), "Failed to get JSON Object String 'id' ", Toast.LENGTH_SHORT).show();

@@ -30,4 +30,16 @@ public class API {
         params.put("password", password);
         client.post(url + "/login", params, responseHandler);
     }
+
+    public void register(String name, String email, String nif, String password, String ccNumber, String ccType, String ccValidity, AsyncHttpResponseHandler responseHandler){
+        RequestParams params = new RequestParams();
+        params.put("name", name);
+        params.put("email", email);
+        params.put("password", password);
+        params.put("nif", nif);
+        params.put("ccNumber", ccNumber);
+        params.put("ccType", ccType);
+        params.put("ccValidity", ccValidity);
+        client.post(url + "/customers", params, responseHandler);
+    }
 }

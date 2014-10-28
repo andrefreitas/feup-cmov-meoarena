@@ -22,7 +22,11 @@
         <activity
             android:name="org.feup.meoarenacustomer.app.RegisterActivity"
             android:label="@string/title_activity_register"
-            android:parentActivityName="org.feup.meoarenacustomer.app.LoginActivity">
+            android:parentActivityName="org.feup.meoarenacustomer.app.LoginActivity" >
+        </activity>
+        <activity
+            android:name="org.feup.meoarenacustomer.app.HomeActivity"
+            android:label="@string/title_activity_home" >
         </activity>
     </application>
 

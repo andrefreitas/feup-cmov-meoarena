@@ -14,6 +14,13 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View.OnTouchListener;
 import android.view.View;
 import android.view.MotionEvent;
+import android.widget.Toast;
+
+import com.loopj.android.http.JsonHttpResponseHandler;
+import android.content.Intent;
+
+import org.apache.http.Header;
+import org.json.JSONObject;
 
 
 public class RegisterActivity extends FragmentActivity implements RegisterDetailsFragment.OnHeadlineSelectedListener, RegisterCreditCardFragment.OnHeadlineSelectedListener{
@@ -29,6 +36,8 @@ public class RegisterActivity extends FragmentActivity implements RegisterDetail
     private String email;
     private String password;
 
+    API api;
+
     public void goToCreditCard() {
         mPager.setCurrentItem(1);
     }
@@ -41,7 +50,45 @@ public class RegisterActivity extends FragmentActivity implements RegisterDetail
     }
 
     public boolean register(String ccNumber, String ccType, String ccValidity){
-        Log.d("RegisterActivity", "Chegou aqui");
+
+        if(name == null || nif == null || email == null || password == null){
+            Toast.makeText(getApplicationContext(), R.string.missing_personal_details, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+
+        api.register(name, email, nif, password, ccNumber, ccType, ccValidity, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+                try {
+                    String id = response.getString("id");
+                    String pin = response.getString("pin");
+
+                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                    intent.putExtra("id", id);
+                    intent.putExtra("pin", pin);
+                    startActivity(intent);
+
+
+                } catch (Exception e) {
+                    Log.e("RegisterActivity", "Failed to get JSON Object String 'id' ");
+                    Toast.makeText(getApplicationContext(), "Failed to get JSON Object String 'id' or 'pin' ", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse){
+                Toast.makeText(getApplicationContext(), R.string.no_internet, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Toast.makeText(getApplicationContext(), R.string.email_already_exists, Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
+
         return true;
     }
 
@@ -56,6 +103,8 @@ public class RegisterActivity extends FragmentActivity implements RegisterDetail
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+
+        api = new API();
 
     }
 

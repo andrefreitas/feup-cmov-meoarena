@@ -34,5 +34,8 @@
     <string name="invalid_credit_card_number">Número de Cartão de Crédito inválido</string>
     <string name="invalid_credit_card_month">Mês inválido</string>
     <string name="invalid_credit_card_year">Ano inválido</string>
+    <string name="email_already_exists">Este email já existe</string>
+    <string name="missing_personal_details">Faltam os dados pessoais</string>
+    <string name="title_activity_home">HomeActivity</string>
 
 </resources>

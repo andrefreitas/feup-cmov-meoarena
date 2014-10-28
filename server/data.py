@@ -6,6 +6,7 @@ from bson.json_util import dumps
 
 db = MongoClient()['meoarena']
 
+
 def createCustomer(name, email, password, nif, creditCard):
   if (db.customers.find_one({"email": email})):
     return False
