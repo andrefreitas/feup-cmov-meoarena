@@ -9,7 +9,7 @@
     <string name="invalid_name">Nome inválido</string>
     <string name="invalid_nif">NIF inválido</string>
     <string name="invalid_email">Email inválido</string>
-    <string name="invalid_password">Password inválida</string>
+    <string name="invalid_password">Password inválida! Tem que ter pelo menos 7 caracteres</string>
     <string name="invalid_confirm_password">Não confirmou a password</string>
     <string name="wrong_login">Login errado!</string>
     <string name="no_internet">Sem ligação à Internet!</string>

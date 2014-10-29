@@ -11,13 +11,17 @@ import android.content.DialogInterface;
 
 public class HomeActivity extends Activity {
 
+    Storage db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        db = new Storage(this);
         showPin();
         storeId();
+
 
     }
 
@@ -65,5 +69,9 @@ public class HomeActivity extends Activity {
     public void storeId(){
         Intent intent = getIntent();
         String id = intent.getStringExtra("id");
+        if(id!=null && !id.equals("")) {
+            db.remove("id");
+            db.put("id", id);
+        };
     }
 }

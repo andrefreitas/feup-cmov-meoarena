@@ -24,10 +24,16 @@ public class LoginActivity extends Activity {
     String email;
     String password;
     API api;
+    Storage db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        db = new Storage(this);
+        redirectToHome();
+
         setContentView(R.layout.activity_login);
 
         api = new API();
@@ -122,6 +128,18 @@ public class LoginActivity extends Activity {
 
             }
         });
+    }
+
+    public boolean isLoggedIn(){
+        return !db.get("id").equals("");
+    }
+
+    public void redirectToHome(){
+        if(isLoggedIn()){
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
     }
 
 }

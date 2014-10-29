@@ -67,6 +67,7 @@ public class RegisterActivity extends FragmentActivity implements RegisterDetail
                     Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                     intent.putExtra("id", id);
                     intent.putExtra("pin", pin);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
 
 
