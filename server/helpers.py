@@ -2,14 +2,18 @@ import hashlib
 import random
 import datetime
 
-def encryptPassword(password):
-  return hashlib.md5(password.encode()).hexdigest()
 
-def generatePIN():
-  return random.randint(1000, 9999)
+def encrypt_password(password):
+    return hashlib.md5(password.encode()).hexdigest()
 
-def parseDate(dateString, format):
-    return datetime.datetime.strptime(dateString, format)
 
-def formatDate(dateInstance):
-    return "{:%d/%m/%Y}".format(dateInstance)
+def generate_pin():
+    return random.randint(1000, 9999)
+
+
+def parse_date(date_str, date_format):
+    return datetime.datetime.strptime(date_str, date_format)
+
+
+def format_date(date_instance):
+    return "{:%d/%m/%Y}".format(date_instance)

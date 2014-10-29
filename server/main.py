@@ -1,4 +1,4 @@
-from bottle import route, run, template, request, response
+from bottle import route, run, request, response
 import data
 
 @route('/', method="GET")
@@ -11,12 +11,14 @@ def customers_create():
     email = request.params.get("email")
     password = request.params.get("password")
     nif = request.params.get("nif")
-    creditCard = { "ccType" : request.params.get("ccType"),
-                   "ccNumber" : request.params.get("ccNumber"),
-                   "ccValidity" : request.params.get("ccValidity")}
+    credit_card = {
+        "ccType": request.params.get("ccType"),
+        "ccNumber": request.params.get("ccNumber"),
+        "ccValidity": request.params.get("ccValidity")
+    }
     response.content_type = 'application/json'
-    answer = data.createCustomer(name, email, password, nif, creditCard)
-    if (answer):
+    answer = data.create_customer(name, email, password, nif, credit_card)
+    if answer:
         return answer
     else:
         response.status = 400
@@ -25,54 +27,54 @@ def customers_create():
 @route('/api/shows', method="GET")
 def shows_all():
     response.content_type = 'application/json'
-    return data.getShows()
+    return data.get_shows()
 
 @route('/api/login', method="POST")
 def login():
     email = request.params.get("email")
     password = request.params.get("password")
     response.content_type = 'application/json'
-    result = data.login(email,password)
-    if(result):
-        return {"id" : str(result["_id"])}
+    result = data.login(email, password)
+    if result:
+        return {"id": str(result["_id"])}
     else:
         response.status = 400
 
 @route('/api/products', method="GET")
 def products_all():
     response.content_type = 'application/json'
-    return data.getProducts()
+    return data.get_products()
 
 @route('/api/tickets', method="POST")
 def tickets_create():
-    customerID = request.params.get("customerID")
-    showID = request.params.get("showID")
+    customer_id = request.params.get("customerID")
+    show_id = request.params.get("showID")
     pin = request.params.get("pin")
     quantity = request.params.get("quantity")
     response.content_type = 'application/json'
-    answer = data.buyTicket(customerID, showID, pin, quantity)
-    if(answer):
+    answer = data.buy_ticket(customer_id, show_id, pin, quantity)
+    if answer:
         return answer
     else:
         response.status = 400
 
 @route('/api/tickets', method="GET")
 def tickets_all():
-    customerID = request.params.get("customerID")
+    customer_id = request.params.get("customerID")
     response.content_type = 'application/json'
-    return data.getTickets(customerID)
+    return data.get_tickets(customer_id)
 
 @route('/api/vouchers', method="GET")
 def tickets_all():
-    customerID = request.params.get("customerID")
+    customer_id = request.params.get("customerID")
     response.content_type = 'application/json'
-    return data.getVouchers(customerID)
+    return data.get_vouchers(customer_id)
 
 @route('/api/transactions', method="GET")
 def tickets_all():
-    customerID = request.params.get("customerID")
+    customer_id = request.params.get("customerID")
     response.content_type = 'application/json'
-    return data.getTransactions(customerID)
+    return data.get_transactions(customer_id)
 
 
 run(host='localhost', port=8080, reloader=True, server='cherrypy')
