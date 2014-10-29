@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.content.Intent;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 
 
 public class HomeActivity extends Activity {
@@ -12,6 +15,10 @@ public class HomeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        showPin();
+        storeId();
+
     }
 
 
@@ -35,5 +42,28 @@ public class HomeActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showPin(){
+        Intent intent = getIntent();
+        String pin = intent.getStringExtra("pin");
+        if(pin == null) return;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("O seu PIN é " +  pin)
+                .setCancelable(false)
+                .setTitle("Registo feito com sucesso!")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //do things
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    public void storeId(){
+        Intent intent = getIntent();
+        String id = intent.getStringExtra("id");
     }
 }
