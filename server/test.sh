@@ -1,1 +1,1 @@
-python3.4 -m unittest -v tests.py
+python3.4 -m unittest tests.py

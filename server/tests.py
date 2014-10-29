@@ -4,9 +4,11 @@ import requests
 import helpers
 import datetime
 from bson.objectid import ObjectId
+import data
 
 class TestApi(unittest.TestCase):
   def setUp(self):
+    data.dropDataBase()
     self.customer1 = { "name" : "Carlos Andrade",
                        "email" : "carlos.andrade@gmail.com",
                        "password" : "j6r763f76d2567d2",
