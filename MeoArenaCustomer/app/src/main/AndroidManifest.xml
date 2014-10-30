@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="org.feup.meoarenacustomer.app.LoginActivity"
+            android:name=".LoginActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,13 +20,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.feup.meoarenacustomer.app.RegisterActivity"
+            android:name=".RegisterActivity"
             android:label="@string/title_activity_register"
-            android:parentActivityName="org.feup.meoarenacustomer.app.LoginActivity" >
+            android:parentActivityName=".LoginActivity" >
         </activity>
         <activity
-            android:name="org.feup.meoarenacustomer.app.HomeActivity"
+            android:name=".HomeActivity"
             android:label="@string/title_activity_home" >
+        </activity>
+        <activity
+            android:name=".ShowsActivity"
+            android:label="@string/title_activity_shows" >
         </activity>
     </application>
 

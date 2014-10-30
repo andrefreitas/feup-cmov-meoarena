@@ -42,4 +42,8 @@ public class API {
         params.put("ccValidity", ccValidity);
         client.post(url + "/customers", params, responseHandler);
     }
+
+    public void getShows(AsyncHttpResponseHandler responseHandler) {
+        client.get(url + "/shows", responseHandler);
+    }
 }

@@ -36,6 +36,9 @@
     <string name="invalid_credit_card_year">Ano inválido</string>
     <string name="email_already_exists">Este email já existe</string>
     <string name="missing_personal_details">Faltam os dados pessoais</string>
-    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_home">Menu Principal</string>
+    <string name="list_shows">Espetáculos</string>
+    <string name="title_activity_shows">ShowsActivity</string>
+    <string name="no_shows">Não existem espetáculos em vigor</string>
 
 </resources>

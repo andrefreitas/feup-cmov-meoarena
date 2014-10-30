@@ -7,11 +7,15 @@ import android.view.MenuItem;
 import android.content.Intent;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 
 public class HomeActivity extends Activity {
 
     Storage db;
+    ImageButton showsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +26,8 @@ public class HomeActivity extends Activity {
         showPin();
         storeId();
 
+        //On click category
+        getShows();
 
     }
 
@@ -73,5 +79,17 @@ public class HomeActivity extends Activity {
             db.remove("id");
             db.put("id", id);
         };
+    }
+
+    public void getShows() {
+        showsButton = (ImageButton) findViewById(R.id.list_shows);
+
+        showsButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, ShowsActivity.class);
+                startActivity(intent);
+
+            }
+        });
     }
 }
