@@ -136,5 +136,58 @@ class TestApi(unittest.TestCase):
         data.delete_product(product2["id"])
         data.delete_product(product3["id"])
 
+    def test_validate_tickets(self):
+        customer = requests.post("http://localhost:8080/api/customers", params=self.customer1).json()
+        show1 = data.create_show("Tony Carreira", "31/10/2014", 22.50, 100)
+        product1 = data.create_product("Cafe Expresso", "coffee", 2.3)
+        product2 = data.create_product("Pipocas", "popcorn", 5.3)
+        payload = {
+            "customerID": customer["id"],
+            "showID": show1["id"],
+            "pin": int(customer["pin"]),
+            "quantity": 3
+        }
+        helpers.format_date(datetime.date.today())
+        requests.post("http://localhost:8080/api/tickets", params=payload)
+
+        # START
+
+        # Get purchased tickets
+        tickets = requests.get("http://localhost:8080/api/tickets", params={"customerID": customer["id"]}).json()
+
+        tickets_ids = []
+        for tick in tickets[:2]:
+            tickets_ids.append(tick["id"])
+        tickets_string = ",".join(tickets_ids)
+
+        """
+
+        # Test that the tickets are valid
+        validation_params = {"customerID": customer["id"], "tickets": tickets_string}
+        answer = requests.get("http://localhost:8080/api/validateTickets", params=validation_params)
+        self.assertEqual(answer.status_code, 200)
+
+        # Test that the status changed to used
+        tickets = requests.get("http://localhost:8080/api/tickets", params={"customerID": customer["id"]}).json()
+        results = list(filter(lambda ticket: ticket["id"] in tickets_ids and ticket["status"] == "used", tickets))
+        self.assertTrue(len(results) == 2)
+
+        # Test that used tickets can't be validated again
+        answer = requests.get("http://localhost:8080/api/validateTickets", params=validation_params)
+        self.assertEqual(answer.status_code, 400)
+        """
+
+        # END
+
+        data.delete_tickets(show1["id"], customer["id"])
+        data.delete_customer(customer["id"])
+        data.delete_show(show1["id"])
+        data.delete_product(product1["id"])
+        data.delete_product(product2["id"])
+        data.delete_transactions(customer["id"])
+        data.delete_vouchers(customer["id"])
+
+
+
 if __name__ == '__main__':
     unittest.main()
