@@ -7,9 +7,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -33,6 +35,7 @@ public class ShowsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shows);
+        setTitle("Espetáculos");
 
         api = new API();
         listShows();
@@ -84,15 +87,17 @@ public class ShowsActivity extends Activity {
                 }
 
                 populateListView(allShows);
-
-
-
                 Toast.makeText(getApplicationContext(), "Chegou à API corretamente", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers,  Throwable throwable,  JSONArray response) {
-                Toast.makeText(getApplicationContext(), "Não chegou à API corretamente", Toast.LENGTH_SHORT).show();
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse){
+                Toast.makeText(getApplicationContext(), R.string.no_internet, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Toast.makeText(getApplicationContext(), R.string.wrong_login, Toast.LENGTH_SHORT).show();
             }
 
         });
@@ -102,6 +107,28 @@ public class ShowsActivity extends Activity {
         ListView listView = (ListView) findViewById(R.id.view_shows);
         StringArrayAdapter adapter = new StringArrayAdapter(content, this);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+                // selected item
+                String name = ((TextView) view.findViewById(R.id.show_name)).getText().toString();
+                String price = ((TextView) view.findViewById(R.id.show_price)).getText().toString();
+                String date = ((TextView) view.findViewById(R.id.show_date)).getText().toString();
+                String seats = ((TextView) view.findViewById(R.id.show_seats)).getText().toString();
+
+                Toast toast = Toast.makeText(getApplicationContext(), seats, Toast.LENGTH_SHORT);
+                toast.show();
+
+                Intent intent = new Intent(getBaseContext(), ShowActivity.class);
+                intent.putExtra("name", name);
+                intent.putExtra("price", price);
+                intent.putExtra("date", date);
+                intent.putExtra("seats", seats);
+                startActivity(intent);
+            }
+        });
     }
 
 }

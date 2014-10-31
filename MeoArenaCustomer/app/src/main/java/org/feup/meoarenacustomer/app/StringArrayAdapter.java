@@ -39,11 +39,20 @@ public class StringArrayAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         if (view==null) {
-            view = inflater.inflate(android.R.layout.simple_list_item_1, viewGroup, false);
+            view = inflater.inflate(R.layout.row_show, viewGroup, false);
         }
 
-        TextView item = (TextView) view.findViewById(android.R.id.text1);
-        item.setText(content[i][0]);
+        TextView name = (TextView) view.findViewById(R.id.show_name);
+        name.setText(content[i][0]);
+
+        TextView date = (TextView) view.findViewById(R.id.show_date);
+        date.setText(content[i][2]);
+
+        TextView price = (TextView) view.findViewById(R.id.show_price);
+        price.setText(content[i][1] + " €");
+
+        TextView seats = (TextView) view.findViewById(R.id.show_seats);
+        seats.setText(content[i][3]);
         return view;
     }
 }
