@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class ShowActivity extends Activity {
+public class ShowActivity extends Activity implements NumberPicker.OnValueChangeListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,12 +59,21 @@ public class ShowActivity extends Activity {
         date.setText(intent.getStringExtra("date"));
 
         NumberPicker numberpicker = (NumberPicker)findViewById(R.id.number_buy);
-        numberpicker.setMaxValue(10);
+        numberpicker.setMaxValue(Integer.parseInt(tickets_number.getText().toString()));
         numberpicker.setMinValue(1);
         numberpicker.setValue(1);
         TextView total = (TextView)findViewById(R.id.price);
-        int value = numberpicker.getValue() * intent.getIntExtra("price", 0);
+        double value = numberpicker.getValue() * Double.parseDouble(intent.getStringExtra("price"));
         total.setText(value + " EUR");
+        numberpicker.setOnValueChangedListener(this);
 
+    }
+
+    @Override
+    public void onValueChange(NumberPicker numberPicker, int i, int i2) {
+        Intent intent = getIntent();
+        TextView total = (TextView)findViewById(R.id.price);
+        double value = numberPicker.getValue() * Double.parseDouble(intent.getStringExtra("price"));
+        total.setText(value + " EUR");
     }
 }

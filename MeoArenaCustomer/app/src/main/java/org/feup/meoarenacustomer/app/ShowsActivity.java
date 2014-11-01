@@ -123,7 +123,7 @@ public class ShowsActivity extends Activity {
 
                 Intent intent = new Intent(getBaseContext(), ShowActivity.class);
                 intent.putExtra("name", name);
-                intent.putExtra("price", price);
+                intent.putExtra("price", price.split(" ")[0]);
                 intent.putExtra("date", date);
                 intent.putExtra("seats", seats);
                 startActivity(intent);
