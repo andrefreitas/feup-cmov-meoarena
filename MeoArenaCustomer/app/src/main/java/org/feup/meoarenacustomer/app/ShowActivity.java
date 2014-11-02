@@ -48,12 +48,9 @@ public class ShowActivity extends Activity implements NumberPicker.OnValueChange
 
     public void fillScreen() {
         Intent intent = getIntent();
-        intent.getStringExtra("price");
-        intent.getStringExtra("date");
-        intent.getStringExtra("seats");
 
         TextView tickets_number = (TextView)findViewById(R.id.tickets_number);
-        tickets_number.setText("21");
+        tickets_number.setText(intent.getStringExtra("available"));
 
         TextView date = (TextView)findViewById(R.id.date_onViewShow);
         date.setText(intent.getStringExtra("date"));

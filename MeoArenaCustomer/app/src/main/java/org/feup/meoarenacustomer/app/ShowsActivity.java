@@ -72,13 +72,14 @@ public class ShowsActivity extends Activity {
 
                     JSONObject obj = null;
                     try {
-                        String[] show = new String[5];
+                        String[] show = new String[6];
                         obj = response.getJSONObject(i);
                         show[0] = obj.getString("name");
                         show[1] = obj.getString("price");
                         show[2] = obj.getString("date");
                         show[3] = obj.getString("seats");
                         show[4] = obj.getString("id");
+                        show[5] = obj.getString("available");
                         allShows[i] = show;
 
                     } catch (JSONException e) {
@@ -117,15 +118,14 @@ public class ShowsActivity extends Activity {
                 String price = ((TextView) view.findViewById(R.id.show_price)).getText().toString();
                 String date = ((TextView) view.findViewById(R.id.show_date)).getText().toString();
                 String seats = ((TextView) view.findViewById(R.id.show_seats)).getText().toString();
-
-                Toast toast = Toast.makeText(getApplicationContext(), seats, Toast.LENGTH_SHORT);
-                toast.show();
+                String available = ((TextView) view.findViewById(R.id.show_available)).getText().toString();
 
                 Intent intent = new Intent(getBaseContext(), ShowActivity.class);
                 intent.putExtra("name", name);
                 intent.putExtra("price", price.split(" ")[0]);
                 intent.putExtra("date", date);
                 intent.putExtra("seats", seats);
+                intent.putExtra("available", available);
                 startActivity(intent);
             }
         });

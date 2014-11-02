@@ -53,6 +53,10 @@ public class StringArrayAdapter extends BaseAdapter {
 
         TextView seats = (TextView) view.findViewById(R.id.show_seats);
         seats.setText(content[i][3]);
+
+        TextView available = (TextView) view.findViewById(R.id.show_available);
+        available.setText(content[i][5]);
+
         return view;
     }
 }
