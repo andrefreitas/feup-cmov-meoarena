@@ -61,6 +61,11 @@ def get_shows():
     cursor = db.shows.find()
     results = []
     for doc in cursor:
+        ticket = db.tickets.find({"showID": doc["_id"]}).sort("seat", -1).limit(1)
+        if ticket.count() > 0:
+            doc["available"] = doc["seats"] - int(ticket[0]["seat"])
+        else:
+            doc["available"] = doc["seats"]
         doc["id"] = str(doc["_id"])
         doc["date"] = format_date(doc["date"])
         del doc["_id"]

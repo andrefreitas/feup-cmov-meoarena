@@ -56,13 +56,16 @@ class TestApi(unittest.TestCase):
         show3 = data.create_show("Paulo Gonzo", "14/11/2014", 3, 70)
         answer = requests.get("http://localhost:8080/api/shows").json()
         results = list(filter(lambda show: show["name"] == "Tony Carreira" and show["price"] == 22.50
-                                           and show["seats"] == 100 and show["date"] == "31/10/2014", answer))
+                                           and show["seats"] == 100 and show["date"] == "31/10/2014"
+                                            and show["available"] == 100, answer))
         self.assertTrue(len(results) == 1)
         results = list(filter(lambda show: show["name"] == "John Legend" and show["price"] == 12
-                                           and show["seats"] == 300 and show["date"] == "08/11/2014", answer))
+                                           and show["seats"] == 300 and show["date"] == "08/11/2014"
+                                            and show["available"] == 300, answer))
         self.assertTrue(len(results) == 1)
         results = list(filter(lambda show: show["name"] == "Paulo Gonzo" and show["price"] == 3
-                                           and show["seats"] == 70 and show["date"] == "14/11/2014", answer))
+                                           and show["seats"] == 70 and show["date"] == "14/11/2014"
+                                           and show["available"] == 70, answer))
         self.assertTrue(len(results) == 1)
         data.delete_show(show1["id"])
         data.delete_show(show2["id"])
@@ -89,6 +92,13 @@ class TestApi(unittest.TestCase):
         payload["quantity"] = 99
         answer = requests.post("http://localhost:8080/api/tickets", params=payload)
         self.assertEqual(answer.status_code, 400)
+
+        # Check if available tickets are updated
+        answer = requests.get("http://localhost:8080/api/shows").json()
+        results = list(filter(lambda show: show["name"] == "Tony Carreira" and show["price"] == 22.50
+                                           and show["seats"] == 100 and show["date"] == "31/10/2014"
+                                            and show["available"] == 97, answer))
+        self.assertTrue(len(results) == 1)
 
         # Get purchased tickets
         tickets = requests.get("http://localhost:8080/api/tickets", params={"customerID": customer["id"]}).json()
