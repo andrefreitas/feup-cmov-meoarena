@@ -130,7 +130,7 @@ def buy_ticket(customer_id, show_id, pin, quantity):
         create_transaction(customer_id, float(show["price"]), int(quantity), show["name"])
         return dumps(tickets)
     else:
-        return "no customer or show"
+        return False
 
 
 def create_ticket(seat, show_id, customer_id):
