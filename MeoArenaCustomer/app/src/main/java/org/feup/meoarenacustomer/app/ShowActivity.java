@@ -141,6 +141,8 @@ public class ShowActivity extends Activity implements NumberPicker.OnValueChange
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 Toast.makeText(getApplicationContext(), R.string.success_buy_tickets, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ShowActivity.this, HomeActivity.class);
+                startActivity(intent);
             }
 
             @Override
