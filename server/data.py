@@ -3,6 +3,7 @@ from bson.objectid import ObjectId
 from helpers import *
 import datetime
 from bson.json_util import dumps
+import math
 
 db = MongoClient()['meoarena']
 
@@ -127,7 +128,12 @@ def buy_ticket(customer_id, show_id, pin, quantity):
             ticket["date"] = format_date(ticket["date"])
             del ticket["_id"]
             tickets.append(ticket)
-        create_transaction(customer_id, float(show["price"]), int(quantity), show["name"])
+        total = get_total_ammount(customer_id) % 100
+        transaction_ammount = create_transaction(customer_id, float(show["price"]), int(quantity), show["name"])
+        remain = math.floor((total + transaction_ammount) / 100)
+        if (remain > 0):
+            for i in range(0, remain, 1):
+                create_discount_voucher(customer_id)
         return dumps(tickets)
     else:
         return False
@@ -178,6 +184,15 @@ def create_free_voucher(customer_id):
 
     db.vouchers.insert(voucher)
 
+def create_discount_voucher(customer_id):
+    voucher = {
+        "product": "all",
+        "status": "unused",
+        "discount": 0.05,
+        "customerID": ObjectId(customer_id)
+    }
+
+    db.vouchers.insert(voucher)
 
 def get_vouchers(customer_id):
     cursor = db.vouchers.find({"customerID": ObjectId(customer_id)})
@@ -194,6 +209,15 @@ def delete_vouchers(customer_id):
     return db.vouchers.remove({"customerID": ObjectId(customer_id)})
 
 
+def create_cafeteria_transaction(customer_id, total):
+    transaction = {
+        "description": "Compra cafetaria",
+        "amount": str(total),
+        "date": datetime.datetime.today(),
+        "customerID": ObjectId(customer_id)
+    }
+    db.transactions.insert(transaction)
+
 def create_transaction(customer_id, ticket_price, quantity, name):
     transaction = {
         "description": str(quantity) + "  bilhetes para " + name,
@@ -202,6 +226,7 @@ def create_transaction(customer_id, ticket_price, quantity, name):
         "customerID": ObjectId(customer_id)
     }
     db.transactions.insert(transaction)
+    return quantity*ticket_price
 
 
 def get_transactions(customer_id):
@@ -218,3 +243,11 @@ def get_transactions(customer_id):
 
 def delete_transactions(customer_id):
     return db.transactions.remove({"customerID": ObjectId(customer_id)})
+
+def get_total_ammount(customer_id):
+    cursor = db.transactions.find({"customerID": ObjectId(customer_id)})
+    total = 0
+    for doc in cursor:
+        total += int(doc["amount"])
+
+    return total

@@ -120,6 +120,15 @@ class TestApi(unittest.TestCase):
                                                   and "Tony Carreira" in transaction["description"], transactions))
         self.assertTrue(len(results) == 1)
 
+        #Buy tickets for free discount vouchers
+        payload["quantity"] = 5
+        answer = requests.post("http://localhost:8080/api/tickets", params=payload)
+        self.assertEqual(answer.status_code, 200)
+        vouchers = requests.get("http://localhost:8080/api/vouchers", params={"customerID": customer["id"]}).json()
+        results = list(filter(lambda voucher: "id" in voucher and (voucher["product"] == "all" or voucher["product"] == "popcorn" or voucher["product"] == "coffee")
+                                              and (voucher["discount"] == 1 or voucher["discount"] == 0.05) and voucher["status"] == "unused", vouchers))
+        self.assertTrue(len(vouchers) == 9)
+
         data.delete_tickets(show1["id"], customer["id"])
         data.delete_customer(customer["id"])
         data.delete_show(show1["id"])
