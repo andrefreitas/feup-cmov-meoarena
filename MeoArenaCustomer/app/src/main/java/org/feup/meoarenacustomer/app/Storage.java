@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class Storage extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "meoarena.db";
     Storage(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -23,25 +23,19 @@ public class Storage extends SQLiteOpenHelper {
         db.execSQL(sql);
 
         String vouchers = "CREATE TABLE vouchers "
-                        + "(id TEXT, customerID TEXT, product TEXT, discount TEXT, status TEXT);";
+                        + "(voucherID TEXT, customerID TEXT, product TEXT, discount TEXT, status TEXT);";
         db.execSQL(vouchers);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
-        String sql = "CREATE TABLE dictionary "
-                + "(key TEXT, value TEXT);";
-        db.execSQL(sql);
 
-        String vouchers = "CREATE TABLE vouchers "
-                + "(id TEXT, customerID TEXT, product TEXT, discount TEXT, status TEXT);";
-        db.execSQL(vouchers);
     }
 
     public boolean saveVoucher(String id, String customerID, String product, String discount, String status) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("id", id);
+        contentValues.put("voucherID", id);
         contentValues.put("customerID", customerID);
         contentValues.put("product", product);
         contentValues.put("discount", discount);
