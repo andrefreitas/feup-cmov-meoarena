@@ -1,4 +1,6 @@
 package org.feup.meoarenacustomer.app;
+import android.app.DownloadManager;
+
 import com.loopj.android.http.*;
 
 
@@ -54,5 +56,11 @@ public class API {
         params.put("quantity", tickets_number);
         params.put("pin", pin);
         client.post(url + "/tickets", params, responseHandler);
+    }
+
+    public void getVouchers(String customerID, AsyncHttpResponseHandler responseHandler) {
+        RequestParams params = new RequestParams();
+        params.put("customerID", customerID);
+        client.get(url + "/vouchers", params, responseHandler);
     }
 }

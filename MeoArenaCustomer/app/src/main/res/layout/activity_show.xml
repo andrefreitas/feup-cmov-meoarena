@@ -55,7 +55,7 @@
         <NumberPicker
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/number_buy"
+            android:id="@+id/number_to_buy"
             android:orientation="vertical"
             android:layout_centerHorizontal="true"
             android:layout_marginRight="15dp"/>
@@ -67,10 +67,10 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="5 EUR"
             android:id="@+id/price"
-            android:layout_toEndOf="@+id/number_buy"
-            android:layout_alignTop="@+id/number_buy"
+            android:layout_toEndOf="@+id/number_to_buy"
+            android:layout_alignTop="@+id/number_to_buy"
             android:gravity="center"
-            android:layout_alignBottom="@+id/number_buy"
+            android:layout_alignBottom="@+id/number_to_buy"
             android:layout_alignEnd="@+id/tickets_number"
             android:textSize="30sp"
             />

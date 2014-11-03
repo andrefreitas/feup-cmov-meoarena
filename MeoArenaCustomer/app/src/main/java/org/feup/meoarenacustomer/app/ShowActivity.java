@@ -8,10 +8,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -73,7 +71,7 @@ public class ShowActivity extends Activity implements NumberPicker.OnValueChange
         TextView date = (TextView)findViewById(R.id.date_onViewShow);
         date.setText(intent.getStringExtra("date"));
 
-        NumberPicker numberpicker = (NumberPicker)findViewById(R.id.number_buy);
+        NumberPicker numberpicker = (NumberPicker)findViewById(R.id.number_to_buy);
         numberpicker.setMaxValue(Integer.parseInt(tickets_number.getText().toString()));
         numberpicker.setMinValue(1);
         numberpicker.setValue(1);
@@ -121,7 +119,7 @@ public class ShowActivity extends Activity implements NumberPicker.OnValueChange
                 String showID = intent.getStringExtra("showID");
                 String customerID = db.get("id");
                 String pin = input.getText().toString();
-                NumberPicker np = (NumberPicker) findViewById(R.id.number_buy);
+                NumberPicker np = (NumberPicker) findViewById(R.id.number_to_buy);
                 callAPI(showID, customerID, pin, np.getValue());
             }
         });
@@ -135,12 +133,14 @@ public class ShowActivity extends Activity implements NumberPicker.OnValueChange
         alert.show();
     }
 
-    public void callAPI(String showID, String customerID, String pin, Integer tickets_number) {
+    public void callAPI(String showID, final String customerID, String pin, Integer tickets_number) {
         api.buyTickets(customerID, showID, tickets_number,  pin, new AsyncHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 Toast.makeText(getApplicationContext(), R.string.success_buy_tickets, Toast.LENGTH_SHORT).show();
+                String customerID = db.get("id");
+                saveVouchers(customerID);
                 Intent intent = new Intent(ShowActivity.this, HomeActivity.class);
                 startActivity(intent);
             }
@@ -149,6 +149,39 @@ public class ShowActivity extends Activity implements NumberPicker.OnValueChange
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Toast.makeText(getApplicationContext(), R.string.invalid_buy_tickets, Toast.LENGTH_SHORT).show();
             }
+        });
+    }
+
+    private void saveVouchers(String customerID) {
+        api.getVouchers(customerID, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+
+                for (int i = 0; i < response.length(); i++) {
+                    JSONObject obj = null;
+                    try {
+                        obj = response.getJSONObject(i);
+                        db.saveVoucher(obj.getString("id"), db.get("id"), obj.getString("product"),
+                                obj.getString("discount"), obj.getString("status"));
+                        Toast.makeText(getApplicationContext(), obj.getString("product"), Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                Toast.makeText(getApplicationContext(), "Chegou à API corretamente", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Toast.makeText(getApplicationContext(), R.string.no_internet, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Toast.makeText(getApplicationContext(), R.string.no_vouchers, Toast.LENGTH_SHORT).show();
+            }
+
         });
     }
 

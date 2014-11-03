@@ -98,7 +98,7 @@ public class ShowsActivity extends Activity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Toast.makeText(getApplicationContext(), R.string.wrong_login, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.no_shows, Toast.LENGTH_SHORT).show();
             }
 
         });
@@ -121,14 +121,19 @@ public class ShowsActivity extends Activity {
                 String available = ((TextView) view.findViewById(R.id.show_available)).getText().toString();
                 String showID = ((TextView) view.findViewById(R.id.show_id)).getText().toString();
 
-                Intent intent = new Intent(getBaseContext(), ShowActivity.class);
-                intent.putExtra("name", name);
-                intent.putExtra("price", price.split(" ")[0]);
-                intent.putExtra("date", date);
-                intent.putExtra("seats", seats);
-                intent.putExtra("available", available);
-                intent.putExtra("showID", showID);
-                startActivity(intent);
+                if (price.equals("Esgotado")) {
+                    Toast.makeText(getApplicationContext(), R.string.no_tickets, Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Intent intent = new Intent(getBaseContext(), ShowActivity.class);
+                    intent.putExtra("name", name);
+                    intent.putExtra("price", price.split(" ")[0]);
+                    intent.putExtra("date", date);
+                    intent.putExtra("seats", seats);
+                    intent.putExtra("available", available);
+                    intent.putExtra("showID", showID);
+                    startActivity(intent);
+                }
             }
         });
     }

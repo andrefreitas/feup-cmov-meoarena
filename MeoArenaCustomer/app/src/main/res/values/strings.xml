@@ -46,4 +46,6 @@
     <string name="buy_tickets">Comprar</string>
     <string name="invalid_buy_tickets">Operação inválida. Por favor verifique o pin introduzido.</string>
     <string name="success_buy_tickets">Bilhetes comprados com sucesso!</string>
+    <string name="no_vouchers">Não existem vouchers, de momento</string>
+    <string name="no_tickets">Os bilhetes esgotaram, não pode comprar</string>
 </resources>

@@ -89,7 +89,6 @@ public class HomeActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, ShowsActivity.class);
                 startActivity(intent);
-
             }
         });
     }
