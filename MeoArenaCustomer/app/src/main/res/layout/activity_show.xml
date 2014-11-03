@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/date_show"
-        android:id="@+id/textView"
+        android:id="@+id/product_price"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
@@ -23,8 +23,8 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:id="@+id/date_onViewShow"
-        android:layout_alignTop="@+id/textView"
-        android:layout_toEndOf="@+id/textView"
+        android:layout_alignTop="@+id/product_price"
+        android:layout_toEndOf="@+id/product_price"
         android:layout_marginLeft="32dp" />
 
     <TextView
@@ -33,7 +33,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/tickets_number"
         android:id="@+id/textView2"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/product_price"
         android:layout_alignParentStart="true"
         android:layout_marginTop="21dp" />
 

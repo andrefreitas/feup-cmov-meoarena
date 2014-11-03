@@ -65,13 +65,13 @@ def tickets_all():
     return data.get_tickets(customer_id)
 
 @route('/api/vouchers', method="GET")
-def tickets_all():
+def vouchers_all():
     customer_id = request.params.get("customerID")
     response.content_type = 'application/json'
     return data.get_vouchers(customer_id)
 
 @route('/api/transactions', method="GET")
-def tickets_all():
+def transactions_all():
     customer_id = request.params.get("customerID")
     response.content_type = 'application/json'
     return data.get_transactions(customer_id)

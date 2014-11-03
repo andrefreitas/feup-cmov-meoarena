@@ -3,27 +3,21 @@ package org.feup.meoarenacustomer.app;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 
 public class ShowsActivity extends Activity {
@@ -106,7 +100,7 @@ public class ShowsActivity extends Activity {
 
     public void populateListView(String[][] content) {
         ListView listView = (ListView) findViewById(R.id.view_shows);
-        StringArrayAdapter adapter = new StringArrayAdapter(content, this);
+        ShowsAdapter adapter = new ShowsAdapter(content, this);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

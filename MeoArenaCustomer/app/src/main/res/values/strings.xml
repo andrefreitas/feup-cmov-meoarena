@@ -37,7 +37,7 @@
     <string name="email_already_exists">Este email já existe</string>
     <string name="missing_personal_details">Faltam os dados pessoais</string>
     <string name="title_activity_home">Menu Principal</string>
-    <string name="list_shows">Espetáculos</string>
+    <string name="shows">Espetáculos</string>
     <string name="title_activity_shows">ShowsActivity</string>
     <string name="no_shows">Não existem espetáculos em vigor</string>
     <string name="title_activity_show">ShowActivity</string>
@@ -48,4 +48,8 @@
     <string name="success_buy_tickets">Bilhetes comprados com sucesso!</string>
     <string name="no_vouchers">Não existem vouchers, de momento</string>
     <string name="no_tickets">Os bilhetes esgotaram, não pode comprar</string>
+    <string name="cafeteria">Cafetaria</string>
+    <string name="title_activity_products">ProductsActivity</string>
+    <string name="no_products">Não existem produtos disponíveis para compra</string>
+
 </resources>

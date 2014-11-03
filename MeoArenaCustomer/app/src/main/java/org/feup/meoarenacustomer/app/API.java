@@ -63,4 +63,8 @@ public class API {
         params.put("customerID", customerID);
         client.get(url + "/vouchers", params, responseHandler);
     }
+
+    public void getProducts(AsyncHttpResponseHandler responseHandler) {
+        client.get(url + "/products", responseHandler);
+    }
 }

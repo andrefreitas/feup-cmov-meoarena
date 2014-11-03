@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <EditText
+        android:layout_width="66dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:id="@+id/product_quantity"
+        android:layout_gravity="right"
+
+        />
+
+    <CheckBox
+        android:layout_width="232dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="15dp"
+        android:text="New CheckBox"
+        android:id="@+id/product"
+        android:checked="false"
+        android:layout_alignBottom="@+id/product_quantity"
+        android:layout_toEndOf="@+id/product_quantity" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:text="New Text"
+        android:id="@+id/product_price"
+        android:layout_toEndOf="@+id/product"
+        android:layout_alignBottom="@+id/product_quantity"
+        android:layout_alignTop="@+id/product"
+        android:layout_centerVertical="true"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/product_name"
+        android:layout_below="@+id/product"
+        android:layout_toEndOf="@+id/product"
+        android:visibility="gone"/>
+
+
+
+</RelativeLayout>

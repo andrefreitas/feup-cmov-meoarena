@@ -21,19 +21,29 @@
         <TextView
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="@string/list_shows"
+            android:text="@string/shows"
             android:id="@+id/list_shows_text"
             android:layout_below="@+id/list_shows"
-            android:layout_marginLeft="62dp" /><![CDATA[
+            android:layout_marginLeft="62dp" />
 
+        <ImageButton
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:id="@+id/list_products"
+            android:src="@drawable/cafeteria"
+            android:layout_toEndOf="@+id/list_shows"
+            android:layout_alignTop="@+id/list_shows"
+            android:layout_alignParentEnd="false"
+            android:layout_marginLeft="32dp"
+            android:layout_alignParentStart="false" />
 
-
-
-
-        >
-
-
-
-    ]]>
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/cafeteria"
+            android:id="@+id/product_price"
+            android:layout_below="@+id/list_products"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="32dp" />
     </RelativeLayout>
 </TableRow>

@@ -10,12 +10,12 @@ import android.widget.TextView;
 /**
  * Created by Ana  Gomes on 30/10/2014.
  */
-public class StringArrayAdapter extends BaseAdapter {
+public class ShowsAdapter extends BaseAdapter {
     String[][] content;
     Context ctx;
     LayoutInflater inflater;
 
-    public StringArrayAdapter(String[][] content, Context ctx) {
+    public ShowsAdapter(String[][] content, Context ctx) {
         this.content = content;
         this.ctx = ctx;
         this.inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
