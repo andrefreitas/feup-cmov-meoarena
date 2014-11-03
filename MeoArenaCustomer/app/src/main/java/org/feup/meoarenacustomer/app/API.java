@@ -46,4 +46,13 @@ public class API {
     public void getShows(AsyncHttpResponseHandler responseHandler) {
         client.get(url + "/shows", responseHandler);
     }
+
+    public void buyTickets(String customerID, String showID, Integer tickets_number, String pin, AsyncHttpResponseHandler responseHandler) {
+        RequestParams params = new RequestParams();
+        params.put("customerID", customerID);
+        params.put("showID", showID);
+        params.put("quantity", tickets_number);
+        params.put("pin", pin);
+        client.post(url + "/tickets", params, responseHandler);
+    }
 }

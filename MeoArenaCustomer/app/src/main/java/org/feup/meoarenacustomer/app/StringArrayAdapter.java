@@ -48,14 +48,23 @@ public class StringArrayAdapter extends BaseAdapter {
         TextView date = (TextView) view.findViewById(R.id.show_date);
         date.setText(content[i][2]);
 
-        TextView price = (TextView) view.findViewById(R.id.show_price);
-        price.setText(content[i][1] + " €");
+        if(Integer.parseInt(content[i][5]) > 0) {
+            TextView price = (TextView) view.findViewById(R.id.show_price);
+            price.setText(content[i][1] + " €");
+        }
+        else {
+            TextView price = (TextView) view.findViewById(R.id.show_price);
+            price.setText("Esgotado");
+        }
 
         TextView seats = (TextView) view.findViewById(R.id.show_seats);
         seats.setText(content[i][3]);
 
         TextView available = (TextView) view.findViewById(R.id.show_available);
         available.setText(content[i][5]);
+
+        TextView showID = (TextView) view.findViewById(R.id.show_id);
+        showID.setText(content[i][4]);
 
         return view;
     }

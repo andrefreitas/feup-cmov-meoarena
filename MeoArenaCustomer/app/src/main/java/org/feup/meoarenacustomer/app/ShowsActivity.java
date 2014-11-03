@@ -119,6 +119,7 @@ public class ShowsActivity extends Activity {
                 String date = ((TextView) view.findViewById(R.id.show_date)).getText().toString();
                 String seats = ((TextView) view.findViewById(R.id.show_seats)).getText().toString();
                 String available = ((TextView) view.findViewById(R.id.show_available)).getText().toString();
+                String showID = ((TextView) view.findViewById(R.id.show_id)).getText().toString();
 
                 Intent intent = new Intent(getBaseContext(), ShowActivity.class);
                 intent.putExtra("name", name);
@@ -126,6 +127,7 @@ public class ShowsActivity extends Activity {
                 intent.putExtra("date", date);
                 intent.putExtra("seats", seats);
                 intent.putExtra("available", available);
+                intent.putExtra("showID", showID);
                 startActivity(intent);
             }
         });

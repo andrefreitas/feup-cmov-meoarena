@@ -56,5 +56,13 @@
         android:layout_below="@+id/show_date"
         android:layout_alignStart="@+id/show_date" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/show_id"
+        android:visibility="gone"
+        android:layout_below="@+id/show_date"
+        android:layout_alignStart="@+id/show_date" />
+
 
 </RelativeLayout>

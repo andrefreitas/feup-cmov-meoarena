@@ -44,4 +44,6 @@
     <string name="date_show">Data: \</string>
     <string name="tickets_number">Bilhetes Disponíveis: </string>
     <string name="buy_tickets">Comprar</string>
+    <string name="invalid_buy_tickets">Operação inválida. Por favor verifique o pin introduzido.</string>
+    <string name="success_buy_tickets">Bilhetes comprados com sucesso!</string>
 </resources>
