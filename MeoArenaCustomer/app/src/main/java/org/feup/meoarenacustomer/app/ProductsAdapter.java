@@ -5,12 +5,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.HashMap;
 
 public class ProductsAdapter extends BaseAdapter {
     String[][] content;
     Context ctx;
     LayoutInflater inflater;
+    public HashMap<String,String> checked = new HashMap<String,String>();
 
     public ProductsAdapter(String[][] content, Context ctx) {
         this.content = content;
@@ -24,7 +32,7 @@ public class ProductsAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int i) {
+    public String[] getItem(int i) {
         return content[i];
     }
 
@@ -39,15 +47,46 @@ public class ProductsAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.row_product, viewGroup, false);
         }
 
-        TextView name = (TextView) view.findViewById(R.id.product);
+        // Checkbox
+        CheckBox name = (CheckBox) view.findViewById(R.id.product);
         name.setText(content[i][0]);
+        final View v = view;
+        final int position = i;
+        name.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton group, boolean isChecked) {
+                setCheckedItem(position);
+                EditText quantity = (EditText) v.findViewById(R.id.product_quantity);
+                content[position][3] = quantity.getText().toString();
+            }
+        });
+
+        EditText quantity = (EditText) view.findViewById(R.id.product_quantity);
+        quantity.setText("0");
 
         TextView price = (TextView) view.findViewById(R.id.product_price);
         price.setText(content[i][2] + " €");
 
-        TextView seats = (TextView) view.findViewById(R.id.product_name);
-        seats.setText(content[i][1]);
+        TextView p_name = (TextView) view.findViewById(R.id.product_name);
+        p_name.setText(content[i][1]);
 
         return view;
+
+
+    }
+
+
+
+    public void setCheckedItem(int item) {
+        if (checked.containsKey(String.valueOf(item))){
+            checked.remove(String.valueOf(item));
+        }
+        else {
+            checked.put(String.valueOf(item), String.valueOf(item));
+        }
+    }
+
+    public HashMap<String, String> getCheckedItems(){
+        return checked;
     }
 }

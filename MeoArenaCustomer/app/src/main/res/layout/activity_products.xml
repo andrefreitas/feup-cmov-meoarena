@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,8 +10,26 @@
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="400dp"
         android:id="@+id/view_products">
     </ListView>
 
-</LinearLayout>
+    <Button
+        android:layout_width="224dip"
+        android:layout_height="wrap_content"
+        android:text="Comprar"
+        android:id="@+id/buy_products"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/total_products_price"
+        android:layout_above="@+id/buy_products"
+        android:layout_centerHorizontal="true" />
+
+
+</RelativeLayout>

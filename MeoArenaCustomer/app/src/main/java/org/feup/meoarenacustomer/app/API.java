@@ -67,4 +67,8 @@ public class API {
     public void getProducts(AsyncHttpResponseHandler responseHandler) {
         client.get(url + "/products", responseHandler);
     }
+
+    public void getTransactions(AsyncHttpResponseHandler responseHandler) {
+        client.get(url + "/transactions", responseHandler);
+    }
 }

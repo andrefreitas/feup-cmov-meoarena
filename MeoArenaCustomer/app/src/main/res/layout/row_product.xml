@@ -14,7 +14,6 @@
         android:ems="10"
         android:id="@+id/product_quantity"
         android:layout_gravity="right"
-
         />
 
     <CheckBox

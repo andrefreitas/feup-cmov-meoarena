@@ -1,10 +1,19 @@
 package org.feup.meoarenacustomer.app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -13,6 +22,8 @@ import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Iterator;
 
 
 public class ProductsActivity extends Activity {
@@ -61,7 +72,7 @@ public class ProductsActivity extends Activity {
 
                     JSONObject obj = null;
                     try {
-                        String[] product = new String[3];
+                        String[] product = new String[4];
                         obj = response.getJSONObject(i);
                         product[0] = obj.getString("description");
                         product[1] = obj.getString("name");
@@ -90,9 +101,29 @@ public class ProductsActivity extends Activity {
         });
     }
 
-    private void populateListView(String[][] allProducts) {
+    private void populateListView(final String[][] allProducts) {
         ListView listView = (ListView) findViewById(R.id.view_products);
-        ProductsAdapter adapter = new ProductsAdapter(allProducts, this);
+        final ProductsAdapter adapter = new ProductsAdapter(allProducts, this);
         listView.setAdapter(adapter);
-    }
-}
+
+        Button buy_products = (Button) findViewById(R.id.buy_products);
+
+        //Buy product
+        buy_products.setOnClickListener(new View.OnClickListener() {
+             public void onClick(View v) {
+                 ProductsAdapter bAdapter = adapter;
+                 Iterator<String> it = bAdapter.getCheckedItems().values().iterator();
+                 Integer total = 0;
+                 for (int i=0;i<bAdapter.getCheckedItems().size();i++){
+                     Integer position = Integer.parseInt(it.next());
+                     String description = bAdapter.getItem(position)[0];
+                     String name = bAdapter.getItem(position)[1];
+                     Double price = Double.parseDouble(bAdapter.getItem(position)[2]);
+                     Toast.makeText(getApplicationContext(),  bAdapter.getItem(position)[3].toString(), Toast.LENGTH_SHORT).show();
+                 }
+             }
+        });
+
+
+             }
+         }
