@@ -17,7 +17,7 @@
     <Button
         android:layout_width="150dip"
         android:layout_height="wrap_content"
-        android:text="Comprar"
+        android:text="@string/order"
         android:id="@+id/buy_products"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />

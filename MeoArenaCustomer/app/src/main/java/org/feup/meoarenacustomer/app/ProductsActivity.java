@@ -24,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 
@@ -112,16 +113,25 @@ public class ProductsActivity extends Activity {
         //Buy product
         buy_products.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {
+                 // Get total price
+                 TextView total_price = (TextView) findViewById(R.id.total_products_price);
+                 Intent intent = new Intent(ProductsActivity.this, ProductsOrder.class);
+                 intent.putExtra("price", total_price.getText().toString());
+
+                 // Get information to send
                  ProductsAdapter bAdapter = adapter;
                  Iterator<String> it = bAdapter.getCheckedItems().values().iterator();
-                 Integer total = 0;
+
                  for (int i=0;i<bAdapter.getCheckedItems().size();i++){
+                     ArrayList<String> item = new ArrayList<String>();
                      Integer position = Integer.parseInt(it.next());
-                     String description = bAdapter.getItem(position)[0];
                      String name = bAdapter.getItem(position)[1];
-                     Double price = Double.parseDouble(bAdapter.getItem(position)[2]);
-                     Toast.makeText(getApplicationContext(),  bAdapter.getItem(position)[3].toString(), Toast.LENGTH_SHORT).show();
+                     String quantity = bAdapter.getItem(position)[3];
+                     //Only possible: juice, coffee, sandwich and popcorn
+                     intent.putExtra(name, quantity);
                  }
+
+                 startActivity(intent);
              }
         });
 
@@ -146,5 +156,5 @@ public class ProductsActivity extends Activity {
 
 
 
-             }
-         }
+    }
+ }

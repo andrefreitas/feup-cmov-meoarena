@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteCursor;
 import android.content.ContentValues;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -47,24 +48,25 @@ public class Storage extends SQLiteOpenHelper {
 
     public String[][] getVouchers(String customerID){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT id,product,discount,status FROM vouchers WHERE customerID='" +  customerID + "'" +
+        Cursor cursor = db.rawQuery("SELECT voucherID, customerID, product,discount,status FROM vouchers WHERE customerID='" +  customerID + "'" +
                 "AND status='unused';", null);
         int count = cursor.getCount();
+        String[][] vouchers = null;
         if(cursor!=null && count!=0){
             cursor.moveToFirst();
-            String[][] vouchers = new String[cursor.getCount()][];
+            vouchers = new String[cursor.getCount()][];
             for (int i=0; i < cursor.getCount(); i++) {
                 String[] voucher = new String[3];
-                voucher[0] = cursor.getString(1); //voucher id
-                voucher[1] = cursor.getString(3); //product
-                voucher[2] = cursor.getString(4); //discount
+                voucher[0] = cursor.getString(0); //voucher id
+                voucher[1] = cursor.getString(2); //product
+                voucher[2] = cursor.getString(3); //discount
+                vouchers[i] = voucher;
                 cursor.moveToNext();
             }
-            return vouchers;
         }
         cursor.close();
         db.close();
-        return null;
+        return vouchers;
 
     }
 

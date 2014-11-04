@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/tickets_number"
-        android:id="@+id/textView2"
+        android:id="@+id/products_order_price"
         android:layout_below="@+id/product_price"
         android:layout_alignParentStart="true"
         android:layout_marginTop="21dp" />
@@ -43,7 +43,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:id="@+id/tickets_number"
-        android:layout_alignTop="@+id/textView2"
+        android:layout_alignTop="@+id/products_order_price"
         android:layout_toEndOf="@+id/date_onViewShow" />
 
     <TableRow android:layout_width="fill_parent"

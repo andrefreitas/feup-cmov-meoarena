@@ -38,7 +38,7 @@
     <string name="missing_personal_details">Faltam os dados pessoais</string>
     <string name="title_activity_home">Menu Principal</string>
     <string name="shows">Espetáculos</string>
-    <string name="title_activity_shows">ShowsActivity</string>
+    <string name="title_activity_shows">Espetáculos</string>
     <string name="no_shows">Não existem espetáculos em vigor</string>
     <string name="title_activity_show">ShowActivity</string>
     <string name="date_show">Data: \</string>
@@ -49,7 +49,11 @@
     <string name="no_vouchers">Não existem vouchers, de momento</string>
     <string name="no_tickets">Os bilhetes esgotaram, não pode comprar</string>
     <string name="cafeteria">Cafetaria</string>
-    <string name="title_activity_products">ProductsActivity</string>
+    <string name="title_activity_products">Cafetaria</string>
     <string name="no_products">Não existem produtos disponíveis para compra</string>
+    <string name="title_activity_products_order">Finalizar Encomenda</string>
+    <string name="vouchers">Vouchers</string>
+    <string name="order">Encomendar</string>
+    <string name="pay_order">Pagar encomenda</string>
 
 </resources>

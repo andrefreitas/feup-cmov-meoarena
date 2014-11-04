@@ -44,6 +44,10 @@
             android:name=".ProductsActivity"
             android:label="@string/title_activity_products" >
         </activity>
+        <activity
+            android:name=".ProductsOrder"
+            android:label="@string/title_activity_products_order" >
+        </activity>
     </application>
 
 </manifest>
