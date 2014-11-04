@@ -15,18 +15,26 @@
     </ListView>
 
     <Button
-        android:layout_width="224dip"
+        android:layout_width="150dip"
         android:layout_height="wrap_content"
         android:text="Comprar"
         android:id="@+id/buy_products"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="150dip"
+        android:layout_height="wrap_content"
+        android:text="Atualizar Preço"
+        android:id="@+id/update_products_price"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
+        android:text="0 EUR"
         android:id="@+id/total_products_price"
         android:layout_above="@+id/buy_products"
         android:layout_centerHorizontal="true" />

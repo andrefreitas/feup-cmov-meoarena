@@ -23,6 +23,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.Iterator;
 
 
@@ -123,6 +124,26 @@ public class ProductsActivity extends Activity {
                  }
              }
         });
+
+        // Update price
+        Button update_price = (Button) findViewById(R.id.update_products_price);
+
+        update_price.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ProductsAdapter bAdapter = adapter;
+                Iterator<String> it = bAdapter.getCheckedItems().values().iterator();
+                BigDecimal total = BigDecimal.ZERO;
+                for (int i=0;i<bAdapter.getCheckedItems().size();i++){
+                    Integer position = Integer.parseInt(it.next());
+                    Integer quantity = Integer.parseInt(bAdapter.getItem(position)[3]);
+                    BigDecimal price = new BigDecimal(bAdapter.getItem(position)[2]);
+                    total = total.add(price.multiply(new BigDecimal(quantity)));
+                }
+                TextView total_price = (TextView) findViewById(R.id.total_products_price);
+                total_price.setText(total.toString() + " EUR");
+            }
+        });
+
 
 
              }

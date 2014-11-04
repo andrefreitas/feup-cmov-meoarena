@@ -1,6 +1,8 @@
 package org.feup.meoarenacustomer.app;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class ProductsAdapter extends BaseAdapter {
     String[][] content;
@@ -24,6 +27,7 @@ public class ProductsAdapter extends BaseAdapter {
         this.content = content;
         this.ctx = ctx;
         this.inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
     }
 
     @Override
@@ -42,10 +46,11 @@ public class ProductsAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(int i, View view, final ViewGroup viewGroup) {
         if (view==null) {
             view = inflater.inflate(R.layout.row_product, viewGroup, false);
         }
+
 
         // Checkbox
         CheckBox name = (CheckBox) view.findViewById(R.id.product);
@@ -61,8 +66,15 @@ public class ProductsAdapter extends BaseAdapter {
             }
         });
 
-        EditText quantity = (EditText) view.findViewById(R.id.product_quantity);
+        final EditText quantity = (EditText) view.findViewById(R.id.product_quantity);
         quantity.setText("0");
+        quantity.addTextChangedListener(new TextWatcher(){
+            public void afterTextChanged(Editable s) {
+                content[position][3] = quantity.getText().toString();
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){}
+        });
 
         TextView price = (TextView) view.findViewById(R.id.product_price);
         price.setText(content[i][2] + " €");
@@ -74,8 +86,6 @@ public class ProductsAdapter extends BaseAdapter {
 
 
     }
-
-
 
     public void setCheckedItem(int item) {
         if (checked.containsKey(String.valueOf(item))){
@@ -89,4 +99,5 @@ public class ProductsAdapter extends BaseAdapter {
     public HashMap<String, String> getCheckedItems(){
         return checked;
     }
+
 }
