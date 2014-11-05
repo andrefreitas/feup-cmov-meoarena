@@ -133,7 +133,7 @@ public class ShowActivity extends Activity implements NumberPicker.OnValueChange
         alert.show();
     }
 
-    public void callAPI(String showID, final String customerID, String pin, Integer tickets_number) {
+    public void callAPI(final String showID, final String customerID, String pin, final Integer tickets_number) {
         api.buyTickets(customerID, showID, tickets_number,  pin, new AsyncHttpResponseHandler() {
 
             @Override
@@ -141,6 +141,7 @@ public class ShowActivity extends Activity implements NumberPicker.OnValueChange
                 Toast.makeText(getApplicationContext(), R.string.success_buy_tickets, Toast.LENGTH_SHORT).show();
                 String customerID = db.get("id");
                 saveVouchers(customerID);
+                //saveTickets(showID, customerID, tickets_number);
                 Intent intent = new Intent(ShowActivity.this, HomeActivity.class);
                 startActivity(intent);
             }

@@ -55,5 +55,7 @@
     <string name="vouchers">Vouchers</string>
     <string name="order">Encomendar</string>
     <string name="pay_order">Pagar encomenda</string>
+    <string name="limit_vouchers_used">Não pode escolher mais do que 3 vouchers para descontar por cada encomenda. Por favor, tente novamente.</string>
+    <string name="no_orders">Selecione os produtos e atualize o preço antes de continuar.</string>
 
 </resources>

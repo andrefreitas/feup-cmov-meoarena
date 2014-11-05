@@ -115,23 +115,27 @@ public class ProductsActivity extends Activity {
              public void onClick(View v) {
                  // Get total price
                  TextView total_price = (TextView) findViewById(R.id.total_products_price);
-                 Intent intent = new Intent(ProductsActivity.this, ProductsOrder.class);
-                 intent.putExtra("price", total_price.getText().toString());
+                 if (total_price.getText().toString().equals("0 EUR")) {
+                     Toast.makeText(getApplicationContext(), R.string.no_orders, Toast.LENGTH_SHORT).show();
+                 } else {
+                     Intent intent = new Intent(ProductsActivity.this, ProductsOrder.class);
+                     intent.putExtra("price", total_price.getText().toString());
 
-                 // Get information to send
-                 ProductsAdapter bAdapter = adapter;
-                 Iterator<String> it = bAdapter.getCheckedItems().values().iterator();
+                     // Get information to send
+                     ProductsAdapter bAdapter = adapter;
+                     Iterator<String> it = bAdapter.getCheckedItems().values().iterator();
 
-                 for (int i=0;i<bAdapter.getCheckedItems().size();i++){
-                     ArrayList<String> item = new ArrayList<String>();
-                     Integer position = Integer.parseInt(it.next());
-                     String name = bAdapter.getItem(position)[1];
-                     String quantity = bAdapter.getItem(position)[3];
-                     //Only possible: juice, coffee, sandwich and popcorn
-                     intent.putExtra(name, quantity);
+                     for (int i=0;i<bAdapter.getCheckedItems().size();i++){
+                         ArrayList<String> item = new ArrayList<String>();
+                         Integer position = Integer.parseInt(it.next());
+                         String name = bAdapter.getItem(position)[1];
+                         String quantity = bAdapter.getItem(position)[3];
+                         //Only possible: juice, coffee, sandwich and popcorn
+                         intent.putExtra(name, quantity);
+                     }
+
+                     startActivity(intent);
                  }
-
-                 startActivity(intent);
              }
         });
 

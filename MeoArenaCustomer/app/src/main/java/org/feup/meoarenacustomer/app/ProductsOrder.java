@@ -6,6 +6,7 @@ import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -25,21 +27,7 @@ public class ProductsOrder extends ListActivity {
     Storage db;
     API api;
     String[] items;
-
-    String[] city= {
-            "Bangalore",
-            "Chennai",
-            "Mumbai",
-            "Pune",
-            "Delhi",
-            "Jabalpur",
-            "Indore",
-            "Ranchi",
-            "Hyderabad",
-            "Ahmedabad",
-            "Kolkata",
-            "Bhopal"
-    };
+    ListView listview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,24 +37,9 @@ public class ProductsOrder extends ListActivity {
         db = new Storage(this);
         api = new API();
 
-
         //populate items array with vouchers info
+        setTotalPrice();
         listVouchers();
-
-        //TODO: export actions to external method
-        ListView listview= getListView();
-        //	listview.setChoiceMode(listview.CHOICE_MODE_NONE);
-        //	listview.setChoiceMode(listview.CHOICE_MODE_SINGLE);
-        listview.setChoiceMode(listview.CHOICE_MODE_MULTIPLE);
-
-        //--	text filtering
-        listview.setTextFilterEnabled(true);
-
-        setListAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_checked, items));
-
-
-
         payOrder();
 
     }
@@ -103,7 +76,14 @@ public class ProductsOrder extends ListActivity {
         pay_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                askPin();
+
+                SparseBooleanArray sparseBooleanArray = listview.getCheckedItemPositions();
+                if (sparseBooleanArray.size() > 3) {
+                    Toast.makeText(getApplicationContext(), R.string.limit_vouchers_used, Toast.LENGTH_SHORT).show();
+                } else {
+                    askPin();
+                }
+
             }
         });
     }
@@ -115,9 +95,25 @@ public class ProductsOrder extends ListActivity {
         System.arraycopy(db.getVouchers(customerID), 0, vouchers, 0, length );
         items = new String[vouchers.length];
         for (int i=0; i < vouchers.length; i++) {
-            Toast.makeText(getApplicationContext(), String.valueOf(vouchers.length), Toast.LENGTH_SHORT).show();
-            items[i] = vouchers[i][1];
+            String product = "";
+            if (vouchers[i][1].equals("popcorn")){
+                product = "Pipocas grátis";
+            } else if (vouchers[i][1].equals("coffee")) {
+                product = "Café grátis";
+            } else if (vouchers[i][1].equals("all")) {
+                product = "5% desconto em toda a cafetaria";
+            }
+
+            items[i] = product;
         }
+
+        listview= getListView();
+        listview.setChoiceMode(listview.CHOICE_MODE_MULTIPLE);
+        listview.setTextFilterEnabled(true);
+
+        setListAdapter(new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_checked, items));
+
     }
 
     public void askPin() {
@@ -149,5 +145,11 @@ public class ProductsOrder extends ListActivity {
         });
 
         alert.show();
+    }
+
+    public void setTotalPrice() {
+        TextView total_price = ((TextView) findViewById(R.id.products_order_price));
+        Intent intent = getIntent();
+        total_price.setText("Total: " + intent.getStringExtra("price"));
     }
 }
