@@ -16,7 +16,7 @@
             android:id="@+id/list_shows"
             android:layout_marginLeft="42dp"
             android:layout_marginTop="49dp"
-            android:src="@drawable/ticket" />
+            android:src="@drawable/show" />
 
         <TextView
             android:layout_width="100dp"
@@ -30,7 +30,7 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:id="@+id/list_products"
-            android:src="@drawable/cafeteria"
+            android:src="@drawable/cup"
             android:layout_toEndOf="@+id/list_shows"
             android:layout_alignTop="@+id/list_shows"
             android:layout_alignParentEnd="false"
@@ -44,6 +44,81 @@
             android:id="@+id/product_price"
             android:layout_below="@+id/list_products"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="32dp" />
+            android:layout_marginRight="32dp"
+            android:layout_alignParentStart="false"
+            android:layout_alignStart="@id/list_products"
+            android:layout_marginLeft="32dp" />
+
+        <ImageButton
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:id="@+id/list_tickets"
+            android:src="@drawable/ticket"
+            android:layout_toStartOf="@+id/list_products"
+            android:layout_centerVertical="true"
+            android:layout_alignStart="@+id/list_shows"
+            android:layout_below="@+id/list_shows_text"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tickets"
+            android:id="@+id/ticket_name"
+            android:layout_below="@+id/list_tickets"
+            android:layout_alignStart="@+id/list_tickets"
+            android:layout_marginLeft="32dp" />
+
+        <ImageButton
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:id="@+id/list_orders"
+            android:src="@drawable/cart"
+            android:layout_above="@+id/ticket_seat"
+            android:layout_alignEnd="@+id/ticket_seat" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/order_cafeteria"
+            android:id="@+id/ticket_seat"
+            android:layout_below="@+id/list_tickets"
+            android:layout_alignEnd="@+id/list_products" />
+
+        <ImageButton
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:id="@+id/list_vouchers"
+            android:src="@drawable/sale"
+            android:layout_below="@+id/ticket_seat"
+            android:layout_alignStart="@+id/list_tickets"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/vouchers"
+            android:id="@+id/show_price"
+            android:layout_toStartOf="@+id/ticket_seat"
+            android:layout_below="@+id/list_vouchers"
+            android:layout_alignEnd="@+id/list_vouchers" />
+
+        <ImageButton
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:id="@+id/list_transactions"
+            android:src="@drawable/buy"
+            android:layout_alignTop="@+id/list_vouchers"
+            android:layout_alignEnd="@+id/ticket_seat" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/transactions"
+            android:id="@+id/textView6"
+            android:layout_alignTop="@+id/show_price"
+            android:layout_alignStart="@+id/list_transactions"
+            android:layout_marginLeft="22dp" />
+
     </RelativeLayout>
 </TableRow>

@@ -18,6 +18,10 @@ public class HomeActivity extends Activity {
     Storage db;
     ImageButton showsButton;
     ImageButton cafeteriaButton;
+    ImageButton ticketsButton;
+    ImageButton ordersButton;
+    ImageButton vouchersButton;
+    ImageButton transactionsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +35,7 @@ public class HomeActivity extends Activity {
         //On click category
         getShows();
         getProducts();
+        getTickets();
 
     }
 
@@ -101,6 +106,17 @@ public class HomeActivity extends Activity {
         cafeteriaButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, ProductsActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void getTickets() {
+        ticketsButton = (ImageButton) findViewById(R.id.list_tickets);
+
+        ticketsButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, TicketsActivity.class);
                 startActivity(intent);
             }
         });

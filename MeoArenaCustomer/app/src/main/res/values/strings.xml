@@ -57,5 +57,12 @@
     <string name="pay_order">Pagar encomenda</string>
     <string name="limit_vouchers_used">Não pode escolher mais do que 3 vouchers para descontar por cada encomenda. Por favor, tente novamente.</string>
     <string name="no_orders">Selecione os produtos e atualize o preço antes de continuar.</string>
+    <string name="save_vouchers">Vouchers guardados com sucesso.</string>
+    <string name="save_tickets">Bilhetes guardados com sucesso.</string>
+    <string name="tickets">Bilhetes</string>
+    <string name="order_cafeteria">Encomendas</string>
+    <string name="voucher">Vouchers</string>
+    <string name="transactions">Transações</string>
+    <string name="title_activity_tickets">TicketsActivity</string>
 
 </resources>

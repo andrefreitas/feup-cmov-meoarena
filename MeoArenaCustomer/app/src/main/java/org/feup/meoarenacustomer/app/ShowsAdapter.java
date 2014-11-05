@@ -7,9 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-/**
- * Created by Ana  Gomes on 30/10/2014.
- */
+
 public class ShowsAdapter extends BaseAdapter {
     String[][] content;
     Context ctx;

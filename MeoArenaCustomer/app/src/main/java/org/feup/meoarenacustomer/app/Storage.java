@@ -26,11 +26,53 @@ public class Storage extends SQLiteOpenHelper {
         String vouchers = "CREATE TABLE vouchers "
                         + "(voucherID TEXT, customerID TEXT, product TEXT, discount TEXT, status TEXT);";
         db.execSQL(vouchers);
+
+        String tickets = "CREATE TABLE tickets "
+                        + "(ticketID TEXT, customerID TEXT, showID TEXT, seat TEXT, status TEXT, date TEXT);";
+
+        db.execSQL(tickets);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
 
+    }
+
+    public boolean saveTicket(String id, String customerID, String showID, String seat, String status, String date) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("ticketID", id);
+        contentValues.put("customerID", customerID);
+        contentValues.put("showID", showID);
+        contentValues.put("seat", seat);
+        contentValues.put("status", status);
+        contentValues.put("date", date);
+        db.insert("tickets", null, contentValues);
+        db.close();
+        return true;
+    }
+
+    public String[][] getTickets(String customerID){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT ticketID, customerID, showID, seat, date FROM tickets WHERE customerID='" +  customerID + "'" +
+                "AND status='unused';", null);
+        int count = cursor.getCount();
+        String[][] tickets = null;
+        if(cursor!=null && count!=0){
+            cursor.moveToFirst();
+            tickets = new String[cursor.getCount()][];
+            for (int i=0; i < cursor.getCount(); i++) {
+                String[] ticket = new String[3];
+                ticket[0] = cursor.getString(3); //seat
+                ticket[1] = cursor.getString(4); //product
+                ticket[2] = cursor.getString(3); //discount
+                tickets[i] = ticket;
+                cursor.moveToNext();
+            }
+        }
+        cursor.close();
+        db.close();
+        return tickets;
     }
 
     public boolean saveVoucher(String id, String customerID, String product, String discount, String status) {

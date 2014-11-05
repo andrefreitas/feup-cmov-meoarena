@@ -134,23 +134,52 @@ public class ShowActivity extends Activity implements NumberPicker.OnValueChange
     }
 
     public void callAPI(final String showID, final String customerID, String pin, final Integer tickets_number) {
-        api.buyTickets(customerID, showID, tickets_number,  pin, new AsyncHttpResponseHandler() {
+        api.buyTickets(customerID, showID, tickets_number,  pin, new JsonHttpResponseHandler() {
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 Toast.makeText(getApplicationContext(), R.string.success_buy_tickets, Toast.LENGTH_SHORT).show();
+
+                String[][] allTickets = new String[response.length()][];
+                for (int i = 0; i < response.length(); i++) {
+                    JSONObject obj = null;
+                    try {
+                        String[] ticket = new String[6];
+                        obj = response.getJSONObject(i);
+                        ticket[0] = obj.getString("id");
+                        ticket[1] = obj.getString("customerID");
+                        ticket[2] = obj.getString("showID");
+                        ticket[3] = obj.getString("seat");
+                        ticket[4] = obj.getString("status");
+                        ticket[5] = obj.getString("date");
+                        allTickets[i] = ticket;
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
                 String customerID = db.get("id");
                 saveVouchers(customerID);
-                //saveTickets(showID, customerID, tickets_number);
+                saveTickets(allTickets);
                 Intent intent = new Intent(ShowActivity.this, HomeActivity.class);
                 startActivity(intent);
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse){
                 Toast.makeText(getApplicationContext(), R.string.invalid_buy_tickets, Toast.LENGTH_SHORT).show();
             }
+
         });
+    }
+
+    private void saveTickets(String[][] allTickets) {
+        for (int i = 0; i < allTickets.length; i++) {
+            // Order is: id, customerid, showid, seat, status, date
+            db.saveTicket(allTickets[i][0], allTickets[i][1], allTickets[i][2], allTickets[i][3], allTickets[i][4], allTickets[i][5]);
+        }
+        Toast.makeText(getApplicationContext(), R.string.save_tickets, Toast.LENGTH_SHORT).show();
     }
 
     private void saveVouchers(String customerID) {
@@ -164,13 +193,11 @@ public class ShowActivity extends Activity implements NumberPicker.OnValueChange
                         obj = response.getJSONObject(i);
                         db.saveVoucher(obj.getString("id"), db.get("id"), obj.getString("product"),
                                 obj.getString("discount"), obj.getString("status"));
-                        Toast.makeText(getApplicationContext(), obj.getString("product"), Toast.LENGTH_SHORT).show();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-
-                Toast.makeText(getApplicationContext(), "Chegou à API corretamente", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.save_vouchers, Toast.LENGTH_SHORT).show();
             }
 
             @Override

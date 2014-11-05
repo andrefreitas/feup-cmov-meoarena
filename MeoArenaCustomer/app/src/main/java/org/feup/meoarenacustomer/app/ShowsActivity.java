@@ -80,9 +80,7 @@ public class ShowsActivity extends Activity {
                         e.printStackTrace();
                     }
                 }
-
                 populateListView(allShows);
-                Toast.makeText(getApplicationContext(), "Chegou à API corretamente", Toast.LENGTH_SHORT).show();
             }
 
             @Override
