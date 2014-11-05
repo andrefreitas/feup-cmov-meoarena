@@ -104,7 +104,8 @@ class TestApi(unittest.TestCase):
         tickets = requests.get("http://localhost:8080/api/tickets", params={"customerID": customer["id"]}).json()
         results = list(filter(lambda ticket: "id" in ticket and "seat" in ticket
                                              and ticket["status"] == "unused" and ticket["date"] == today_date
-                                             and ticket["showID"] == show1["id"], tickets))
+                                             and ticket["showID"] == show1["id"]
+                                             and ticket["name"] == "Tony Carreira", tickets))
         self.assertTrue(len(results) == 3)
 
         # Get vouchers

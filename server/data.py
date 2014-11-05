@@ -140,12 +140,14 @@ def buy_ticket(customer_id, show_id, pin, quantity):
 
 
 def create_ticket(seat, show_id, customer_id):
+    show = db.shows.find_one({"_id": ObjectId(show_id)})
     doc = {
         "seat": seat,
         "customerID": ObjectId(customer_id),
         "showID": ObjectId(show_id),
         "status": "unused",
-        "date": datetime.datetime.today()
+        "date": datetime.datetime.today(),
+        "name": show["name"]
     }
     ticket_id = db.tickets.insert(doc)
     return ticket_id
