@@ -125,7 +125,9 @@ def buy_ticket(customer_id, show_id, pin, quantity):
             ticket = db.tickets.find_one({"_id": ObjectId(ticket_id)})
             ticket["id"] = str(ticket["_id"])
             ticket["showID"] = str(ticket["showID"])
+            ticket["customerID"] = str(ticket["customerID"])
             ticket["date"] = format_date(ticket["date"])
+            ticket["date_show"] = (format_date(ticket["date_show"]))
             del ticket["_id"]
             tickets.append(ticket)
         total = get_total_ammount(customer_id) % 100
@@ -162,7 +164,7 @@ def get_tickets(customer_id):
         doc["customerID"] = str(doc["customerID"])
         doc["showID"] = str(doc["showID"])
         doc["date"] = format_date(doc["date"])
-        doc["date_show"] = str(format_date(doc["date_show"]))
+        doc["date_show"] = (format_date(doc["date_show"]))
         del doc["_id"]
         results.append(doc)
     return dumps(results)
