@@ -104,8 +104,9 @@ public class ProductsActivity extends Activity {
     }
 
     private void populateListView(final String[][] allProducts) {
+        TextView total_price = (TextView) findViewById(R.id.total_products_price);
         ListView listView = (ListView) findViewById(R.id.view_products);
-        final ProductsAdapter adapter = new ProductsAdapter(allProducts, this);
+        final ProductsAdapter adapter = new ProductsAdapter(allProducts, this, total_price);
         listView.setAdapter(adapter);
 
         Button buy_products = (Button) findViewById(R.id.buy_products);
@@ -115,7 +116,7 @@ public class ProductsActivity extends Activity {
              public void onClick(View v) {
                  // Get total price
                  TextView total_price = (TextView) findViewById(R.id.total_products_price);
-                 if (total_price.getText().toString().equals("0 EUR")) {
+                 if (total_price.getText().toString().equals("0 EUR") || total_price.getText().toString().equals("0.0 EUR") ) {
                      Toast.makeText(getApplicationContext(), R.string.no_orders, Toast.LENGTH_SHORT).show();
                  } else {
                      Intent intent = new Intent(ProductsActivity.this, ProductsOrder.class);
@@ -138,27 +139,6 @@ public class ProductsActivity extends Activity {
                  }
              }
         });
-
-        // Update price
-        Button update_price = (Button) findViewById(R.id.update_products_price);
-
-        update_price.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                ProductsAdapter bAdapter = adapter;
-                Iterator<String> it = bAdapter.getCheckedItems().values().iterator();
-                BigDecimal total = BigDecimal.ZERO;
-                for (int i=0;i<bAdapter.getCheckedItems().size();i++){
-                    Integer position = Integer.parseInt(it.next());
-                    Integer quantity = Integer.parseInt(bAdapter.getItem(position)[3]);
-                    BigDecimal price = new BigDecimal(bAdapter.getItem(position)[2]);
-                    total = total.add(price.multiply(new BigDecimal(quantity)));
-                }
-                TextView total_price = (TextView) findViewById(R.id.total_products_price);
-                total_price.setText(total.toString() + " EUR");
-            }
-        });
-
-
-
     }
+
  }

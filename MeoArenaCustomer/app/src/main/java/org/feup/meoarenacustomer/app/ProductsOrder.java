@@ -90,29 +90,33 @@ public class ProductsOrder extends ListActivity {
 
     public void listVouchers() {
         String customerID = db.get("id");
-        Integer length = db.getVouchers(customerID).length;
-        String[][] vouchers = new String[length][];
-        System.arraycopy(db.getVouchers(customerID), 0, vouchers, 0, length );
-        items = new String[vouchers.length];
-        for (int i=0; i < vouchers.length; i++) {
-            String product = "";
-            if (vouchers[i][1].equals("popcorn")){
-                product = "Pipocas grátis";
-            } else if (vouchers[i][1].equals("coffee")) {
-                product = "Café grátis";
-            } else if (vouchers[i][1].equals("all")) {
-                product = "5% desconto em toda a cafetaria";
+        if (db.getVouchers(customerID) == null || db.getVouchers(customerID).length == 0) {
+            Toast.makeText(getApplicationContext(), R.string.no_vouchers, Toast.LENGTH_SHORT).show();
+        } else {
+            Integer length = db.getVouchers(customerID).length;
+            String[][] vouchers = new String[length][];
+            System.arraycopy(db.getVouchers(customerID), 0, vouchers, 0, length);
+            items = new String[vouchers.length];
+            for (int i = 0; i < vouchers.length; i++) {
+                String product = "";
+                if (vouchers[i][1].equals("popcorn")) {
+                    product = "Pipocas grátis";
+                } else if (vouchers[i][1].equals("coffee")) {
+                    product = "Café grátis";
+                } else if (vouchers[i][1].equals("all")) {
+                    product = "5% desconto em toda a cafetaria";
+                }
+
+                items[i] = product;
             }
 
-            items[i] = product;
+            listview = getListView();
+            listview.setChoiceMode(listview.CHOICE_MODE_MULTIPLE);
+            listview.setTextFilterEnabled(true);
+
+            setListAdapter(new ArrayAdapter<String>(this,
+                    android.R.layout.simple_list_item_checked, items));
         }
-
-        listview= getListView();
-        listview.setChoiceMode(listview.CHOICE_MODE_MULTIPLE);
-        listview.setTextFilterEnabled(true);
-
-        setListAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_checked, items));
 
     }
 

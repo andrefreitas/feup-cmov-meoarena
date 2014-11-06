@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -22,12 +23,13 @@ public class ProductsAdapter extends BaseAdapter {
     Context ctx;
     LayoutInflater inflater;
     public HashMap<String,String> checked = new HashMap<String,String>();
+    TextView total_price;
 
-    public ProductsAdapter(String[][] content, Context ctx) {
+    public ProductsAdapter(String[][] content, Context ctx, TextView total_price) {
         this.content = content;
         this.ctx = ctx;
         this.inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+        this.total_price = total_price;
     }
 
     @Override
@@ -63,6 +65,24 @@ public class ProductsAdapter extends BaseAdapter {
                 setCheckedItem(position);
                 EditText quantity = (EditText) v.findViewById(R.id.product_quantity);
                 content[position][3] = quantity.getText().toString();
+
+                Iterator<String> it = getCheckedItems().values().iterator();
+                BigDecimal total = BigDecimal.ZERO;
+                for (int i = 0; i < getCheckedItems().size(); i++) {
+                    Integer position = Integer.parseInt(it.next());
+                    String quantity_s = getItem(position)[3];
+                    Integer quantity_p;
+                    if (quantity_s.equals("")) {
+                        quantity_p = 0;
+                    }
+                    else {
+                        quantity_p = Integer.parseInt(getItem(position)[3]);
+                    }
+                    BigDecimal price = new BigDecimal(getItem(position)[2]);
+                    total = total.add(price.multiply(new BigDecimal(quantity_p)));
+                }
+
+                total_price.setText(total.toString() + " EUR");
             }
         });
 
@@ -71,6 +91,25 @@ public class ProductsAdapter extends BaseAdapter {
         quantity.addTextChangedListener(new TextWatcher(){
             public void afterTextChanged(Editable s) {
                 content[position][3] = quantity.getText().toString();
+
+                Iterator<String> it = getCheckedItems().values().iterator();
+                BigDecimal total = BigDecimal.ZERO;
+                for (int i = 0; i < getCheckedItems().size(); i++) {
+                    Integer position = Integer.parseInt(it.next());
+                    String quantity = getItem(position)[3];
+                    Integer quantity_p;
+                    if (quantity.equals("")) {
+                        quantity_p = 0;
+                    }
+                    else {
+                        quantity_p = Integer.parseInt(getItem(position)[3]);
+                    }
+
+                    BigDecimal price = new BigDecimal(getItem(position)[2]);
+                    total = total.add(price.multiply(new BigDecimal(quantity_p)));
+                }
+
+                total_price.setText(total.toString() + " EUR");
             }
             public void beforeTextChanged(CharSequence s, int start, int count, int after){}
             public void onTextChanged(CharSequence s, int start, int before, int count){}
