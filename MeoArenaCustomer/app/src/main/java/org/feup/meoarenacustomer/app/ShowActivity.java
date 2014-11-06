@@ -151,7 +151,7 @@ public class ShowActivity extends Activity implements NumberPicker.OnValueChange
                         ticket[2] = obj.getString("showID");
                         ticket[3] = obj.getString("seat");
                         ticket[4] = obj.getString("status");
-                        ticket[5] = obj.getString("date");
+                        ticket[5] = obj.getString("date_show");
                         ticket[6] = obj.getString("name");
                         allTickets[i] = ticket;
 
