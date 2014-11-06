@@ -31,6 +31,7 @@ import java.util.Iterator;
 public class ProductsActivity extends Activity {
 
     API api;
+    Storage db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class ProductsActivity extends Activity {
         setTitle("Cafetaria");
 
         api = new API();
+        db =  new Storage(this);
         listProducts();
     }
 
@@ -114,11 +116,15 @@ public class ProductsActivity extends Activity {
         //Buy product
         buy_products.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {
+                 String customerID = db.get("id");
                  // Get total price
                  TextView total_price = (TextView) findViewById(R.id.total_products_price);
                  if (total_price.getText().toString().equals("0 EUR") || total_price.getText().toString().equals("0.0 EUR") ) {
                      Toast.makeText(getApplicationContext(), R.string.no_orders, Toast.LENGTH_SHORT).show();
-                 } else {
+                 } else if (db.getVouchers(customerID) == null || db.getVouchers(customerID).length == 0) {
+
+                 }
+                 else {
                      Intent intent = new Intent(ProductsActivity.this, ProductsOrder.class);
                      intent.putExtra("price", total_price.getText().toString());
 
