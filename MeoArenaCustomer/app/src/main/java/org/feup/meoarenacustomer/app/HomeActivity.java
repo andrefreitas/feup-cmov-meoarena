@@ -36,6 +36,7 @@ public class HomeActivity extends Activity {
         getShows();
         getProducts();
         getTickets();
+        getVouchers();
 
     }
 
@@ -117,6 +118,17 @@ public class HomeActivity extends Activity {
         ticketsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, TicketsActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void getVouchers() {
+        vouchersButton = (ImageButton) findViewById(R.id.list_vouchers);
+
+        vouchersButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, VouchersActivity.class);
                 startActivity(intent);
             }
         });

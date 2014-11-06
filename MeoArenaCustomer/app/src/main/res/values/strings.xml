@@ -64,5 +64,6 @@
     <string name="voucher">Vouchers</string>
     <string name="transactions">Transações</string>
     <string name="title_activity_tickets">TicketsActivity</string>
+    <string name="title_activity_vouchers">VouchersActivity</string>
 
 </resources>
