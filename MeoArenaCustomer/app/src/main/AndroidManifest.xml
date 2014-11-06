@@ -56,6 +56,10 @@
             android:name=".VouchersActivity"
             android:label="@string/title_activity_vouchers" >
         </activity>
+        <activity
+            android:name=".TransactionsActivity"
+            android:label="@string/title_activity_transactions" >
+        </activity>
     </application>
 
 </manifest>

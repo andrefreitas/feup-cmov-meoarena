@@ -37,6 +37,7 @@ public class HomeActivity extends Activity {
         getProducts();
         getTickets();
         getVouchers();
+        getTransactions();
 
     }
 
@@ -117,8 +118,15 @@ public class HomeActivity extends Activity {
 
         ticketsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, TicketsActivity.class);
-                startActivity(intent);
+                String customerID = db.get("id");
+                String[][] tickets = db.getTickets(customerID);
+                if (tickets != null && tickets.length > 0 ) {
+                    Intent intent = new Intent(HomeActivity.this, TicketsActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), R.string.no_bought_tickets ,Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -128,7 +136,25 @@ public class HomeActivity extends Activity {
 
         vouchersButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, VouchersActivity.class);
+                String customerID = db.get("id");
+                String[][] vouchers = db.getVouchers(customerID);
+                if (vouchers != null && vouchers.length > 0) {
+                    Intent intent = new Intent(HomeActivity.this, VouchersActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), R.string.no_available_vouchers ,Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void getTransactions() {
+        transactionsButton = (ImageButton) findViewById(R.id.list_transactions);
+
+        transactionsButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, TransactionsActivity.class);
                 startActivity(intent);
             }
         });

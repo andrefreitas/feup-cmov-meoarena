@@ -68,7 +68,9 @@ public class API {
         client.get(url + "/products", responseHandler);
     }
 
-    public void getTransactions(AsyncHttpResponseHandler responseHandler) {
-        client.get(url + "/transactions", responseHandler);
+    public void getTransactions(String customerID, AsyncHttpResponseHandler responseHandler) {
+        RequestParams params = new RequestParams();
+        params.put("customerID", customerID);
+        client.get(url + "/transactions", params, responseHandler);
     }
 }

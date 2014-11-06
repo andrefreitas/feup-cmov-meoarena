@@ -20,7 +20,7 @@ public class TicketsActivity extends Activity {
         db = new Storage(this);
         api = new API();
 
-        populateTicketsView();
+        listTickets();
     }
 
 
@@ -43,12 +43,11 @@ public class TicketsActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void populateTicketsView() {
+    public void listTickets() {
         String customerID = db.get("id");
         String[][] tickets = db.getTickets(customerID);
         ListView listView = (ListView) findViewById(R.id.view_tickets);
         TicketsAdapter adapter = new TicketsAdapter(tickets, this);
         listView.setAdapter(adapter);
-
     }
 }

@@ -65,5 +65,10 @@
     <string name="transactions">Transações</string>
     <string name="title_activity_tickets">TicketsActivity</string>
     <string name="title_activity_vouchers">VouchersActivity</string>
+    <string name="title_activity_transactions">TransactionsActivity</string>
+    <string name="no_bought_tickets">Não tem bilhetes disponíveis para validação.</string>
+    <string name="no_available_vouchers">Não tem vouchers disponíveis para validação.</string>
+    <string name="no_bought_orders">Não tem encomendas de cafetaria disponíveis para validação.</string>
+    <string name="no_transactions">Não foram efetuadas quaisquer transações até ao momento.</string>
 
 </resources>
