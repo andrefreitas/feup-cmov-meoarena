@@ -44,7 +44,7 @@ public class TicketsAdapter extends BaseAdapter {
         name.setText(content[i][0]);
 
         TextView seats = (TextView) view.findViewById(R.id.ticket_seat);
-        seats.setText(content[i][1]);
+        seats.setText("Lugar " + content[i][1]);
 
         TextView date = (TextView) view.findViewById(R.id.ticket_date);
         date.setText(content[i][2]);

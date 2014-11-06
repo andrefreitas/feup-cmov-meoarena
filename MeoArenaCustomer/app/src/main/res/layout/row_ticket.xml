@@ -5,36 +5,49 @@
 
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dip"
+        android:layout_height="30dip"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:id="@+id/ticket_name"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="15dp"
-        android:layout_marginLeft="15dp" />
+        android:layout_marginLeft="45dp"
+        android:gravity="center_vertical"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dip"
+        android:layout_height="30dip"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
+        android:text="Lugar 2"
         android:id="@+id/ticket_seat"
         android:layout_alignTop="@+id/ticket_name"
         android:layout_toEndOf="@+id/ticket_name"
         android:layout_marginLeft="15dp"
-        android:layout_alignBottom="@+id/ticket_name" />
+        android:layout_alignBottom="@+id/ticket_name"
+        android:gravity="center_vertical"/>
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dip"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Small Text"
         android:id="@+id/ticket_date"
         android:layout_toEndOf="@+id/ticket_seat"
-        android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/ticket_seat"
-        android:layout_alignBottom="@+id/ticket_seat" />
+        android:layout_marginLeft="54dp"
+        android:gravity="center_vertical"/>
+
+    <ImageView
+        android:layout_width="30dip"
+        android:layout_height="30dip"
+        android:id="@+id/imageView"
+        android:layout_alignTop="@+id/ticket_name"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/ticket"
+        android:layout_marginLeft="10dp"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="10dp" />
 
 </RelativeLayout>

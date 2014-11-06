@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 
 public class TicketsActivity extends Activity {
@@ -44,7 +45,10 @@ public class TicketsActivity extends Activity {
 
     public void populateTicketsView() {
         String customerID = db.get("id");
-
         String[][] tickets = db.getTickets(customerID);
+        ListView listView = (ListView) findViewById(R.id.view_tickets);
+        TicketsAdapter adapter = new TicketsAdapter(tickets, this);
+        listView.setAdapter(adapter);
+
     }
 }

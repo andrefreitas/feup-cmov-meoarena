@@ -139,27 +139,26 @@ public class ShowActivity extends Activity implements NumberPicker.OnValueChange
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 Toast.makeText(getApplicationContext(), R.string.success_buy_tickets, Toast.LENGTH_SHORT).show();
-
+                String customerID = db.get("id");
                 String[][] allTickets = new String[response.length()][];
                 for (int i = 0; i < response.length(); i++) {
                     JSONObject obj = null;
                     try {
-                        String[] ticket = new String[6];
+                        String[] ticket = new String[7];
                         obj = response.getJSONObject(i);
                         ticket[0] = obj.getString("id");
-                        ticket[1] = obj.getString("customerID");
+                        ticket[1] = customerID;
                         ticket[2] = obj.getString("showID");
                         ticket[3] = obj.getString("seat");
                         ticket[4] = obj.getString("status");
                         ticket[5] = obj.getString("date");
+                        ticket[6] = obj.getString("name");
                         allTickets[i] = ticket;
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-
-                String customerID = db.get("id");
                 saveVouchers(customerID);
                 saveTickets(allTickets);
                 Intent intent = new Intent(ShowActivity.this, HomeActivity.class);
@@ -177,7 +176,7 @@ public class ShowActivity extends Activity implements NumberPicker.OnValueChange
     private void saveTickets(String[][] allTickets) {
         for (int i = 0; i < allTickets.length; i++) {
             // Order is: id, customerid, showid, seat, status, date
-            db.saveTicket(allTickets[i][0], allTickets[i][1], allTickets[i][2], allTickets[i][3], allTickets[i][4], allTickets[i][5]);
+            db.saveTicket(allTickets[i][0], allTickets[i][1], allTickets[i][2], allTickets[i][3], allTickets[i][4], allTickets[i][5], allTickets[i][6]);
         }
         Toast.makeText(getApplicationContext(), R.string.save_tickets, Toast.LENGTH_SHORT).show();
     }

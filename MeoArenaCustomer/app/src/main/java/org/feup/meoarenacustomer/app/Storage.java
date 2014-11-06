@@ -28,7 +28,7 @@ public class Storage extends SQLiteOpenHelper {
         db.execSQL(vouchers);
 
         String tickets = "CREATE TABLE tickets "
-                        + "(ticketID TEXT, customerID TEXT, showID TEXT, seat TEXT, status TEXT, date TEXT);";
+                        + "(ticketID TEXT, customerID TEXT, showID TEXT, name TEXT, seat TEXT, status TEXT, date TEXT);";
 
         db.execSQL(tickets);
     }
@@ -38,12 +38,13 @@ public class Storage extends SQLiteOpenHelper {
 
     }
 
-    public boolean saveTicket(String id, String customerID, String showID, String seat, String status, String date) {
+    public boolean saveTicket(String id, String customerID, String showID, String seat, String status, String date, String name) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("ticketID", id);
         contentValues.put("customerID", customerID);
         contentValues.put("showID", showID);
+        contentValues.put("name", name);
         contentValues.put("seat", seat);
         contentValues.put("status", status);
         contentValues.put("date", date);
@@ -54,18 +55,18 @@ public class Storage extends SQLiteOpenHelper {
 
     public String[][] getTickets(String customerID){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT ticketID, customerID, showID, seat, date FROM tickets WHERE customerID='" +  customerID + "'" +
-                "AND status='unused';", null);
+        Cursor cursor = db.rawQuery("SELECT ticketID, customerID, showID, name, seat, date FROM tickets;", null);
         int count = cursor.getCount();
         String[][] tickets = null;
         if(cursor!=null && count!=0){
             cursor.moveToFirst();
             tickets = new String[cursor.getCount()][];
             for (int i=0; i < cursor.getCount(); i++) {
-                String[] ticket = new String[3];
-                ticket[0] = cursor.getString(3); //seat
-                ticket[1] = cursor.getString(4); //product
-                ticket[2] = cursor.getString(3); //discount
+                String[] ticket = new String[4];
+                ticket[0] = cursor.getString(3); //name
+                ticket[1] = cursor.getString(4); //seat
+                ticket[2] = cursor.getString(5); //date
+                ticket[3] = cursor.getString(1); //customerID
                 tickets[i] = ticket;
                 cursor.moveToNext();
             }
