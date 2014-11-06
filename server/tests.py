@@ -105,7 +105,8 @@ class TestApi(unittest.TestCase):
         results = list(filter(lambda ticket: "id" in ticket and "seat" in ticket
                                              and ticket["status"] == "unused" and ticket["date"] == today_date
                                              and ticket["showID"] == show1["id"]
-                                             and ticket["name"] == "Tony Carreira", tickets))
+                                             and ticket["name"] == "Tony Carreira"
+                                             and ticket["date_show"] == "31/10/2014", tickets))
         self.assertTrue(len(results) == 3)
 
         # Get vouchers

@@ -147,7 +147,8 @@ def create_ticket(seat, show_id, customer_id):
         "showID": ObjectId(show_id),
         "status": "unused",
         "date": datetime.datetime.today(),
-        "name": show["name"]
+        "name": show["name"],
+        "date_show": show["date"]
     }
     ticket_id = db.tickets.insert(doc)
     return ticket_id
@@ -161,6 +162,7 @@ def get_tickets(customer_id):
         doc["customerID"] = str(doc["customerID"])
         doc["showID"] = str(doc["showID"])
         doc["date"] = format_date(doc["date"])
+        doc["date_show"] = format_date(doc["date_show"])
         del doc["_id"]
         results.append(doc)
     return dumps(results)
