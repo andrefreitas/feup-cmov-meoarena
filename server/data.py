@@ -258,11 +258,12 @@ def get_total_ammount(customer_id):
 
     return total
 
-def create_cafeteria_order(customerID, pin, vouchers, products, quantity):
+def create_cafeteria_order(customerID, pin, vouchers, products, quantity, price):
     customer = db.customers.find_one({"_id": ObjectId(customerID), "pin": int(pin)})
     vouchers_list = vouchers.split(",")
     products_list = products.split(",")
     quantity_list = quantity.split(",")
+    total_price = int(price)
     if customer:
         # Build vouchers document
         vouchers_doc = []
@@ -274,14 +275,18 @@ def create_cafeteria_order(customerID, pin, vouchers, products, quantity):
             voucher = db.vouchers.find_one({"_id": ObjectId(vouchers_list[i])})
             if voucher:
                 var = valid_voucher_product(i, vouchers_list, products_list, dumb_quantity_list, percent_voucher)
-                if var:
+                if var is True:
                     voucher["status"] = "used"
                     db.vouchers.update({"_id": voucher["_id"]},{'$set':{"status": "used"}})
                     vouchers_doc.append(voucher)
+                    # Update price
+                    p = db.products.find_one({"_id": ObjectId(products_list[i])})
+                    total_price -= p["price"]*voucher["discount"]
                 if var == "percent_voucher":
                     voucher["status"] = "used"
                     db.vouchers.update({"_id": voucher["_id"]},{'$set':{"status": "used"}})
                     percent_voucher = True
+                    total_price = total_price - total_price*voucher["discount"]
 
         # Build products document
         products_doc = []
@@ -292,13 +297,13 @@ def create_cafeteria_order(customerID, pin, vouchers, products, quantity):
                 product["quantity"] = quantity_list[i]
                 products_doc.append(product)
 
-        price = 0
+
         # Build orders document
         doc = {
             "customerID": ObjectId(customerID),
             "vouchers": vouchers_doc,
             "products": products_doc,
-            "price": price
+            "price": total_price
         }
 
         db.orders.insert(doc)
