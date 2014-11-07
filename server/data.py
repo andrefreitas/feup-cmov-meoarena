@@ -188,7 +188,8 @@ def create_free_voucher(customer_id):
         "customerID": ObjectId(customer_id)
     }
 
-    db.vouchers.insert(voucher)
+    voucher_id = db.vouchers.insert(voucher)
+    return {"id": str(voucher_id)}
 
 def create_discount_voucher(customer_id):
     voucher = {
@@ -198,7 +199,8 @@ def create_discount_voucher(customer_id):
         "customerID": ObjectId(customer_id)
     }
 
-    db.vouchers.insert(voucher)
+    voucher_id = db.vouchers.insert(voucher)
+    return {"id": str(voucher_id)}
 
 def get_vouchers(customer_id):
     cursor = db.vouchers.find({"customerID": ObjectId(customer_id)})
@@ -298,7 +300,6 @@ def create_cafeteria_order(customerID, pin, vouchers, products, quantity, price)
                 product["quantity"] = quantity_list[i]
                 products_doc.append(product)
 
-
         # Build orders document
         doc = {
             "customerID": ObjectId(customerID),
@@ -307,7 +308,13 @@ def create_cafeteria_order(customerID, pin, vouchers, products, quantity, price)
             "price": total_price
         }
 
-        db.orders.insert(doc)
+        order_id = db.orders.insert(doc)
+        order = db.orders.find_one({"_id": order_id})
+        order["id"] = str(order["_id"])
+        order["customerID"] = str(order["customerID"])
+        del order["_id"]
+        create_cafeteria_transaction(customerID, total_price)
+        return dumps(order)
     else:
         return False
 
@@ -316,8 +323,6 @@ def valid_voucher_product(i, vouchers, products, quantity, percent_voucher):
     voucher_id = vouchers[i]
     voucher = db.vouchers.find_one({"_id": ObjectId(voucher_id)})
 
-    product = None
-
     if voucher:
         if voucher["product"] == "all" and percent_voucher is False:
             return "percent_voucher"
@@ -325,12 +330,19 @@ def valid_voucher_product(i, vouchers, products, quantity, percent_voucher):
             for i in range(0, len(products), 1):
                 product_id = products[i]
                 product = db.products.find_one({"_id": ObjectId(product_id)})
-                if (voucher and product):
+                if (product):
                     if ((voucher["product"] == product["name"]) and quantity[i] > 0 and voucher["status"] == "unused"):
                         quantity[i] -= 1
                         return True
-                    else:
-                        return False
+            return False
 
 
-
+def get_orders(customer_id):
+    cursor = db.orders.find({"customerID": ObjectId(customer_id)})
+    results = []
+    for doc in cursor:
+        doc["id"] = str(doc["_id"])
+        doc["customerID"] = str(doc["customerID"])
+        del doc["_id"]
+        results.append(doc)
+    return dumps(results)

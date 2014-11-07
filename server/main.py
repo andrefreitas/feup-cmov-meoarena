@@ -29,6 +29,7 @@ def shows_all():
     response.content_type = 'application/json'
     return data.get_shows()
 
+
 @route('/api/login', method="POST")
 def login():
     email = request.params.get("email")
@@ -40,10 +41,12 @@ def login():
     else:
         response.status = 400
 
+
 @route('/api/products', method="GET")
 def products_all():
     response.content_type = 'application/json'
     return data.get_products()
+
 
 @route('/api/tickets', method="POST")
 def tickets_create():
@@ -58,11 +61,13 @@ def tickets_create():
     else:
         response.status = 400
 
+
 @route('/api/tickets', method="GET")
 def tickets_all():
     customer_id = request.params.get("customerID")
     response.content_type = 'application/json'
     return data.get_tickets(customer_id)
+
 
 @route('/api/vouchers', method="GET")
 def vouchers_all():
@@ -70,11 +75,35 @@ def vouchers_all():
     response.content_type = 'application/json'
     return data.get_vouchers(customer_id)
 
+
 @route('/api/transactions', method="GET")
 def transactions_all():
     customer_id = request.params.get("customerID")
     response.content_type = 'application/json'
     return data.get_transactions(customer_id)
+
+
+@route('/api/orders', method="POST")
+def validate_order():
+    customer_id = request.params.get("customerID")
+    pin = request.params.get("pin")
+    vouchers = request.params.get("vouchers")
+    products = request.params.get("products")
+    quantity = request.params.get("quantity")
+    price = request.params.get("price")
+    response.content_type = 'application/json'
+    order = data.create_cafeteria_order(customer_id, pin, vouchers, products, quantity, price)
+    if (order is False):
+        response.status = 400
+    else:
+        return order
+
+
+@route('/api/orders', method="GET")
+def orders_all():
+    customer_id = request.params.get("customerID")
+    response.content_type = 'application/json'
+    return data.get_orders(customer_id)
 
 
 run(host='localhost', port=8080, reloader=True, server='cherrypy')

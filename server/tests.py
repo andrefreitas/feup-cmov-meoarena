@@ -215,6 +215,27 @@ class TestApi(unittest.TestCase):
         voucher1 = data.create_free_voucher(customer["id"])
         voucher2 = data.create_discount_voucher(customer["id"])
 
+        payload = {
+            "customerID": customer["id"],
+            "pin": int(customer["pin"]),
+            "vouchers": voucher1["id"]+","+voucher2["id"],
+            "products": product1["id"]+","+product2["id"],
+            "quantity": "3,2",
+            "price": 23
+        }
+
+        answer = requests.post("http://localhost:8080/api/orders", params=payload)
+        self.assertEqual(answer.status_code, 200)
+
+        orders = requests.get("http://localhost:8080/api/orders", params={"customerID": customer["id"]}).json()
+        self.assertTrue(len(orders) == 1)
+        results = list(filter(lambda order: order["customerID"] == customer["id"] and len(order["vouchers"]) == 2
+                                              and len(order["products"]) == 2, orders))
+        self.assertTrue(len(results) == 1)
+
+
+        data.drop_data_base()
+
 
 if __name__ == '__main__':
     unittest.main()
