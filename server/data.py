@@ -257,3 +257,64 @@ def get_total_ammount(customer_id):
         total += int(doc["amount"])
 
     return total
+
+def create_cafeteria_order(customerID, pin, vouchers, products, quantity):
+    customer = db.customers.find_one({"_id": ObjectId(customerID), "pin": int(pin)})
+    vouchers_list = vouchers.split(",")
+    products_list = products.split(",")
+    quantity_list = quantity.split(",")
+    if customer:
+        # Build vouchers document
+        vouchers_doc = []
+        # Copy quantity list to reduce number iteratively
+        dumb_quantity_list = list(map(int, quantity_list))
+        percent_voucher = False
+        for i in range(0, len(vouchers_list)-1, 1):
+            # Finds each voucher for the given ids
+            voucher = db.vouchers.find_one({"_id": ObjectId(vouchers_list[i])})
+            if voucher:
+                var = valid_voucher_product(i, vouchers_list, products_list, dumb_quantity_list, percent_voucher)
+                if var:
+                    voucher["status"] = "used"
+                    vouchers_doc.append(voucher)
+                if var == "percent_voucher":
+                    percent_voucher = True
+
+        # Build products document
+        products_doc = []
+        for i in range(0, len(products_list)-1, 1):
+            # Finds each product for the given ids
+            product = db.products.find_one({"_id": ObjectId(products_list[i])})
+            if product:
+                product["quantity"] = quantity_list[i]
+                products_doc.append(product)
+
+        price = 0
+        # Build orders document
+        doc = {
+            "customerID": ObjectId(customerID),
+            "vouchers": vouchers_doc,
+            "products": products_doc,
+            "price": price
+        }
+
+        db.orders.insert(doc)
+    else:
+        return False
+
+
+def valid_voucher_product(i, vouchers, products, quantity, percent_voucher):
+    voucher_id = vouchers[i]
+    product_id = products[i]
+    voucher = db.vouchers.find_one({"_id": ObjectId(voucher_id)})
+    product = db.products.find_one({"_id": ObjectId(product_id)})
+    if (voucher and product):
+        if ((voucher["product"] == product["name"]) and quantity[i] > 0 and voucher["status"] == "unused"):
+            quantity[i] -= 1
+            return True
+        elif voucher["product"] == "all" and percent_voucher is False:
+            return "percent_voucher"
+        else:
+            return False
+    else:
+        return False
