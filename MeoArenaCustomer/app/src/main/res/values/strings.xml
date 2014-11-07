@@ -70,5 +70,7 @@
     <string name="no_available_vouchers">Não tem vouchers disponíveis para validação.</string>
     <string name="no_bought_orders">Não tem encomendas de cafetaria disponíveis para validação.</string>
     <string name="no_transactions">Não foram efetuadas quaisquer transações até ao momento.</string>
+    <string name="title_activity_nfc">NfcActivity</string>
+    <string name="title_activity_validation">ValidationActivity</string>
 
 </resources>
