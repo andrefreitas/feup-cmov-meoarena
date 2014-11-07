@@ -228,11 +228,14 @@ class TestApi(unittest.TestCase):
         self.assertEqual(answer.status_code, 200)
 
         orders = requests.get("http://localhost:8080/api/orders", params={"customerID": customer["id"]}).json()
-        self.assertTrue(len(orders) == 1)
         results = list(filter(lambda order: order["customerID"] == customer["id"] and len(order["vouchers"]) == 2
                                               and len(order["products"]) == 2, orders))
         self.assertTrue(len(results) == 1)
 
+        transactions = requests.get("http://localhost:8080/api/transactions", params={"customerID": customer["id"]}).json()
+        results = list(filter(lambda transaction: transaction["customerID"] == customer["id"]
+                                              and transaction["description"] == "Compra cafetaria", transactions))
+        self.assertTrue(len(results) == 1)
 
         data.drop_data_base()
 
