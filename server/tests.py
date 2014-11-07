@@ -208,6 +208,12 @@ class TestApi(unittest.TestCase):
         data.delete_transactions(customer["id"])
         data.delete_vouchers(customer["id"])
 
+    def test_validate_order(self):
+        customer = requests.post("http://localhost:8080/api/customers", params=self.customer1).json()
+        product1 = data.create_product("Cafe Expresso", "coffee", 2.3)
+        product2 = data.create_product("Pipocas", "popcorn", 5.3)
+        voucher1 = data.create_free_voucher(customer["id"])
+        voucher2 = data.create_discount_voucher(customer["id"])
 
 
 if __name__ == '__main__':

@@ -286,6 +286,7 @@ def create_cafeteria_order(customerID, pin, vouchers, products, quantity, price)
                     voucher["status"] = "used"
                     db.vouchers.update({"_id": voucher["_id"]},{'$set':{"status": "used"}})
                     percent_voucher = True
+                    vouchers_doc.append(voucher)
                     total_price = total_price - total_price*voucher["discount"]
 
         # Build products document
@@ -316,18 +317,20 @@ def valid_voucher_product(i, vouchers, products, quantity, percent_voucher):
     voucher = db.vouchers.find_one({"_id": ObjectId(voucher_id)})
 
     product = None
-    if (i < len(products)):
-        product_id = products[i]
-        product = db.products.find_one({"_id": ObjectId(product_id)})
 
-    if (voucher and product):
-        if ((voucher["product"] == product["name"]) and quantity[i] > 0 and voucher["status"] == "unused"):
-            quantity[i] -= 1
-            return True
-        else:
-            return False
-    elif voucher:
+    if voucher:
         if voucher["product"] == "all" and percent_voucher is False:
             return "percent_voucher"
-    else:
-        return False
+        else:
+            for i in range(0, len(products), 1):
+                product_id = products[i]
+                product = db.products.find_one({"_id": ObjectId(product_id)})
+                if (voucher and product):
+                    if ((voucher["product"] == product["name"]) and quantity[i] > 0 and voucher["status"] == "unused"):
+                        quantity[i] -= 1
+                        return True
+                    else:
+                        return False
+
+
+
