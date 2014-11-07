@@ -269,20 +269,23 @@ def create_cafeteria_order(customerID, pin, vouchers, products, quantity):
         # Copy quantity list to reduce number iteratively
         dumb_quantity_list = list(map(int, quantity_list))
         percent_voucher = False
-        for i in range(0, len(vouchers_list)-1, 1):
+        for i in range(0, len(vouchers_list), 1):
             # Finds each voucher for the given ids
             voucher = db.vouchers.find_one({"_id": ObjectId(vouchers_list[i])})
             if voucher:
                 var = valid_voucher_product(i, vouchers_list, products_list, dumb_quantity_list, percent_voucher)
                 if var:
                     voucher["status"] = "used"
+                    db.vouchers.update({"_id": voucher["_id"]},{'$set':{"status": "used"}})
                     vouchers_doc.append(voucher)
                 if var == "percent_voucher":
+                    voucher["status"] = "used"
+                    db.vouchers.update({"_id": voucher["_id"]},{'$set':{"status": "used"}})
                     percent_voucher = True
 
         # Build products document
         products_doc = []
-        for i in range(0, len(products_list)-1, 1):
+        for i in range(0, len(products_list), 1):
             # Finds each product for the given ids
             product = db.products.find_one({"_id": ObjectId(products_list[i])})
             if product:
@@ -305,16 +308,21 @@ def create_cafeteria_order(customerID, pin, vouchers, products, quantity):
 
 def valid_voucher_product(i, vouchers, products, quantity, percent_voucher):
     voucher_id = vouchers[i]
-    product_id = products[i]
     voucher = db.vouchers.find_one({"_id": ObjectId(voucher_id)})
-    product = db.products.find_one({"_id": ObjectId(product_id)})
+
+    product = None
+    if (i < len(products)):
+        product_id = products[i]
+        product = db.products.find_one({"_id": ObjectId(product_id)})
+
     if (voucher and product):
         if ((voucher["product"] == product["name"]) and quantity[i] > 0 and voucher["status"] == "unused"):
             quantity[i] -= 1
             return True
-        elif voucher["product"] == "all" and percent_voucher is False:
-            return "percent_voucher"
         else:
             return False
+    elif voucher:
+        if voucher["product"] == "all" and percent_voucher is False:
+            return "percent_voucher"
     else:
         return False
