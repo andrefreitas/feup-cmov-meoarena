@@ -105,5 +105,16 @@ def orders_all():
     response.content_type = 'application/json'
     return data.get_orders(customer_id)
 
+@route('/api/validateTickets', method="GET")
+def orders_all():
+    customer_id = request.params.get("customerID")
+    tickets = request.params.get("tickets")
+    response.content_type = 'application/json'
+    answer = data.validate_tickets(customer_id, tickets)
+    if answer is False:
+        response.status = 400
+    else:
+        response.status = 200
+
 
 run(host='localhost', port=8080, reloader=True, server='cherrypy')

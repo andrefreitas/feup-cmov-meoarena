@@ -346,3 +346,20 @@ def get_orders(customer_id):
         del doc["_id"]
         results.append(doc)
     return dumps(results)
+
+def validate_tickets(customerID, tickets):
+    customer = db.customers.find_one({"_id": ObjectId(customerID)})
+    tickets_list = tickets.split(",")
+    if customer:
+        for i in range (0, len(tickets_list), 1):
+            ticket = db.tickets.find_one({"_id": ObjectId(tickets_list[i])})
+            if ticket:
+                if (ticket["status"] == "unused" and ticket["customerID"] == ObjectId(customerID)):
+                    db.tickets.update({"_id": ticket["_id"]},{'$set':{"status": "used"}})
+                else:
+                    return False
+            else:
+                return False
+        return True
+    else:
+        return False

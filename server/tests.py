@@ -181,8 +181,6 @@ class TestApi(unittest.TestCase):
             tickets_ids.append(tick["id"])
         tickets_string = ",".join(tickets_ids)
 
-        """
-
         # Test that the tickets are valid
         validation_params = {"customerID": customer["id"], "tickets": tickets_string}
         answer = requests.get("http://localhost:8080/api/validateTickets", params=validation_params)
@@ -196,7 +194,7 @@ class TestApi(unittest.TestCase):
         # Test that used tickets can't be validated again
         answer = requests.get("http://localhost:8080/api/validateTickets", params=validation_params)
         self.assertEqual(answer.status_code, 400)
-        """
+
 
         # END
 
