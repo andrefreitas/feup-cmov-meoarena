@@ -12,53 +12,40 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:gravity="center_horizontal"
-        android:text="@string/init_text"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/label2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/label1"
-        android:layout_marginTop="30dp"
-        android:text="@string/lab_message" />
-
-    <EditText
-        android:id="@+id/msg"
-        android:hint="@string/text_hint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/label2" >
-        <requestFocus />
-    </EditText>
-
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/msg"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:text="@string/but_send" />
+        android:text="@string/instruction_message"
+        android:textSize="20sp"
+        android:layout_marginTop="10dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip" />
 
     <TextView
         android:id="@+id/label3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/button1"
         android:layout_marginTop="40dp"
-        android:text="@string/lab2_message" />
+        android:text="@string/lab2_message"
+        android:textSize="15sp"
+        android:layout_below="@+id/label1"
+        android:layout_marginLeft="15dip" />
 
     <TextView
         android:id="@+id/reply"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="20dip"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/label3" />
+        android:layout_below="@+id/label3"
+        android:layout_marginLeft="15dip"
+        android:layout_marginRight="15dip" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/but_send"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="54dp"
+        android:layout_below="@+id/reply" />
 
 </RelativeLayout>

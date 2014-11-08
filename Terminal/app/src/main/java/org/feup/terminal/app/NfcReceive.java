@@ -49,8 +49,6 @@ public class NfcReceive extends Activity {
             String customerID = new String(msg.getRecords()[1].getPayload());
             String tickets = new String(msg.getRecords()[0].getPayload());
 
-            Toast.makeText(getApplicationContext(), customerID, Toast.LENGTH_SHORT).show();
-
             api.validateTickets(customerID, tickets, new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
