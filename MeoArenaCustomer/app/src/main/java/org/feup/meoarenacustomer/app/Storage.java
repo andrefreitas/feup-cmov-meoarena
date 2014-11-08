@@ -62,11 +62,12 @@ public class Storage extends SQLiteOpenHelper {
             cursor.moveToFirst();
             tickets = new String[cursor.getCount()][];
             for (int i=0; i < cursor.getCount(); i++) {
-                String[] ticket = new String[4];
+                String[] ticket = new String[5];
                 ticket[0] = cursor.getString(3); //name
                 ticket[1] = cursor.getString(4); //seat
                 ticket[2] = cursor.getString(5); //date
                 ticket[3] = cursor.getString(1); //customerID
+                ticket[4] = cursor.getString(0);
                 tickets[i] = ticket;
                 cursor.moveToNext();
             }

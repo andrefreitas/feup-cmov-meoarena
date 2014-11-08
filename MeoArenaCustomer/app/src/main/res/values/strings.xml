@@ -72,5 +72,6 @@
     <string name="no_transactions">Não foram efetuadas quaisquer transações até ao momento.</string>
     <string name="title_activity_nfc">NfcActivity</string>
     <string name="title_activity_validation">ValidationActivity</string>
-
+    <string name="title_activity_validate_tickets">ValidateTicketsActivity</string>
+    <string name="too_much_tickets">Só pode selecionar um máximo de 4 bilhetes por validação!</string>
 </resources>

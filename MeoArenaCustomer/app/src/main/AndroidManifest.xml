@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.NFC" />
+
     <uses-feature
         android:name="android.hardware.nfc"
         android:required="true" />
@@ -65,13 +66,23 @@
             android:label="@string/title_activity_transactions" >
         </activity>
         <activity
-            android:name=".NfcActivity"
-            android:label="@string/title_activity_nfc" >
+            android:name=".ValidateTicketsActivity"
+            android:label="@string/title_activity_validate_tickets" >
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/my.mime.type" />
+            </intent-filter>
         </activity>
-        <activity
-            android:name=".ValidationActivity"
-            android:label="@string/title_activity_validation" >
-        </activity>
+
+        <activity android:name=".SendTicketsActivity"
+            android:label="@string/title_activity_home">
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/my.mime.type" />
+            </intent-filter>
+            </activity>
     </application>
 
 </manifest>

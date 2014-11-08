@@ -7,7 +7,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class TicketsActivity extends Activity {
@@ -49,16 +55,44 @@ public class TicketsActivity extends Activity {
     public void listTickets() {
         String customerID = db.get("id");
         String[][] tickets = db.getTickets(customerID);
-        ListView listView = (ListView) findViewById(R.id.view_tickets);
-        TicketsAdapter adapter = new TicketsAdapter(tickets, this);
+        final ListView listView = (ListView) findViewById(R.id.view_tickets);
+        final TicketsAdapter adapter = new TicketsAdapter(tickets, this);
         listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        Button validate = (Button) findViewById(R.id.validate_tickets);
+
+        validate.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getBaseContext(), ValidationActivity.class);
-                startActivity(intent);
+            public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(), SendTicketsActivity.class);
+                String tickets = "";
+                Iterator<String> it = adapter.getCheckedItems().values().iterator();
+                int size = adapter.getCheckedItems().size();
+
+                if (size > 4) {
+                    Toast.makeText(getApplicationContext(), R.string.too_much_tickets, Toast.LENGTH_SHORT).show();
+                } else {
+                    for (int i = 0; i < size; i++) {
+                        ArrayList<String> item = new ArrayList<String>();
+                        Integer j = Integer.parseInt(it.next());
+                        // Get ticket id
+                        String id = adapter.getItem(j)[4];
+
+                        if (i == size - 1) {
+                            tickets += id;
+                        } else {
+                            tickets += id + ",";
+                        }
+
+                    }
+
+                    intent.putExtra("tickets", tickets);
+                    intent.putExtra("customerID", db.get("id"));
+                    startActivity(intent);
+                }
             }
         });
+
     }
 }
