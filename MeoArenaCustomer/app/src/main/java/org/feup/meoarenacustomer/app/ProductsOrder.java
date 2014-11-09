@@ -135,7 +135,8 @@ public class ProductsOrder extends ListActivity {
 
     }
 
-    public void askPin(final String productsID, final String price, final String products, final String quantity, final String customerID, ArrayList<String> checkedItems) {
+    public void askPin(final String productsID, final String price, final String products, final String quantity,
+                       final String customerID, ArrayList<String> checkedItems) {
         // Ask for pin
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Pin");
@@ -163,7 +164,7 @@ public class ProductsOrder extends ListActivity {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                         db.saveOrder(customerID, pin, finalVouchers, products, productsID, quantity, price, "unused");
-                        Toast.makeText(getApplicationContext(), R.string.success_orders, Toast.LENGTH_SHORT).show();
+                        successOrder();
                     }
 
                     @Override
@@ -181,5 +182,11 @@ public class ProductsOrder extends ListActivity {
         });
 
         alert.show();
+    }
+
+    public void successOrder() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+        Toast.makeText(getApplicationContext(), R.string.success_orders, Toast.LENGTH_SHORT).show();
     }
 }

@@ -63,19 +63,19 @@ public class ProductsAdapter extends BaseAdapter {
             public void onCheckedChanged(CompoundButton group, boolean isChecked) {
                 setCheckedItem(position);
                 EditText quantity = (EditText) v.findViewById(R.id.product_quantity);
-                content[position][3] = quantity.getText().toString();
+                content[position][4] = quantity.getText().toString();
 
                 Iterator<String> it = getCheckedItems().values().iterator();
                 BigDecimal total = BigDecimal.ZERO;
                 for (int i = 0; i < getCheckedItems().size(); i++) {
                     Integer position = Integer.parseInt(it.next());
-                    String quantity_s = getItem(position)[3];
+                    String quantity_s = getItem(position)[4];
                     Integer quantity_p;
                     if (quantity_s.equals("")) {
                         quantity_p = 0;
                     }
                     else {
-                        quantity_p = Integer.parseInt(getItem(position)[3]);
+                        quantity_p = Integer.parseInt(getItem(position)[4]);
                     }
                     BigDecimal price = new BigDecimal(getItem(position)[2]);
                     total = total.add(price.multiply(new BigDecimal(quantity_p)));
@@ -89,19 +89,19 @@ public class ProductsAdapter extends BaseAdapter {
         quantity.setText("0");
         quantity.addTextChangedListener(new TextWatcher(){
             public void afterTextChanged(Editable s) {
-                content[position][3] = quantity.getText().toString();
+                content[position][4] = quantity.getText().toString();
 
                 Iterator<String> it = getCheckedItems().values().iterator();
                 BigDecimal total = BigDecimal.ZERO;
                 for (int i = 0; i < getCheckedItems().size(); i++) {
                     Integer position = Integer.parseInt(it.next());
-                    String quantity = getItem(position)[3];
+                    String quantity = getItem(position)[4];
                     Integer quantity_p;
                     if (quantity.equals("")) {
                         quantity_p = 0;
                     }
                     else {
-                        quantity_p = Integer.parseInt(getItem(position)[3]);
+                        quantity_p = Integer.parseInt(getItem(position)[4]);
                     }
 
                     BigDecimal price = new BigDecimal(getItem(position)[2]);
