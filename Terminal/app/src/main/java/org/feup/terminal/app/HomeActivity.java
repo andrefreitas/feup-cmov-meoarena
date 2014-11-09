@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class HomeActivity extends Activity implements View.OnClickListener{
@@ -29,11 +30,14 @@ public class HomeActivity extends Activity implements View.OnClickListener{
     public void onClick(View v) {
         Intent intent = new Intent(this, SendValidateTickets.class);
         String message;
+
         // Enviar mensagem
-        if (sendMsg.getText().toString().equals("Bilhetes válidos")) {
-            message = "true";
+        if (sendMsg.getText().toString().equals("Bilhetes validos!")) {
+            message = "True "+app.positions;
+        } else {
+            message = "False ";
         }
-        intent.putExtra("message", sendMsg.getText().toString().getBytes());
+        intent.putExtra("message", message);
         intent.putExtra("tag", "application/nfc.feup.apm.message.type1");
         startActivity(intent);
     }

@@ -10,16 +10,17 @@ import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class ValidateTicketsActivity extends Activity {
+public class ReceiveTicketsValidActivity extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.activity_validate_tickets);
     }
 
     @Override
@@ -28,7 +29,7 @@ public class ValidateTicketsActivity extends Activity {
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
             processIntent(getIntent());
         }
-        finish();
+        //finish();
     }
 
     @Override
@@ -39,10 +40,21 @@ public class ValidateTicketsActivity extends Activity {
     void processIntent(Intent intent) {
         Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
         NdefMessage msg = (NdefMessage) rawMsgs[0];
+
         NdefRecord record = msg.getRecords()[0];
         String payload = new String(record.getPayload());
+
+        Intent i = new Intent(this, ReceiveTicketsValidActivity.class);
         TextView text = (TextView) findViewById(R.id.validation);
         text.setText(payload);
+
+        String[] message = payload.split(" ");
+        if (message[0].equals("True")) {
+            Intent in = new Intent(this, TicketsActivity.class);
+            in.putExtra("positions", message[1]);
+            startActivity(in);
+        }
+        Toast.makeText(getApplicationContext(), payload, Toast.LENGTH_SHORT).show();
 
     }
 }

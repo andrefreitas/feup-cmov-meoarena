@@ -11,8 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 
 public class TicketsAdapter extends BaseAdapter {
@@ -20,6 +22,7 @@ public class TicketsAdapter extends BaseAdapter {
     Context ctx;
     LayoutInflater inflater;
     public HashMap<String,String> checked = new HashMap<String,String>();
+    List<Integer> positions = new ArrayList<Integer>();
 
     public TicketsAdapter(String[][] content, Context ctx) {
         this.content = content;
@@ -49,14 +52,20 @@ public class TicketsAdapter extends BaseAdapter {
         }
 
         CheckBox name = (CheckBox) view.findViewById(R.id.ticket_name);
-        name.setText(content[i][0]);
-        final int position = i;
-        name.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton group, boolean isChecked) {
-                setCheckedItem(position);
-            }
-        });
+        if (positions.contains(i)) {
+            name.setEnabled(false);
+        }
+        else {
+            name.setText(content[i][0]);
+            final int position = i;
+            name.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton group, boolean isChecked) {
+                    setCheckedItem(position);
+                }
+            });
+        }
+
 
         TextView seats = (TextView) view.findViewById(R.id.ticket_seat);
         seats.setText("Lugar " + content[i][1]);
@@ -81,6 +90,10 @@ public class TicketsAdapter extends BaseAdapter {
 
     public HashMap<String, String> getCheckedItems(){
         return checked;
+    }
+
+    public void disableCheck(int position) {
+        positions.add(position);
     }
 
 }

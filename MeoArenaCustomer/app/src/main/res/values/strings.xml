@@ -63,9 +63,9 @@
     <string name="order_cafeteria">Encomendas</string>
     <string name="voucher">Vouchers</string>
     <string name="transactions">Transações</string>
-    <string name="title_activity_tickets">TicketsActivity</string>
-    <string name="title_activity_vouchers">VouchersActivity</string>
-    <string name="title_activity_transactions">TransactionsActivity</string>
+    <string name="title_activity_tickets">Validar Bilhetes</string>
+    <string name="title_activity_vouchers">Visualizar vouchers</string>
+    <string name="title_activity_transactions">Visualizar transações</string>
     <string name="no_bought_tickets">Não tem bilhetes disponíveis para validação.</string>
     <string name="no_available_vouchers">Não tem vouchers disponíveis para validação.</string>
     <string name="no_bought_orders">Não tem encomendas de cafetaria disponíveis para validação.</string>
@@ -74,4 +74,7 @@
     <string name="title_activity_validation">ValidationActivity</string>
     <string name="title_activity_validate_tickets">ValidateTicketsActivity</string>
     <string name="too_much_tickets">Só pode selecionar um máximo de 4 bilhetes por validação!</string>
+    <string name="receive_validation">Aproxime o telemóvel para receber a validação</string>
+    <string name="send_tickets">Enviar bilhetes para validar</string>
+    <string name="receive_tickets">Receber validação dos tickets</string>
 </resources>

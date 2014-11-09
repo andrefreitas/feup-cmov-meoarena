@@ -22,7 +22,7 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".NfcReceive"
+            android:name=".ReceiveTickets"
             android:label="@string/app_name"
             android:launchMode="singleTop" >
             <intent-filter>

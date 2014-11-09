@@ -10,7 +10,7 @@
     <string name="but_send">Enviar estado da validação</string>
     <string name="lab2_message">Estado de validação:</string>
     <string name="title_activity_nfc_send">NfcSend</string>
-    <string name="nfc_send_msg">Touch and tap to send</string>
+    <string name="nfc_send_msg">Aproxime o telemóvel e toque para enviar a mensagem de validação.</string>
     <string name="nfc_receive_msg">Receiving ...</string>
     <string name="title_activity_menu">MenuActivity</string>
     <string name="tickets">Validar bilhetes</string>

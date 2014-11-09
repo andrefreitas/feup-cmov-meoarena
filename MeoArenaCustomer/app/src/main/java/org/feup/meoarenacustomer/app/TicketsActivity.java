@@ -52,6 +52,16 @@ public class TicketsActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void testValidation(TicketsAdapter adapter) {
+        Intent intent = getIntent();
+        if (intent.getStringExtra("positions") != null) {
+            String[] positions = intent.getStringExtra("positions").split(",");
+            for (int i = 0; i < positions.length; i++) {
+                adapter.disableCheck(Integer.parseInt(positions[i]));
+            }
+        }
+    }
+
     public void listTickets() {
         String customerID = db.get("id");
         String[][] tickets = db.getTickets(customerID);
@@ -59,14 +69,17 @@ public class TicketsActivity extends Activity {
         final TicketsAdapter adapter = new TicketsAdapter(tickets, this);
         listView.setAdapter(adapter);
 
+        testValidation(adapter);
+
         Button validate = (Button) findViewById(R.id.validate_tickets);
 
         validate.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), SendTicketsActivity.class);
+                Intent intent = new Intent(getBaseContext(), ValidationActivity.class);
                 String tickets = "";
+                String positions = "";
                 Iterator<String> it = adapter.getCheckedItems().values().iterator();
                 int size = adapter.getCheckedItems().size();
 
@@ -81,14 +94,18 @@ public class TicketsActivity extends Activity {
 
                         if (i == size - 1) {
                             tickets += id;
+                            positions += j;
                         } else {
                             tickets += id + ",";
+                            positions += j + ",";
                         }
 
                     }
 
                     intent.putExtra("tickets", tickets);
+                    intent.putExtra("positions", positions);
                     intent.putExtra("customerID", db.get("id"));
+                    intent.putExtra("origin", "ticket");
                     startActivity(intent);
                 }
             }

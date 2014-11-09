@@ -14,7 +14,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
 
-public class NfcReceive extends Activity {
+public class ReceiveTickets extends Activity {
   NfcApp app;
   API api;
 
@@ -31,8 +31,9 @@ public class NfcReceive extends Activity {
     public void onResume() {
         super.onResume();
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
-          processIntent(getIntent());
+            processIntent(getIntent());
         }
+
         finish();
     }
   
@@ -46,19 +47,24 @@ public class NfcReceive extends Activity {
         NdefMessage msg = (NdefMessage) rawMsgs[0];
 
         if (msg.getRecords().length >0) {
+            final String tickets = new String(msg.getRecords()[0].getPayload());
             String customerID = new String(msg.getRecords()[1].getPayload());
-            String tickets = new String(msg.getRecords()[0].getPayload());
+            final String positions = new String(msg.getRecords()[2].getPayload());
 
             api.validateTickets(customerID, tickets, new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                    app.reply = "Bilhetes válidos!";
+                    app.reply = "Bilhetes validos!";
+                    app.tickets = tickets;
+                    app.positions = positions;
                     startIntent();
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                    app.reply = "Bilhetes não válidos.";
+                    app.reply = "Bilhetes nao validos.";
+                    app.tickets = tickets;
+                    app.positions = positions;
                     startIntent();
                 }
 

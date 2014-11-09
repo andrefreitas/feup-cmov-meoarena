@@ -3,6 +3,7 @@ package org.feup.meoarenacustomer.app;
 import java.nio.charset.Charset;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -36,7 +37,11 @@ public class SendTicketsActivity extends Activity implements NfcAdapter.OnNdefPu
         tag = "application/nfc.feup.apm.message.type1";
         message =  extras.getString("tickets").getBytes();
         byte[] customerID = extras.getString("customerID").getBytes();
-        NdefMessage msg = new NdefMessage(new NdefRecord[] { createMimeRecord(tag, message), createMimeRecord(tag, customerID) });
+        String positions2 = extras.getString("positions");
+        byte[] positions = extras.getString("positions").getBytes();
+        NdefMessage msg = new NdefMessage(new NdefRecord[] { createMimeRecord(tag, message),
+                createMimeRecord(tag, customerID),
+                createMimeRecord(tag, positions)});
 
         // Register a NDEF message to be sent in a beam operation (P2P)
         mNfcAdapter.setNdefPushMessage(msg, this);
@@ -46,8 +51,8 @@ public class SendTicketsActivity extends Activity implements NfcAdapter.OnNdefPu
     public void onNdefPushComplete(NfcEvent arg0) {
         runOnUiThread(new Runnable() {
             public void run() {
-                Toast.makeText(getApplicationContext(), "Message sent.", Toast.LENGTH_LONG).show();
-                finish();
+            Toast.makeText(getApplicationContext(), "Message sent.", Toast.LENGTH_LONG).show();
+            finish();
             }
         });
     }
