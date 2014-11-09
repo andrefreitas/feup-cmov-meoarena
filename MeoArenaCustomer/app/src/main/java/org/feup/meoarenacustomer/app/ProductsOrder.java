@@ -21,14 +21,18 @@ import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
+import java.util.ArrayList;
+
 
 public class ProductsOrder extends ListActivity {
 
     Storage db;
     API api;
-    // List all vouchers ids to use after to retrieve and make the order
+    // List all vouchers ids and all products
     String[] items;
+    String[] vouchersID;
     ListView listview;
+    ArrayList<String> checkedItems = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +74,11 @@ public class ProductsOrder extends ListActivity {
 
         //TODO: Array and check if item is there or not,
         // add only if not there and remove if exists
-        Toast.makeText(this, items[position] + " checked : " +
-                item.isChecked(), Toast.LENGTH_SHORT).show();
+        if (checkedItems.contains(vouchersID[position])) {
+            checkedItems.remove(vouchersID[position]);
+        } else {
+            checkedItems.add(vouchersID[position]);
+        }
     }
 
     public void payOrder() {
@@ -85,7 +92,7 @@ public class ProductsOrder extends ListActivity {
                     Toast.makeText(getApplicationContext(), R.string.limit_vouchers_used, Toast.LENGTH_SHORT).show();
                 } else {
                     askPin(getIntent().getStringExtra("price"), getIntent().getStringExtra("products"),
-                            getIntent().getStringExtra("quantity"), getIntent().getStringExtra("customerID"), items);
+                            getIntent().getStringExtra("quantity"), db.get("id"), checkedItems);
                 }
 
             }
@@ -101,6 +108,7 @@ public class ProductsOrder extends ListActivity {
             String[][] vouchers = new String[length][];
             System.arraycopy(db.getVouchers(customerID), 0, vouchers, 0, length);
             items = new String[vouchers.length];
+            vouchersID = new String[vouchers.length];
             for (int i = 0; i < vouchers.length; i++) {
                 String product = "";
                 if (vouchers[i][1].equals("popcorn")) {
@@ -112,7 +120,8 @@ public class ProductsOrder extends ListActivity {
                 }
 
                 // Add voucher id to items list
-                items[i] = vouchers[i][0];
+                items[i] = product;
+                vouchersID[i] = vouchers[i][0];
             }
 
             listview = getListView();
@@ -125,10 +134,9 @@ public class ProductsOrder extends ListActivity {
 
     }
 
-    public void askPin(String price, String products, String quantity, String customerID, String[] vouchers) {
+    public void askPin(final String price, final String products, final String quantity, final String customerID, ArrayList<String> checkedItems) {
         // Ask for pin
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-
         alert.setTitle("Pin");
         alert.setMessage("Por favor insira o pin para confirmar a operação.");
 
@@ -136,15 +144,27 @@ public class ProductsOrder extends ListActivity {
         final EditText input = new EditText(this);
         alert.setView(input);
 
+        // Build vouchers list into a string
+        String vouchers = "";
+        for (int i=0; i<checkedItems.size(); i++) {
+            if (i == checkedItems.size()-1) {
+                vouchers += checkedItems.get(i);
+            } else {
+                vouchers += checkedItems.get(i) + ",";
+            }
+        }
+
+        final String finalVouchers = vouchers;
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-
+                db.saveOrder(customerID, db.get("pin"), finalVouchers, products, quantity, price);
+                Toast.makeText(getApplicationContext(), R.string.success_orders, Toast.LENGTH_SHORT).show();
             }
         });
 
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-            Toast.makeText(getApplicationContext(), "Operação Cancelada", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Operação Cancelada", Toast.LENGTH_SHORT).show();
             }
         });
 

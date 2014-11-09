@@ -80,4 +80,6 @@
     <string name="no_tickets_validation">Selecione os bilhetes que pretende validar</string>
     <string name="no_orders_validation">Selecione as encomendas que pretende validar</string>
     <string name="tickets_different_show">Os bilhetes para validação têm de pertencer todos ao mesmo espetáculo</string>
+    <string name="wrong_pin">Pin inválido. Por favor, tente novamente.</string>
+    <string name="success_orders">Encomenda efetuada com sucesso.</string>
 </resources>

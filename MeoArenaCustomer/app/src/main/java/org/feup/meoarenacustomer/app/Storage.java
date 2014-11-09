@@ -31,12 +31,63 @@ public class Storage extends SQLiteOpenHelper {
                         + "(ticketID TEXT, customerID TEXT, showID TEXT, name TEXT, seat TEXT, status TEXT, date TEXT);";
 
         db.execSQL(tickets);
+
+        String orders = "CREATE TABLE orders "
+                + "(customerID TEXT, pin TEXT, vouchers TEXT, products TEXT, quantity TEXT, price TEXT);";
+
+        db.execSQL(orders);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
 
     }
+
+    public boolean saveOrder(String customerID, String pin, String vouchers, String products, String quantity, String price) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("customerID", customerID);
+        contentValues.put("pin", pin);
+        contentValues.put("vouchers", vouchers);
+        contentValues.put("products", products);
+        contentValues.put("quantity", quantity);
+        contentValues.put("price", price);
+        db.insert("orders", null, contentValues);
+        db.close();
+        return true;
+    }
+
+    public String[][] getOrders(String customerID) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT pin, vouchers, products, quantity, price FROM orders WHERE customerID='"
+                + customerID +"';", null);
+        int count = cursor.getCount();
+        String orders[][] = null;
+        if(cursor!=null && count!=0){
+            cursor.moveToFirst();
+            orders = new String[cursor.getCount()][];
+            for (int i=0; i < cursor.getCount(); i++) {
+                String[] order = new String[6];
+                order[0] = cursor.getString(0); //pin
+                order[1] = cursor.getString(1); //customerID
+                order[2] = cursor.getString(2); //vouchers
+                order[3] = cursor.getString(3); //products
+                order[4] = cursor.getString(4); //quantity
+                order[5] = cursor.getString(5); //price
+                orders[i] = order;
+                cursor.moveToNext();
+            }
+        }
+        cursor.close();
+        db.close();
+        return orders;
+    }
+
+    public boolean deleteVoucher(String voucherID) {
+        SQLiteDatabase db = getWritableDatabase();
+        return db.delete("vouchers", "voucherID='" + voucherID + "'", null) > 0;
+    }
+
 
     public boolean saveTicket(String id, String customerID, String showID, String seat, String status, String date, String name) {
         SQLiteDatabase db = getWritableDatabase();

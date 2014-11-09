@@ -109,7 +109,6 @@ public class TicketsActivity extends Activity {
                             sameShow = false;
                         }
 
-
                         if (i == size - 1) {
                             tickets += id;
                             positions += j;
