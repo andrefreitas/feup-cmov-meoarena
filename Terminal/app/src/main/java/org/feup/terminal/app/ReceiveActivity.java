@@ -99,15 +99,15 @@ public class ReceiveActivity extends Activity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
-                for (int i = 0; i < response.length(); i++) {
-                    JSONObject obj = null;
-                    try {
-                        obj = response.getJSONObject(i);
-                        db.saveVoucher(obj.getString("id"), db.get("id"), obj.getString("product"),
-                                obj.getString("discount"), obj.getString("status"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    String orderID = response.getString("id");
+                    JSONArray products = response.getJSONArray("products");
+                    JSONArray vouchers = response.getJSONArray("vouchers");
+                    String price = response.getString("price");
+
+                    app.reply = "Encomenda validada!";
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
                 Toast.makeText(getApplicationContext(), R.string.success_order, Toast.LENGTH_SHORT).show();
             }
@@ -115,11 +115,14 @@ public class ReceiveActivity extends Activity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Toast.makeText(getApplicationContext(), R.string.no_internet, Toast.LENGTH_SHORT).show();
+                startIntent();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                app.reply = "Encomenda nao validada!";
                 Toast.makeText(getApplicationContext(), R.string.error_order, Toast.LENGTH_SHORT).show();
+                startIntent();
             }
         });
     }

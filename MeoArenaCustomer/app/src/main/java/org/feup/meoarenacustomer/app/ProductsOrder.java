@@ -156,6 +156,7 @@ public class ProductsOrder extends ListActivity {
             }
         }
 
+        final String f_price = price.split(" ")[0];
         final String finalVouchers = vouchers;
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
@@ -163,7 +164,7 @@ public class ProductsOrder extends ListActivity {
                 api.checkValidPin(customerID, pin, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        db.saveOrder(customerID, pin, finalVouchers, products, productsID, quantity, price, "unused");
+                        db.saveOrder(customerID, pin, finalVouchers, products, productsID, quantity, f_price, "unused");
                         successOrder();
                     }
 
