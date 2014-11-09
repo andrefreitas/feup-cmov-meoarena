@@ -74,7 +74,10 @@ public class API {
         client.get(url + "/transactions", params, responseHandler);
     }
 
-    public void checkValidPin() {
-
+    public void checkValidPin(String customerID, String pin, AsyncHttpResponseHandler responseHandler) {
+        RequestParams params = new RequestParams();
+        params.put("customerID", customerID);
+        params.put("pin", pin);
+        client.post(url + "/checkPin", params, responseHandler);
     }
 }

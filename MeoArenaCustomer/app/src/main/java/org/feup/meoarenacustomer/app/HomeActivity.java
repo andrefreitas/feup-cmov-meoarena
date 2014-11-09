@@ -38,6 +38,7 @@ public class HomeActivity extends Activity {
         getTickets();
         getVouchers();
         getTransactions();
+        getOrders();
 
     }
 
@@ -155,6 +156,17 @@ public class HomeActivity extends Activity {
         transactionsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, TransactionsActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void getOrders() {
+        ordersButton = (ImageButton) findViewById(R.id.list_orders);
+
+        ordersButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, OrdersActivity.class);
                 startActivity(intent);
             }
         });

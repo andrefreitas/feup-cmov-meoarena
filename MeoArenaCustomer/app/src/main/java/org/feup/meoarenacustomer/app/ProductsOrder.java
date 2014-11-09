@@ -19,7 +19,10 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.apache.http.Header;
 
 import java.util.ArrayList;
 
@@ -157,8 +160,21 @@ public class ProductsOrder extends ListActivity {
         final String finalVouchers = vouchers;
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                db.saveOrder(customerID, db.get("pin"), finalVouchers, products, quantity, price);
-                Toast.makeText(getApplicationContext(), R.string.success_orders, Toast.LENGTH_SHORT).show();
+                final String pin = input.getText().toString();
+                api.checkValidPin(customerID, pin, new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        db.saveOrder(customerID, pin, finalVouchers, products, quantity, price);
+                        Toast.makeText(getApplicationContext(), R.string.success_orders, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        Toast.makeText(getApplicationContext(), R.string.wrong_pin, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
             }
         });
 

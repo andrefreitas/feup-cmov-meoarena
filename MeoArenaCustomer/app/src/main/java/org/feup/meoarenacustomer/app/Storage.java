@@ -59,7 +59,7 @@ public class Storage extends SQLiteOpenHelper {
 
     public String[][] getOrders(String customerID) {
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT pin, vouchers, products, quantity, price FROM orders WHERE customerID='"
+        Cursor cursor = db.rawQuery("SELECT pin, customerID, vouchers, products, quantity, price FROM orders WHERE customerID='"
                 + customerID +"';", null);
         int count = cursor.getCount();
         String orders[][] = null;
