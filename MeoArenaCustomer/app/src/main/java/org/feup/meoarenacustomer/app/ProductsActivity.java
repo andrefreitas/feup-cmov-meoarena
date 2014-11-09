@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
@@ -165,7 +166,7 @@ public class ProductsActivity extends Activity {
         });
     }
 
-    public void askPin(String price, String products, String quantity, String customerID) {
+    public void askPin(final String price, final String products, final String quantity, final String customerID) {
         // Ask for pin
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
@@ -178,7 +179,19 @@ public class ProductsActivity extends Activity {
 
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
+                final String pin = input.getText().toString();
+                api.checkValidPin(customerID, pin, new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        db.saveOrder(customerID, pin, "", products, quantity, price);
+                        Toast.makeText(getApplicationContext(), R.string.success_orders, Toast.LENGTH_SHORT).show();
+                    }
 
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        Toast.makeText(getApplicationContext(), R.string.wrong_pin, Toast.LENGTH_SHORT).show();
+                    }
+                });
 
             }
         });

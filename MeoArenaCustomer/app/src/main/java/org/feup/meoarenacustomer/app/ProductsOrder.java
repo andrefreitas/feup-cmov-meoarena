@@ -75,8 +75,6 @@ public class ProductsOrder extends ListActivity {
     public void onListItemClick(ListView parent, View v,int position,long id){
         CheckedTextView item = (CheckedTextView) v;
 
-        //TODO: Array and check if item is there or not,
-        // add only if not there and remove if exists
         if (checkedItems.contains(vouchersID[position])) {
             checkedItems.remove(vouchersID[position]);
         } else {
@@ -173,8 +171,6 @@ public class ProductsOrder extends ListActivity {
                         Toast.makeText(getApplicationContext(), R.string.wrong_pin, Toast.LENGTH_SHORT).show();
                     }
                 });
-
-
             }
         });
 

@@ -14,12 +14,11 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 public class SendActivity extends Activity implements NfcAdapter.OnNdefPushCompleteCallback {
+    NfcAdapter mNfcAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        NfcAdapter mNfcAdapter;
-        String tag;
-        byte[] message;
+
 
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -33,9 +32,22 @@ public class SendActivity extends Activity implements NfcAdapter.OnNdefPushCompl
             finish();
         }
 
+
         Bundle extras = getIntent().getExtras();
-        tag = "application/nfc.feup.apm.message.type1";
-        message =  extras.getString("tickets").getBytes();
+        if (extras.getString("origin").equals("ticket")) {
+            sendTicketMessage();
+        }
+
+        if (extras.getString("origin").equals("order")) {
+           sendOrderMessage();
+        }
+    }
+
+    public void sendTicketMessage() {
+        Bundle extras = getIntent().getExtras();
+        String tag = "application/nfc.feup.apm.message.type1";
+
+        byte[] message =  extras.getString("tickets").getBytes();
         byte[] customerID = extras.getString("customerID").getBytes();
         byte[] positions = extras.getString("positions").getBytes();
         NdefMessage msg = new NdefMessage(new NdefRecord[] { createMimeRecord(tag, message),
@@ -45,6 +57,10 @@ public class SendActivity extends Activity implements NfcAdapter.OnNdefPushCompl
         // Register a NDEF message to be sent in a beam operation (P2P)
         mNfcAdapter.setNdefPushMessage(msg, this);
         mNfcAdapter.setOnNdefPushCompleteCallback(this, this);
+    }
+
+    public void sendOrderMessage(){
+
     }
 
     public void onNdefPushComplete(NfcEvent arg0) {
