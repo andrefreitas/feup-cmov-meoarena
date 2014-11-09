@@ -271,7 +271,7 @@ def create_cafeteria_order(customerID, pin, vouchers, products, quantity, price)
     vouchers_list = vouchers.split(",")
     products_list = products.split(",")
     quantity_list = quantity.split(",")
-    total_price = int(price)
+    total_price = float(price)
     if customer:
         # Build vouchers document
         vouchers_doc = []
