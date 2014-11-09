@@ -85,6 +85,7 @@ public class ProductsActivity extends Activity {
                         product[0] = obj.getString("description");
                         product[1] = obj.getString("name");
                         product[2] = obj.getString("price");
+                        product[3] = obj.getString("id");
                         allProducts[i] = product;
 
                     } catch (JSONException e) {
@@ -131,6 +132,7 @@ public class ProductsActivity extends Activity {
                 ProductsAdapter bAdapter = adapter;
                 Iterator<String> it = bAdapter.getCheckedItems().values().iterator();
                 String products_list = "";
+                String products_id = "";
                 String quantity_list = "";
                 // Get both products and quantity list to send and save
                 int size = bAdapter.getCheckedItems().size();
@@ -139,14 +141,17 @@ public class ProductsActivity extends Activity {
                     Integer position = Integer.parseInt(it.next());
                     String name = bAdapter.getItem(position)[1];
                     String quantity = bAdapter.getItem(position)[3];
+                    String id = bAdapter.getItem(position)[4];
 
                     //Only possible: juice, coffee, sandwich and popcorn
                     if (i == size - 1) {
-                     products_list += name;
-                     quantity_list += quantity;
+                        products_list += name;
+                        quantity_list += quantity;
+                        products_id += id;
                     } else {
-                     products_list += name + ",";
-                     quantity_list += quantity + ",";
+                        products_list += name + ",";
+                        quantity_list += quantity + ",";
+                        products_id += id + ",";
                     }
                 }
 
@@ -158,6 +163,7 @@ public class ProductsActivity extends Activity {
                     intent.putExtra("price", total_price.getText().toString());
                     intent.putExtra("products", products_list);
                     intent.putExtra("quantity", quantity_list);
+                    intent.putExtra("products_id", products_id);
                     startActivity(intent);
                 }
 

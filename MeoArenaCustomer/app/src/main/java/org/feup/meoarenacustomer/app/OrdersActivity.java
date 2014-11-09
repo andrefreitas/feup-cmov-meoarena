@@ -68,7 +68,7 @@ public class OrdersActivity extends ListActivity {
                 String pin = orders[item][0];
                 String customerID = orders[item][1];
                 String vouchers = orders[item][2];
-                String products = orders[item][3];
+                String products = orders[item][6];
                 String quantity = orders[item][4];
                 String price = orders[item][5];
 

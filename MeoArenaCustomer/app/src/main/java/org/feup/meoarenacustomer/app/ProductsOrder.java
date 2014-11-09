@@ -92,7 +92,7 @@ public class ProductsOrder extends ListActivity {
                 if (sparseBooleanArray.size() > 3) {
                     Toast.makeText(getApplicationContext(), R.string.limit_vouchers_used, Toast.LENGTH_SHORT).show();
                 } else {
-                    askPin(getIntent().getStringExtra("price"), getIntent().getStringExtra("products"),
+                    askPin(getIntent().getStringExtra("products_id"), getIntent().getStringExtra("price"), getIntent().getStringExtra("products"),
                             getIntent().getStringExtra("quantity"), db.get("id"), checkedItems);
                 }
 
@@ -135,7 +135,7 @@ public class ProductsOrder extends ListActivity {
 
     }
 
-    public void askPin(final String price, final String products, final String quantity, final String customerID, ArrayList<String> checkedItems) {
+    public void askPin(final String productsID, final String price, final String products, final String quantity, final String customerID, ArrayList<String> checkedItems) {
         // Ask for pin
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Pin");
@@ -162,7 +162,7 @@ public class ProductsOrder extends ListActivity {
                 api.checkValidPin(customerID, pin, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        db.saveOrder(customerID, pin, finalVouchers, products, quantity, price);
+                        db.saveOrder(customerID, pin, finalVouchers, products, productsID, quantity, price, "unused");
                         Toast.makeText(getApplicationContext(), R.string.success_orders, Toast.LENGTH_SHORT).show();
                     }
 

@@ -53,7 +53,6 @@ public class ProductsAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.row_product, viewGroup, false);
         }
 
-
         // Checkbox
         CheckBox name = (CheckBox) view.findViewById(R.id.product);
         name.setText(content[i][0]);
@@ -120,6 +119,8 @@ public class ProductsAdapter extends BaseAdapter {
 
         TextView p_name = (TextView) view.findViewById(R.id.product_name);
         p_name.setText(content[i][1]);
+
+
 
         return view;
 
