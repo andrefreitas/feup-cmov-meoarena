@@ -55,19 +55,21 @@ public class Storage extends SQLiteOpenHelper {
 
     public String[][] getTickets(String customerID){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT ticketID, customerID, showID, name, seat, date FROM tickets;", null);
+        Cursor cursor = db.rawQuery("SELECT ticketID, customerID, showID, name, seat, date, status FROM tickets;", null);
         int count = cursor.getCount();
         String[][] tickets = null;
         if(cursor!=null && count!=0){
             cursor.moveToFirst();
             tickets = new String[cursor.getCount()][];
             for (int i=0; i < cursor.getCount(); i++) {
-                String[] ticket = new String[5];
+                String[] ticket = new String[7];
                 ticket[0] = cursor.getString(3); //name
                 ticket[1] = cursor.getString(4); //seat
                 ticket[2] = cursor.getString(5); //date
                 ticket[3] = cursor.getString(1); //customerID
                 ticket[4] = cursor.getString(0); //ticketID
+                ticket[5] = cursor.getString(6); //status
+                ticket[6] = cursor.getString(2); //showID
                 tickets[i] = ticket;
                 cursor.moveToNext();
             }
@@ -75,6 +77,15 @@ public class Storage extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return tickets;
+    }
+
+    public boolean updateTicket(String ticketID, String status) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues data=new ContentValues();
+        data.put("status",status);
+        db.update("tickets", data, "ticketID='" + ticketID + "'", null);
+        db.close();
+        return true;
     }
 
     public boolean saveVoucher(String id, String customerID, String product, String discount, String status) {

@@ -69,13 +69,15 @@
     <string name="no_available_vouchers">Não tem vouchers disponíveis para validação.</string>
     <string name="no_bought_orders">Não tem encomendas de cafetaria disponíveis para validação.</string>
     <string name="no_transactions">Não foram efetuadas quaisquer transações até ao momento.</string>
-    <string name="title_activity_nfc">NfcActivity</string>
-    <string name="title_activity_validation">ValidationActivity</string>
-    <string name="title_activity_validate_tickets">ValidateTicketsActivity</string>
+    <string name="title_activity_validation">Sistema de Validação</string>
+    <string name="title_activity_validate_tickets">Validação</string>
     <string name="too_much_tickets">Só pode selecionar um máximo de 4 bilhetes por validação!</string>
     <string name="receive_validation">Aproxime o telemóvel para receber a validação</string>
     <string name="send_validation">Aproxime o telemóvel para enviar a validação</string>
     <string name="send">Enviar para validar</string>
     <string name="receive">Receber validação</string>
-    <string name="title_activity_orders">OrdersActivity</string>
+    <string name="title_activity_orders">Encomendas</string>
+    <string name="no_tickets_validation">Selecione os bilhetes que pretende validar</string>
+    <string name="no_orders_validation">Selecione as encomendas que pretende validar</string>
+    <string name="tickets_different_show">Os bilhetes para validação têm de pertencer todos ao mesmo espetáculo</string>
 </resources>

@@ -33,7 +33,7 @@ public class HomeActivity extends Activity implements View.OnClickListener{
 
         // Enviar mensagem
         if (sendMsg.getText().toString().equals("Bilhetes validos!")) {
-            message = "True "+app.positions;
+            message = "True "+app.positions + " " +app.tickets;
         } else {
             message = "False ";
         }

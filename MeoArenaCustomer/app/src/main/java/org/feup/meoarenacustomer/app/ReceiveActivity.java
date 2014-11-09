@@ -48,9 +48,12 @@ public class ReceiveActivity extends Activity {
         if (message[0].equals("True")) {
             Intent in = new Intent(this, TicketsActivity.class);
             in.putExtra("positions", message[1]);
+            in.putExtra("tickets", message[2]);
             startActivity(in);
         }
-        Toast.makeText(getApplicationContext(), payload, Toast.LENGTH_SHORT).show();
+        else {
+            Toast.makeText(getApplicationContext(), "Bilhetes invalidos", Toast.LENGTH_SHORT).show();
+        }
 
     }
 }

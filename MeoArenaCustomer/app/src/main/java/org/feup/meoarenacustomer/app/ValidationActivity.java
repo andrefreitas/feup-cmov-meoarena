@@ -53,7 +53,6 @@ public class ValidationActivity extends Activity {
                     receiveTickets();
                 }
             });
-
             send.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -68,7 +67,6 @@ public class ValidationActivity extends Activity {
                     receiveOrders();
                 }
             });
-
             send.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

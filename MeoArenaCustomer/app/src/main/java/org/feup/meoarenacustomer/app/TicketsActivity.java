@@ -55,9 +55,12 @@ public class TicketsActivity extends Activity {
     public void testValidation(TicketsAdapter adapter) {
         Intent intent = getIntent();
         if (intent.getStringExtra("positions") != null) {
+            intent.getStringExtra("tickets");
+            String[] tickets = intent.getStringExtra("tickets").split(",");
             String[] positions = intent.getStringExtra("positions").split(",");
             for (int i = 0; i < positions.length; i++) {
                 adapter.disableCheck(Integer.parseInt(positions[i]));
+                db.updateTicket(tickets[i], "used");
             }
         }
     }
@@ -85,12 +88,27 @@ public class TicketsActivity extends Activity {
 
                 if (size > 4) {
                     Toast.makeText(getApplicationContext(), R.string.too_much_tickets, Toast.LENGTH_SHORT).show();
-                } else {
+                } else if (size == 0) {
+                    Toast.makeText(getApplicationContext(), R.string.no_tickets_validation, Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    // Get show id
+                    String showID = "";
+                    boolean sameShow = true;
                     for (int i = 0; i < size; i++) {
                         ArrayList<String> item = new ArrayList<String>();
                         Integer j = Integer.parseInt(it.next());
                         // Get ticket id
                         String id = adapter.getItem(j)[4];
+
+                        if (i == 0) {
+                            showID = adapter.getItem(j)[6];
+                        }
+
+                        if (!showID.equals(adapter.getItem(j)[6])) {
+                            sameShow = false;
+                        }
+
 
                         if (i == size - 1) {
                             tickets += id;
@@ -99,14 +117,18 @@ public class TicketsActivity extends Activity {
                             tickets += id + ",";
                             positions += j + ",";
                         }
-
                     }
 
-                    intent.putExtra("tickets", tickets);
-                    intent.putExtra("positions", positions);
-                    intent.putExtra("customerID", db.get("id"));
-                    intent.putExtra("origin", "ticket");
-                    startActivity(intent);
+                    if (sameShow) {
+                        intent.putExtra("tickets", tickets);
+                        intent.putExtra("positions", positions);
+                        intent.putExtra("customerID", db.get("id"));
+                        intent.putExtra("origin", "ticket");
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getApplicationContext(), R.string.tickets_different_show, Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             }
         });

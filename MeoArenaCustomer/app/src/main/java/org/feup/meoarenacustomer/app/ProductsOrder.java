@@ -67,6 +67,7 @@ public class ProductsOrder extends ListActivity {
 
     public void onListItemClick(ListView parent, View v,int position,long id){
         CheckedTextView item = (CheckedTextView) v;
+
         //TODO: Array and check if item is there or not,
         // add only if not there and remove if exists
         Toast.makeText(this, items[position] + " checked : " +
@@ -143,7 +144,7 @@ public class ProductsOrder extends ListActivity {
 
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                Toast.makeText(getApplicationContext(), "Operação Cancelada", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Operação Cancelada", Toast.LENGTH_SHORT).show();
             }
         });
 

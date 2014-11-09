@@ -52,19 +52,23 @@ public class TicketsAdapter extends BaseAdapter {
         }
 
         CheckBox name = (CheckBox) view.findViewById(R.id.ticket_name);
-        if (positions.contains(i)) {
+        name.setText(content[i][0]);
+        final int position = i;
+        name.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton group, boolean isChecked) {
+            setCheckedItem(position);
+            }
+        });
+
+        if (positions.contains(i) || content[i][5].equals("used")) {
             name.setEnabled(false);
+            name.setClickable(false);
+        } else {
+            name.setEnabled(true);
+            name.setClickable(true);
         }
-        else {
-            name.setText(content[i][0]);
-            final int position = i;
-            name.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton group, boolean isChecked) {
-                    setCheckedItem(position);
-                }
-            });
-        }
+
 
 
         TextView seats = (TextView) view.findViewById(R.id.ticket_seat);
