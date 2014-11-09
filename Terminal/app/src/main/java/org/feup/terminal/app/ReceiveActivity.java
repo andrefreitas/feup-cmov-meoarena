@@ -101,10 +101,30 @@ public class ReceiveActivity extends Activity {
 
                 try {
                     String orderID = response.getString("id");
-                    JSONArray products = response.getJSONArray("products");
-                    JSONArray vouchers = response.getJSONArray("vouchers");
-                    String price = response.getString("price");
-
+                    String products = "";
+                    String vouchers = "";
+                    JSONArray products_list = response.getJSONArray("products");
+                    for (int i = 0; i < products_list.length(); i++) {
+                        JSONObject p = products_list.getJSONObject(i);
+                        if (i == products_list.length()-1) {
+                            products += p.getString("description");
+                        } else {
+                            products += p.getString("description") + ",";
+                        }
+                    }
+                    JSONArray vouchers_list = response.getJSONArray("vouchers");
+                    for (int i = 0; i < vouchers_list.length(); i++) {
+                        JSONObject p = vouchers_list.getJSONObject(i);
+                        if (i == vouchers_list.length()-1) {
+                            vouchers += p.getJSONObject("_id").getString("$oid");
+                        } else {
+                            vouchers += p.getJSONObject("_id").getString("$oid") + ",";
+                        }
+                    }
+                    app.orderID = orderID;
+                    app.products = products;
+                    app.vouchers = vouchers;
+                    app.price = response.getString("price");
                     app.reply = "Encomenda validada!";
                 } catch (JSONException e) {
                     e.printStackTrace();

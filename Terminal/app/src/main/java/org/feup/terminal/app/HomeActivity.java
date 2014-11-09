@@ -29,6 +29,8 @@ public class HomeActivity extends Activity implements View.OnClickListener{
         Intent intent = new Intent(this, SendActivity.class);
         String message;
 
+
+
         // Enviar mensagem
         if (sendMsg.getText().toString().equals("Bilhetes validos!")) {
             message = "True "+app.positions + " " +app.tickets;
@@ -39,6 +41,8 @@ public class HomeActivity extends Activity implements View.OnClickListener{
         intent.putExtra("tag", "application/nfc.feup.apm.message.type1");
         startActivity(intent);
     }
+
+    //public void
 
     public void onResume() {
         super.onResume();
