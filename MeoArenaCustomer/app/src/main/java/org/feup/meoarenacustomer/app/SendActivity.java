@@ -33,6 +33,7 @@ public class SendActivity extends Activity implements NfcAdapter.OnNdefPushCompl
         }
 
 
+        // Check origin for send on click button
         Bundle extras = getIntent().getExtras();
         if (extras.getString("origin").equals("ticket")) {
             sendTicketMessage();
@@ -47,10 +48,13 @@ public class SendActivity extends Activity implements NfcAdapter.OnNdefPushCompl
         Bundle extras = getIntent().getExtras();
         String tag = "application/nfc.feup.apm.message.type1";
 
+        byte[] origin = "ticket".getBytes();
         byte[] message =  extras.getString("tickets").getBytes();
         byte[] customerID = extras.getString("customerID").getBytes();
         byte[] positions = extras.getString("positions").getBytes();
-        NdefMessage msg = new NdefMessage(new NdefRecord[] { createMimeRecord(tag, message),
+        NdefMessage msg = new NdefMessage(new NdefRecord[] {
+                createMimeRecord(tag, origin),
+                createMimeRecord(tag, message),
                 createMimeRecord(tag, customerID),
                 createMimeRecord(tag, positions)});
 
@@ -60,6 +64,29 @@ public class SendActivity extends Activity implements NfcAdapter.OnNdefPushCompl
     }
 
     public void sendOrderMessage(){
+        Bundle extras = getIntent().getExtras();
+        String tag = "application/nfc.feup.apm.message.type1";
+
+        byte[] origin = "order".getBytes();
+        byte[] pin =  extras.getString("pin").getBytes();
+        byte[] customerID = extras.getString("customerID").getBytes();
+        byte[] products = extras.getString("products").getBytes();
+        byte[] vouchers = extras.getString("vouchers").getBytes();
+        byte[] quantity = extras.getString("quantity").getBytes();
+        byte[] price = extras.getString("price").getBytes();
+        NdefMessage msg = new NdefMessage(new NdefRecord[] {
+                createMimeRecord(tag, origin),
+                createMimeRecord(tag, pin),
+                createMimeRecord(tag, customerID),
+                createMimeRecord(tag, products),
+                createMimeRecord(tag, vouchers),
+                createMimeRecord(tag, quantity),
+                createMimeRecord(tag, price)
+        });
+
+        // Register a NDEF message to be sent in a beam operation (P2P)
+        mNfcAdapter.setNdefPushMessage(msg, this);
+        mNfcAdapter.setOnNdefPushCompleteCallback(this, this);
 
     }
 

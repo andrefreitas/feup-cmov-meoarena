@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class HomeActivity extends Activity implements View.OnClickListener{
@@ -28,7 +26,7 @@ public class HomeActivity extends Activity implements View.OnClickListener{
     }
 
     public void onClick(View v) {
-        Intent intent = new Intent(this, SendValidateTickets.class);
+        Intent intent = new Intent(this, SendActivity.class);
         String message;
 
         // Enviar mensagem

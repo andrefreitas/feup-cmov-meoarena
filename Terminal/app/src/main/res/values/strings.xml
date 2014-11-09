@@ -15,4 +15,7 @@
     <string name="title_activity_menu">MenuActivity</string>
     <string name="tickets">Validar bilhetes</string>
     <string name="orders">Validar encomendas</string>
+    <string name="no_internet">Sem ligação à Internet</string>
+    <string name="error_order">Problema ao validar a encomenda</string>
+    <string name="success_order">Encomenda validada com sucesso</string>
 </resources>

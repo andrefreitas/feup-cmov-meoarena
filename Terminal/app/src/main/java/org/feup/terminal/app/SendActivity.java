@@ -12,7 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-public class SendValidateTickets extends Activity implements NfcAdapter.OnNdefPushCompleteCallback {
+public class SendActivity extends Activity implements NfcAdapter.OnNdefPushCompleteCallback {
     NfcApp app;
 
     @Override
