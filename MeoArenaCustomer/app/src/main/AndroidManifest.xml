@@ -4,6 +4,11 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.NFC" />
+
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -11,7 +16,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="org.feup.meoarenacustomer.app.LoginActivity"
+            android:name=".LoginActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,13 +25,75 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.feup.meoarenacustomer.app.RegisterActivity"
+            android:name=".RegisterActivity"
             android:label="@string/title_activity_register"
-            android:parentActivityName="org.feup.meoarenacustomer.app.LoginActivity" >
+            android:parentActivityName=".LoginActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
         <activity
-            android:name="org.feup.meoarenacustomer.app.HomeActivity"
+            android:name=".HomeActivity"
+            android:label="@string/title_activity_home"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
+        </activity>
+        <activity
+            android:name=".ShowsActivity"
+            android:label="@string/title_activity_shows"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
+        </activity>
+        <activity
+            android:name=".ShowActivity"
+            android:label="@string/title_activity_show"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
+        </activity>
+        <activity
+            android:name=".ProductsActivity"
+            android:label="@string/title_activity_products" >
+        </activity>
+        <activity
+            android:name=".ProductsOrder"
+            android:label="@string/title_activity_products_order" >
+        </activity>
+        <activity
+            android:name=".TicketsActivity"
+            android:label="@string/title_activity_tickets" >
+        </activity>
+        <activity
+            android:name=".VouchersActivity"
+            android:label="@string/title_activity_vouchers" >
+        </activity>
+        <activity
+            android:name=".TransactionsActivity"
+            android:label="@string/title_activity_transactions" >
+        </activity>
+        <activity
+            android:name=".ReceiveActivity"
+            android:label="@string/title_activity_validate_tickets" >
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="application/nfc.feup.apm.message.type1" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SendActivity"
             android:label="@string/title_activity_home" >
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="application/nfc.feup.apm.message.type1" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ValidationActivity"
+            android:label="@string/title_activity_validation" >
+        </activity>
+        <activity
+            android:name=".OrdersActivity"
+            android:label="@string/title_activity_orders" >
         </activity>
     </application>
 

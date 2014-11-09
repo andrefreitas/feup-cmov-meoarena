@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Meo Arena</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -36,6 +35,51 @@
     <string name="invalid_credit_card_year">Ano inválido</string>
     <string name="email_already_exists">Este email já existe</string>
     <string name="missing_personal_details">Faltam os dados pessoais</string>
-    <string name="title_activity_home">HomeActivity</string>
-
+    <string name="title_activity_home">Menu Principal</string>
+    <string name="shows">Espetáculos</string>
+    <string name="title_activity_shows">Espetáculos</string>
+    <string name="no_shows">Não existem espetáculos em vigor</string>
+    <string name="title_activity_show">ShowActivity</string>
+    <string name="date_show">Data: \</string>
+    <string name="tickets_number">Bilhetes Disponíveis: </string>
+    <string name="buy_tickets">Comprar</string>
+    <string name="invalid_buy_tickets">Operação inválida. Por favor verifique o pin introduzido.</string>
+    <string name="success_buy_tickets">Bilhetes comprados com sucesso!</string>
+    <string name="no_vouchers">Não existem vouchers, de momento</string>
+    <string name="no_tickets">Os bilhetes esgotaram, não pode comprar</string>
+    <string name="cafeteria">Cafetaria</string>
+    <string name="title_activity_products">Cafetaria</string>
+    <string name="no_products">Não existem produtos disponíveis para compra</string>
+    <string name="title_activity_products_order">Finalizar Encomenda</string>
+    <string name="vouchers">Vouchers</string>
+    <string name="order">Encomendar</string>
+    <string name="pay_order">Pagar encomenda</string>
+    <string name="limit_vouchers_used">Não pode escolher mais do que 3 vouchers para descontar por cada encomenda. Por favor, tente novamente.</string>
+    <string name="no_orders">Selecione os produtos que pretende encomendar antes de continuar.</string>
+    <string name="save_vouchers">Vouchers guardados com sucesso.</string>
+    <string name="save_tickets">Bilhetes guardados com sucesso.</string>
+    <string name="tickets">Bilhetes</string>
+    <string name="order_cafeteria">Encomendas</string>
+    <string name="voucher">Vouchers</string>
+    <string name="transactions">Transações</string>
+    <string name="title_activity_tickets">Validar Bilhetes</string>
+    <string name="title_activity_vouchers">Visualizar vouchers</string>
+    <string name="title_activity_transactions">Visualizar transações</string>
+    <string name="no_bought_tickets">Não tem bilhetes disponíveis para validação.</string>
+    <string name="no_available_vouchers">Não tem vouchers disponíveis para validação.</string>
+    <string name="no_bought_orders">Não tem encomendas de cafetaria disponíveis para validação.</string>
+    <string name="no_transactions">Não foram efetuadas quaisquer transações até ao momento.</string>
+    <string name="title_activity_validation">Sistema de Validação</string>
+    <string name="title_activity_validate_tickets">Validação</string>
+    <string name="too_much_tickets">Só pode selecionar um máximo de 4 bilhetes por validação!</string>
+    <string name="receive_validation">Aproxime o telemóvel para receber a validação</string>
+    <string name="send_validation">Aproxime o telemóvel para enviar a validação</string>
+    <string name="send">Enviar para validar</string>
+    <string name="receive">Receber validação</string>
+    <string name="title_activity_orders">Encomendas</string>
+    <string name="no_tickets_validation">Selecione os bilhetes que pretende validar</string>
+    <string name="no_orders_validation">Selecione as encomendas que pretende validar</string>
+    <string name="tickets_different_show">Os bilhetes para validação têm de pertencer todos ao mesmo espetáculo</string>
+    <string name="wrong_pin">Pin inválido. Por favor, tente novamente.</string>
+    <string name="success_orders">Encomenda efetuada com sucesso.</string>
 </resources>
