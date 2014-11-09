@@ -97,7 +97,13 @@ def create_product(description, name, price):
 
 
 def get_products():
-    return dumps(db.products.find())
+    cursor = db.products.find()
+    results = []
+    for doc in cursor:
+        doc["id"] = str(doc["_id"])
+        del doc["_id"]
+        results.append(doc)
+    return dumps(results)
 
 
 def delete_product(id):
