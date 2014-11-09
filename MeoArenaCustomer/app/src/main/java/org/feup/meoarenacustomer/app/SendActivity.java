@@ -13,7 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-public class SendTicketsActivity extends Activity implements NfcAdapter.OnNdefPushCompleteCallback {
+public class SendActivity extends Activity implements NfcAdapter.OnNdefPushCompleteCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,6 @@ public class SendTicketsActivity extends Activity implements NfcAdapter.OnNdefPu
         tag = "application/nfc.feup.apm.message.type1";
         message =  extras.getString("tickets").getBytes();
         byte[] customerID = extras.getString("customerID").getBytes();
-        String positions2 = extras.getString("positions");
         byte[] positions = extras.getString("positions").getBytes();
         NdefMessage msg = new NdefMessage(new NdefRecord[] { createMimeRecord(tag, message),
                 createMimeRecord(tag, customerID),

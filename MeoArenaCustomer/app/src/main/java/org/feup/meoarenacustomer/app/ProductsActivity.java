@@ -1,6 +1,8 @@
 package org.feup.meoarenacustomer.app;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
@@ -11,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -116,35 +119,77 @@ public class ProductsActivity extends Activity {
         //Buy product
         buy_products.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {
-                 String customerID = db.get("id");
-                 // Get total price
-                 TextView total_price = (TextView) findViewById(R.id.total_products_price);
-                 if (total_price.getText().toString().equals("0 EUR") || total_price.getText().toString().equals("0.0 EUR") ) {
-                     Toast.makeText(getApplicationContext(), R.string.no_orders, Toast.LENGTH_SHORT).show();
-                 } else if (db.getVouchers(customerID) == null || db.getVouchers(customerID).length == 0) {
+            String customerID = db.get("id");
+            // Get total price
+            TextView total_price = (TextView) findViewById(R.id.total_products_price);
+            if (total_price.getText().toString().equals("0 EUR") || total_price.getText().toString().equals("0.0 EUR") ) {
+                Toast.makeText(getApplicationContext(), R.string.no_orders, Toast.LENGTH_SHORT).show();
+            }
+            else {
+                // Get information to send
+                ProductsAdapter bAdapter = adapter;
+                Iterator<String> it = bAdapter.getCheckedItems().values().iterator();
+                String products_list = "";
+                String quantity_list = "";
+                // Get both products and quantity list to send and save
+                int size = bAdapter.getCheckedItems().size();
+                for (int i=0; i<size; i++){
+                    ArrayList<String> item = new ArrayList<String>();
+                    Integer position = Integer.parseInt(it.next());
+                    String name = bAdapter.getItem(position)[1];
+                    String quantity = bAdapter.getItem(position)[3];
 
-                 }
-                 else {
-                     Intent intent = new Intent(ProductsActivity.this, ProductsOrder.class);
-                     intent.putExtra("price", total_price.getText().toString());
+                    //Only possible: juice, coffee, sandwich and popcorn
+                    if (i == size - 1) {
+                     products_list += name;
+                     quantity_list += quantity;
+                    } else {
+                     products_list += name + ",";
+                     quantity_list += quantity + ",";
+                    }
+                }
 
-                     // Get information to send
-                     ProductsAdapter bAdapter = adapter;
-                     Iterator<String> it = bAdapter.getCheckedItems().values().iterator();
+                if (db.getVouchers(customerID) == null || db.getVouchers(customerID).length == 0) {
+                    askPin(total_price.getText().toString(), products_list, quantity_list, customerID);
+                }
+                else {
+                    Intent intent = new Intent(ProductsActivity.this, ProductsOrder.class);
+                    intent.putExtra("price", total_price.getText().toString());
+                    intent.putExtra("products", products_list);
+                    intent.putExtra("quantity", quantity_list);
+                    startActivity(intent);
+                }
 
-                     for (int i=0;i<bAdapter.getCheckedItems().size();i++){
-                         ArrayList<String> item = new ArrayList<String>();
-                         Integer position = Integer.parseInt(it.next());
-                         String name = bAdapter.getItem(position)[1];
-                         String quantity = bAdapter.getItem(position)[3];
-                         //Only possible: juice, coffee, sandwich and popcorn
-                         intent.putExtra(name, quantity);
-                     }
-
-                     startActivity(intent);
-                 }
+            }
              }
         });
+    }
+
+    public void askPin(String price, String products, String quantity, String customerID) {
+        // Ask for pin
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setTitle("Pin");
+        alert.setMessage("Por favor insira o pin para confirmar a operação.");
+
+        // Set an EditText view to get user input
+        final EditText input = new EditText(this);
+        alert.setView(input);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                Toast.makeText(getApplicationContext(), "Operação Cancelada", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        alert.show();
     }
 
  }

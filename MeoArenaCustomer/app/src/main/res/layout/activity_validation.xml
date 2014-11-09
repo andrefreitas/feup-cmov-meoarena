@@ -12,8 +12,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/send_tickets"
-        android:id="@+id/send_tickets"
+        android:text="@string/send"
+        android:id="@+id/send"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="39dp"
@@ -22,10 +22,10 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/receive_tickets"
-        android:id="@+id/receive_tickets"
-        android:layout_above="@+id/send_tickets"
-        android:layout_alignEnd="@+id/send_tickets"
+        android:text="@string/receive"
+        android:id="@+id/receive"
+        android:layout_above="@+id/send"
+        android:layout_alignEnd="@+id/send"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="22dp" />
 

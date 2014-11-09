@@ -7,15 +7,11 @@ import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class ReceiveTicketsValidActivity extends Activity {
+public class ReceiveActivity extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,7 +40,7 @@ public class ReceiveTicketsValidActivity extends Activity {
         NdefRecord record = msg.getRecords()[0];
         String payload = new String(record.getPayload());
 
-        Intent i = new Intent(this, ReceiveTicketsValidActivity.class);
+        Intent i = new Intent(this, ReceiveActivity.class);
         TextView text = (TextView) findViewById(R.id.validation);
         text.setText(payload);
 

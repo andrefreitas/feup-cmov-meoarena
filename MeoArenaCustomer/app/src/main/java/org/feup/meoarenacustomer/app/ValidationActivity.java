@@ -44,35 +44,57 @@ public class ValidationActivity extends Activity {
     public void setup() {
         Intent intent = getIntent();
         String origin = intent.getStringExtra("origin");
-        Button receiveTickets = (Button) findViewById(R.id.receive_tickets);
-        Button sendTickets = (Button) findViewById(R.id.send_tickets);
+        Button receive = (Button) findViewById(R.id.receive);
+        Button send = (Button) findViewById(R.id.send);
         if (origin.equals("ticket")) {
-            receiveTickets.setOnClickListener(new View.OnClickListener() {
+            receive.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getApplicationContext(), "Antes da chamada ao receive tickets", Toast.LENGTH_SHORT).show();
                     receiveTickets();
                 }
             });
 
-            sendTickets.setOnClickListener(new View.OnClickListener() {
+            send.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     sendTickets();
                 }
             });
         }
+        else if (origin.equals("order")){
+            receive.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    receiveOrders();
+                }
+            });
+
+            send.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    sendOrders();
+                }
+            });
+        }
+    }
+
+    public void receiveOrders() {
+        Intent i = new Intent(this, ReceiveActivity.class);
+        startActivity(i);
+    }
+
+    public void sendOrders() {
+        Intent i = new Intent(this, SendActivity.class);
+        startActivity(i);
     }
 
     public void receiveTickets() {
-        Toast.makeText(getApplicationContext(), "Antes do intent tickets", Toast.LENGTH_SHORT).show();
-        Intent i = new Intent(this, ReceiveTicketsValidActivity.class);
+        Intent i = new Intent(this, ReceiveActivity.class);
         startActivity(i);
-        Toast.makeText(getApplicationContext(), "Depois do intent", Toast.LENGTH_SHORT).show();
     }
 
     public void sendTickets() {
-        Intent i = new Intent(this, SendTicketsActivity.class);
+        Intent i = new Intent(this, SendActivity.class);
         i.putExtra("tickets", getIntent().getStringExtra("tickets"));
         i.putExtra("customerID", getIntent().getStringExtra("customerID"));
         i.putExtra("positions", getIntent().getStringExtra("positions"));

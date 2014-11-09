@@ -67,7 +67,7 @@ public class Storage extends SQLiteOpenHelper {
                 ticket[1] = cursor.getString(4); //seat
                 ticket[2] = cursor.getString(5); //date
                 ticket[3] = cursor.getString(1); //customerID
-                ticket[4] = cursor.getString(0);
+                ticket[4] = cursor.getString(0); //ticketID
                 tickets[i] = ticket;
                 cursor.moveToNext();
             }

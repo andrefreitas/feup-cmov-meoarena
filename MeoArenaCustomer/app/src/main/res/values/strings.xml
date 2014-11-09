@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Meo Arena</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -75,6 +74,8 @@
     <string name="title_activity_validate_tickets">ValidateTicketsActivity</string>
     <string name="too_much_tickets">Só pode selecionar um máximo de 4 bilhetes por validação!</string>
     <string name="receive_validation">Aproxime o telemóvel para receber a validação</string>
-    <string name="send_tickets">Enviar bilhetes para validar</string>
-    <string name="receive_tickets">Receber validação dos tickets</string>
+    <string name="send_validation">Aproxime o telemóvel para enviar a validação</string>
+    <string name="send">Enviar para validar</string>
+    <string name="receive">Receber validação</string>
+    <string name="title_activity_orders">OrdersActivity</string>
 </resources>

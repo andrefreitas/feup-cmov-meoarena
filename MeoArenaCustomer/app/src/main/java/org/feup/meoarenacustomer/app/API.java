@@ -73,4 +73,8 @@ public class API {
         params.put("customerID", customerID);
         client.get(url + "/transactions", params, responseHandler);
     }
+
+    public void checkValidPin() {
+
+    }
 }

@@ -66,26 +66,34 @@
             android:label="@string/title_activity_transactions" >
         </activity>
         <activity
-            android:name=".ReceiveTicketsValidActivity"
+            android:name=".ReceiveActivity"
             android:label="@string/title_activity_validate_tickets" >
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="application/nfc.feup.apm.message.type1" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".SendTicketsActivity"
+            android:name=".SendActivity"
             android:label="@string/title_activity_home" >
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="application/nfc.feup.apm.message.type1" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ValidationActivity"
             android:label="@string/title_activity_validation" >
+        </activity>
+        <activity
+            android:name=".OrdersActivity"
+            android:label="@string/title_activity_orders" >
         </activity>
     </application>
 

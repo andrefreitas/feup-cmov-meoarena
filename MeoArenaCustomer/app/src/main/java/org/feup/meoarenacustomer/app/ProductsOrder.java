@@ -26,6 +26,7 @@ public class ProductsOrder extends ListActivity {
 
     Storage db;
     API api;
+    // List all vouchers ids to use after to retrieve and make the order
     String[] items;
     ListView listview;
 
@@ -38,7 +39,6 @@ public class ProductsOrder extends ListActivity {
         api = new API();
 
         //populate items array with vouchers info
-        setTotalPrice();
         listVouchers();
         payOrder();
 
@@ -67,6 +67,8 @@ public class ProductsOrder extends ListActivity {
 
     public void onListItemClick(ListView parent, View v,int position,long id){
         CheckedTextView item = (CheckedTextView) v;
+        //TODO: Array and check if item is there or not,
+        // add only if not there and remove if exists
         Toast.makeText(this, items[position] + " checked : " +
                 item.isChecked(), Toast.LENGTH_SHORT).show();
     }
@@ -81,7 +83,8 @@ public class ProductsOrder extends ListActivity {
                 if (sparseBooleanArray.size() > 3) {
                     Toast.makeText(getApplicationContext(), R.string.limit_vouchers_used, Toast.LENGTH_SHORT).show();
                 } else {
-                    askPin();
+                    askPin(getIntent().getStringExtra("price"), getIntent().getStringExtra("products"),
+                            getIntent().getStringExtra("quantity"), getIntent().getStringExtra("customerID"), items);
                 }
 
             }
@@ -107,7 +110,8 @@ public class ProductsOrder extends ListActivity {
                     product = "5% desconto em toda a cafetaria";
                 }
 
-                items[i] = product;
+                // Add voucher id to items list
+                items[i] = vouchers[i][0];
             }
 
             listview = getListView();
@@ -120,7 +124,7 @@ public class ProductsOrder extends ListActivity {
 
     }
 
-    public void askPin() {
+    public void askPin(String price, String products, String quantity, String customerID, String[] vouchers) {
         // Ask for pin
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
@@ -133,12 +137,7 @@ public class ProductsOrder extends ListActivity {
 
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                Intent intent = getIntent();
-                String showID = intent.getStringExtra("showID");
-                String customerID = db.get("id");
-                String pin = input.getText().toString();
-                NumberPicker np = (NumberPicker) findViewById(R.id.number_to_buy);
-                //callAPI(showID, customerID, pin, np.getValue());
+
             }
         });
 
@@ -149,11 +148,5 @@ public class ProductsOrder extends ListActivity {
         });
 
         alert.show();
-    }
-
-    public void setTotalPrice() {
-        TextView total_price = ((TextView) findViewById(R.id.products_order_price));
-        Intent intent = getIntent();
-        total_price.setText("Total: " + intent.getStringExtra("price"));
     }
 }
