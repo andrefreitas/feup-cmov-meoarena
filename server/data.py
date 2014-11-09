@@ -272,24 +272,25 @@ def create_cafeteria_order(customerID, pin, vouchers, products, quantity, price)
         # Copy quantity list to reduce number iteratively
         dumb_quantity_list = list(map(int, quantity_list))
         percent_voucher = False
-        for i in range(0, len(vouchers_list), 1):
-            # Finds each voucher for the given ids
-            voucher = db.vouchers.find_one({"_id": ObjectId(vouchers_list[i])})
-            if voucher:
-                var = valid_voucher_product(i, vouchers_list, products_list, dumb_quantity_list, percent_voucher)
-                if var is True:
-                    voucher["status"] = "used"
-                    db.vouchers.update({"_id": voucher["_id"]},{'$set':{"status": "used"}})
-                    vouchers_doc.append(voucher)
-                    # Update price
-                    p = db.products.find_one({"_id": ObjectId(products_list[i])})
-                    total_price -= p["price"]*voucher["discount"]
-                if var == "percent_voucher":
-                    voucher["status"] = "used"
-                    db.vouchers.update({"_id": voucher["_id"]},{'$set':{"status": "used"}})
-                    percent_voucher = True
-                    vouchers_doc.append(voucher)
-                    total_price = total_price - total_price*voucher["discount"]
+        if (vouchers_list[0] != ""):
+            for i in range(0, len(vouchers_list), 1):
+                # Finds each voucher for the given ids
+                voucher = db.vouchers.find_one({"_id": ObjectId(vouchers_list[i])})
+                if voucher:
+                    var = valid_voucher_product(i, vouchers_list, products_list, dumb_quantity_list, percent_voucher)
+                    if var is True:
+                        voucher["status"] = "used"
+                        db.vouchers.update({"_id": voucher["_id"]},{'$set':{"status": "used"}})
+                        vouchers_doc.append(voucher)
+                        # Update price
+                        p = db.products.find_one({"_id": ObjectId(products_list[i])})
+                        total_price -= p["price"]*voucher["discount"]
+                    if var == "percent_voucher":
+                        voucher["status"] = "used"
+                        db.vouchers.update({"_id": voucher["_id"]},{'$set':{"status": "used"}})
+                        percent_voucher = True
+                        vouchers_doc.append(voucher)
+                        total_price = total_price - total_price*voucher["discount"]
 
         # Build products document
         products_doc = []
@@ -360,6 +361,14 @@ def validate_tickets(customerID, tickets):
                     return False
             else:
                 return False
+        return True
+    else:
+        return False
+
+
+def checkPin(customerID, pin):
+    customer = db.customers.find_one({"_id": ObjectId(customerID), "pin": int(pin)})
+    if customer:
         return True
     else:
         return False

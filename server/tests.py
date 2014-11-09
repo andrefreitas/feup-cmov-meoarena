@@ -50,6 +50,25 @@ class TestApi(unittest.TestCase):
         self.assertEqual(login_answer.status_code, 400)
         data.delete_customer(answer["id"])
 
+    def test_checkPin(self):
+        customer = requests.post("http://localhost:8080/api/customers", params=self.customer1).json()
+        payload = {
+            "customerID": customer["id"],
+            "pin": customer["pin"]
+        }
+        # Check right id and pin
+        answer = requests.post("http://localhost:8080/api/checkPin", params=payload)
+        self.assertTrue(answer.status_code == 200)
+
+        # Check wrong pin
+        payload = {
+            "customerID": customer["id"],
+            "pin": str(customer["pin"]) + "23"
+        }
+        answer = requests.post("http://localhost:8080/api/checkPin", params=payload)
+        self.assertTrue(answer.status_code == 400)
+
+
     def test_listing_shows(self):
         show1 = data.create_show("Tony Carreira", "31/10/2014", 22.50, 100)
         show2 = data.create_show("John Legend", "08/11/2014", 12, 300)
@@ -222,6 +241,7 @@ class TestApi(unittest.TestCase):
             "price": 23
         }
 
+        # Order with vouchers
         answer = requests.post("http://localhost:8080/api/orders", params=payload)
         self.assertEqual(answer.status_code, 200)
 
@@ -230,10 +250,23 @@ class TestApi(unittest.TestCase):
                                               and len(order["products"]) == 2, orders))
         self.assertTrue(len(results) == 1)
 
+        # Order without vouchers
+        payload["vouchers"] = ""
+
+        answer = requests.post("http://localhost:8080/api/orders", params=payload)
+        self.assertEqual(answer.status_code, 200)
+
+        orders = requests.get("http://localhost:8080/api/orders", params={"customerID": customer["id"]}).json()
+        results = list(filter(lambda order: order["customerID"] == customer["id"] and len(order["vouchers"]) == 0
+                                              and len(order["products"]) == 2, orders))
+        self.assertTrue(len(results) == 1)
+
+
+        # Get transactions
         transactions = requests.get("http://localhost:8080/api/transactions", params={"customerID": customer["id"]}).json()
         results = list(filter(lambda transaction: transaction["customerID"] == customer["id"]
                                               and transaction["description"] == "Compra cafetaria", transactions))
-        self.assertTrue(len(results) == 1)
+        self.assertTrue(len(results) == 2)
 
         data.drop_data_base()
 

@@ -41,6 +41,17 @@ def login():
     else:
         response.status = 400
 
+@route('/api/checkPin', method="POST")
+def checkPin():
+    customerID = request.params.get("customerID")
+    pin = request.params.get("pin")
+    response.content_type = 'application/json'
+    result = data.checkPin(customerID, pin)
+    if result:
+        response.status = 200
+    else:
+        response.status = 400
+
 
 @route('/api/products', method="GET")
 def products_all():
@@ -106,7 +117,7 @@ def orders_all():
     return data.get_orders(customer_id)
 
 @route('/api/validateTickets', method="GET")
-def orders_all():
+def tickets_all():
     customer_id = request.params.get("customerID")
     tickets = request.params.get("tickets")
     response.content_type = 'application/json'
