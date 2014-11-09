@@ -166,8 +166,17 @@ public class HomeActivity extends Activity {
 
         ordersButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, OrdersActivity.class);
-                startActivity(intent);
+                String customerID = db.get("id");
+                String[][] orders = db.getOrders(customerID);
+                if (orders != null && orders.length > 0) {
+                    Intent intent = new Intent(HomeActivity.this, OrdersActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), R.string.no_available_orders ,Toast.LENGTH_SHORT).show();
+                }
+
+
             }
         });
     }

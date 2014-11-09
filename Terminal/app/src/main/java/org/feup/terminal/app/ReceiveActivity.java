@@ -67,8 +67,9 @@ public class ReceiveActivity extends Activity {
                 String vouchers = new String(msg.getRecords()[4].getPayload());
                 String quantity = new String(msg.getRecords()[5].getPayload());
                 String price = new String(msg.getRecords()[6].getPayload());
+                String position = new String(msg.getRecords()[7].getPayload());
 
-                receiveOrders(pin, customerID, products, vouchers, quantity, price);
+                receiveOrders(pin, customerID, products, vouchers, quantity, price, position);
             }
         }
     }
@@ -93,7 +94,7 @@ public class ReceiveActivity extends Activity {
         });
     }
 
-    public void receiveOrders(String pin, String customerID, String products, String vouchers, String quantity, String price) {
+    public void receiveOrders(String pin, String customerID, String products, String vouchers, String quantity, String price, final String position) {
 
         api.validateOrders(pin, customerID, vouchers, products, quantity, price, new JsonHttpResponseHandler() {
             @Override
@@ -103,13 +104,14 @@ public class ReceiveActivity extends Activity {
                     String orderID = response.getString("id");
                     String products = "";
                     String vouchers = "";
+                    String vouchersName = "";
                     JSONArray products_list = response.getJSONArray("products");
                     for (int i = 0; i < products_list.length(); i++) {
                         JSONObject p = products_list.getJSONObject(i);
                         if (i == products_list.length()-1) {
-                            products += p.getString("description");
+                            products += p.getString("name");
                         } else {
-                            products += p.getString("description") + ",";
+                            products += p.getString("name") + ",";
                         }
                     }
                     JSONArray vouchers_list = response.getJSONArray("vouchers");
@@ -117,19 +119,32 @@ public class ReceiveActivity extends Activity {
                         JSONObject p = vouchers_list.getJSONObject(i);
                         if (i == vouchers_list.length()-1) {
                             vouchers += p.getJSONObject("_id").getString("$oid");
+                            vouchersName += p.getString("product");
                         } else {
                             vouchers += p.getJSONObject("_id").getString("$oid") + ",";
+                            vouchersName += p.getString("product") + ",";
                         }
                     }
                     app.orderID = orderID;
                     app.products = products;
-                    app.vouchers = vouchers;
+                    if (vouchers.equals("")) {
+                        app.vouchers = "novouchers";
+                    } else {
+                        app.vouchers = vouchers;
+                    }
                     app.price = response.getString("price");
+                    app.position = position;
+                    if (vouchersName.equals("")) {
+                        app.vouchersName = "nonames";
+                    } else {
+                        app.vouchersName = vouchersName;
+                    }
                     app.reply = "Encomenda validada!";
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 Toast.makeText(getApplicationContext(), R.string.success_order, Toast.LENGTH_SHORT).show();
+                startIntent();
             }
 
             @Override

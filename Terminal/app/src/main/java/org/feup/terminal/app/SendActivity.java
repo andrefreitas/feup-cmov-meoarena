@@ -37,7 +37,10 @@ public class SendActivity extends Activity implements NfcAdapter.OnNdefPushCompl
         Bundle extras = getIntent().getExtras();
         tag = "application/nfc.feup.apm.message.type1";
         message = extras.getString("message").getBytes();
-        NdefMessage msg = new NdefMessage(new NdefRecord[] { createMimeRecord(tag, message) });
+        byte[] origin = extras.getString("origin").getBytes();
+        NdefMessage msg = new NdefMessage(new NdefRecord[] {
+                createMimeRecord(tag, origin),
+                createMimeRecord(tag, message) });
 
         // Register a NDEF message to be sent in a beam operation (P2P)
         mNfcAdapter.setNdefPushMessage(msg, this);

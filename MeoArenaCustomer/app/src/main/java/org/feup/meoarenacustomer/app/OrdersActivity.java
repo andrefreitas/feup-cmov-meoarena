@@ -1,17 +1,25 @@
 package org.feup.meoarenacustomer.app;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckedTextView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.loopj.android.http.AsyncHttpResponseHandler;
+
+import org.apache.http.Header;
 
 import java.util.ArrayList;
 
@@ -23,6 +31,7 @@ public class OrdersActivity extends ListActivity {
     ListView listview;
     String[][] orders;
     int item;
+    String position_i;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +41,10 @@ public class OrdersActivity extends ListActivity {
         api = new API();
         db = new Storage(this);
 
+        getValidation();
         listOrders();
         validateOrders();
+
     }
 
     @Override
@@ -59,6 +70,61 @@ public class OrdersActivity extends ListActivity {
         item = position;
     }
 
+    public void getValidation() {
+        Intent intent = getIntent();
+        String origin = intent.getStringExtra("origin");
+        if (origin != null) {
+            if (origin.equals("order")) {
+                String orderID = intent.getStringExtra("orderID");
+                String vouchers = intent.getStringExtra("vouchers");
+                String products = intent.getStringExtra("products");
+                String price = intent.getStringExtra("price");
+                position_i = intent.getStringExtra("position");
+                String vouchersName = intent.getStringExtra("vouchersName");
+
+                // Add position to disable
+                String pos = db.get("positions");
+                if (pos == null || pos.equals("")) {
+                    db.put("positions", position_i);
+                } else {
+                    db.updateKey("positions", pos + "," + position_i);
+                }
+
+                // Ask for pin
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setTitle("Encomenda validada");
+                String message="";
+                if (vouchersName.equals("nonames")) {
+                    message = "Foi validada a sua encomenda com o id " + orderID + " , os produtos " + products
+                             + " pelo preco de " + price + " EUR";
+                } else {
+                    message = "Foi validada a sua encomenda com o id " + orderID + " , os produtos " + products
+                            + " e os vouchers " + vouchersName + " pelo preco de " + price + " EUR";
+                }
+                alert.setMessage(message);
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        startMenu();
+                    }
+                });
+                alert.show();
+
+                //Delete voucher
+                if (!vouchers.equals("novouchers")) {
+                    String[] vouchers_list = vouchers.split(",");
+                    for (int j=0; j < vouchers_list.length; j++) {
+                        db.deleteVoucher(vouchers_list[j]);
+                    }
+                }
+            }
+        }
+    }
+
+    public void startMenu(){
+        Intent i = new Intent(this, HomeActivity.class);
+        startActivity(i);
+    }
+
     public void validateOrders() {
         Button validate = (Button) findViewById(R.id.validate_orders);
 
@@ -72,12 +138,12 @@ public class OrdersActivity extends ListActivity {
                 String quantity = orders[item][4];
                 String price = orders[item][5];
 
-                startValidation(pin, customerID, vouchers, products, quantity, price);
+                startValidation(pin, customerID, vouchers, products, quantity, price, item);
             }
         });
     }
 
-    public void startValidation(String pin, String customerID, String vouchers, String products, String quantity, String price) {
+    public void startValidation(String pin, String customerID, String vouchers, String products, String quantity, String price, int position) {
         Intent intent = new Intent(this, ValidationActivity.class);
         intent.putExtra("origin", "order");
         intent.putExtra("pin", pin);
@@ -86,7 +152,7 @@ public class OrdersActivity extends ListActivity {
         intent.putExtra("products", products);
         intent.putExtra("quantity", quantity);
         intent.putExtra("price", price);
-
+        intent.putExtra("position", String.valueOf(position));
         startActivity(intent);
     }
 
@@ -96,7 +162,7 @@ public class OrdersActivity extends ListActivity {
         listview.setChoiceMode(listview.CHOICE_MODE_SINGLE);
         listview.setTextFilterEnabled(true);
 
-        String[] items = new String[orders.length];
+        final String[] items = new String[orders.length];
 
         for (int i = 0; i < orders.length; i++) {
             String[] products = orders[i][3].split(",");
@@ -119,11 +185,39 @@ public class OrdersActivity extends ListActivity {
             items[i] = order;
         }
 
-        setListAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_checked, items));
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_checked, items){
+            public View getView(int position, View convertView, ViewGroup parent) {
+                if(convertView == null)
+                {
+                    View v = getLayoutInflater().inflate(android.R.layout.simple_list_item_checked, null);
+                    final CheckedTextView ctv = (CheckedTextView)v.findViewById(android.R.id.text1);
+                    ctv.setText(items[position]);
 
+                    String[] positions = db.get("positions").split(",");
+
+                    if (positions != null && !positions[0].equals("")) {
+                        for (int i = 0; i<positions.length; i++) {
+                            if (Integer.parseInt(positions[i]) == position) {
+                                ctv.setEnabled(false);
+                            }
+                        }
+                    }
+
+                    if (position_i != null) {
+                        int p = Integer.parseInt(position_i);
+                        if (position == p) {
+                            ctv.setEnabled(false);
+                        }
+                    }
+
+                    return v;
+                }
+
+                return convertView;
+            }
+        };
+
+        setListAdapter(adapter);
     }
-
-
 
 }

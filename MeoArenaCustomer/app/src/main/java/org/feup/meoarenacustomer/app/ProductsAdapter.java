@@ -120,8 +120,6 @@ public class ProductsAdapter extends BaseAdapter {
         TextView p_name = (TextView) view.findViewById(R.id.product_name);
         p_name.setText(content[i][1]);
 
-
-
         return view;
 
 

@@ -74,6 +74,7 @@ public class SendActivity extends Activity implements NfcAdapter.OnNdefPushCompl
         byte[] vouchers = extras.getString("vouchers").getBytes();
         byte[] quantity = extras.getString("quantity").getBytes();
         byte[] price = extras.getString("price").getBytes();
+        byte[] position = extras.getString("position").getBytes();
         NdefMessage msg = new NdefMessage(new NdefRecord[] {
                 createMimeRecord(tag, origin),
                 createMimeRecord(tag, pin),
@@ -81,7 +82,8 @@ public class SendActivity extends Activity implements NfcAdapter.OnNdefPushCompl
                 createMimeRecord(tag, products),
                 createMimeRecord(tag, vouchers),
                 createMimeRecord(tag, quantity),
-                createMimeRecord(tag, price)
+                createMimeRecord(tag, price),
+                createMimeRecord(tag, position)
         });
 
         // Register a NDEF message to be sent in a beam operation (P2P)

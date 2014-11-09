@@ -77,8 +77,8 @@ public class Storage extends SQLiteOpenHelper {
                 order[3] = cursor.getString(3); //products
                 order[4] = cursor.getString(4); //quantity
                 order[5] = cursor.getString(5); //price
-                order[6] = cursor.getString(6); //price
-                order[7] = cursor.getString(7); //price
+                order[6] = cursor.getString(6); //products_id
+                order[7] = cursor.getString(7); //status
                 orders[i] = order;
                 cursor.moveToNext();
             }
@@ -86,6 +86,11 @@ public class Storage extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return orders;
+    }
+
+    public boolean updateOrder() {
+        SQLiteDatabase db = getWritableDatabase();
+        return true;
     }
 
     public boolean deleteVoucher(String voucherID) {
@@ -213,6 +218,16 @@ public class Storage extends SQLiteOpenHelper {
         db.close();
         return value;
 
+    }
+
+    public boolean updateKey(String key, String value) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("key", key);
+        contentValues.put("value", value);
+        db.update("dictionary", contentValues, "key='"+key+"'", null);
+        db.close();
+        return true;
     }
 
 }

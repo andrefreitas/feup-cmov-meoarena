@@ -90,6 +90,7 @@ public class ValidationActivity extends Activity {
         i.putExtra("vouchers", getIntent().getStringExtra("vouchers"));
         i.putExtra("quantity", getIntent().getStringExtra("quantity"));
         i.putExtra("price", getIntent().getStringExtra("price"));
+        i.putExtra("position", getIntent().getStringExtra("position"));
         startActivity(i);
     }
 

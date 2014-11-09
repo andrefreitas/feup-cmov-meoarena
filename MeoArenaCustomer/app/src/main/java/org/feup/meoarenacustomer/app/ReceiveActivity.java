@@ -37,16 +37,34 @@ public class ReceiveActivity extends Activity {
         Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
         NdefMessage msg = (NdefMessage) rawMsgs[0];
 
-        NdefRecord record = msg.getRecords()[0];
-        String payload = new String(record.getPayload());
+        // Origin
+        NdefRecord origin_record = msg.getRecords()[0];
+        String origin = new String(origin_record.getPayload());
 
+        if (origin.equals("ticket")) {
+            // Data
+            NdefRecord record = msg.getRecords()[1];
+            String payload = new String(record.getPayload());
+
+            receiveTickets(payload);
+        }
+
+        else if (origin.equals("order")) {
+            // Data
+            NdefRecord record = msg.getRecords()[1];
+            String payload_or = new String(record.getPayload());
+
+            receiveOrders(payload_or);
+        }
+    }
+
+    public void receiveTickets(String payload){
         Intent i = new Intent(this, ReceiveActivity.class);
-        TextView text = (TextView) findViewById(R.id.validation);
-        text.setText(payload);
 
         String[] message = payload.split(" ");
         if (message[0].equals("True")) {
             Intent in = new Intent(this, TicketsActivity.class);
+            in.putExtra("origin", "ticket");
             in.putExtra("positions", message[1]);
             in.putExtra("tickets", message[2]);
             startActivity(in);
@@ -54,6 +72,25 @@ public class ReceiveActivity extends Activity {
         else {
             Toast.makeText(getApplicationContext(), "Bilhetes invalidos", Toast.LENGTH_SHORT).show();
         }
+    }
 
+    public void receiveOrders(String payload) {
+        Intent i = new Intent(this, ReceiveActivity.class);
+
+        String[] message = payload.split(" ");
+        if (message[0].equals("True")) {
+            Intent in = new Intent(this, OrdersActivity.class);
+            in.putExtra("origin", "order");
+            in.putExtra("orderID", message[1]);
+            in.putExtra("vouchers", message[2]);
+            in.putExtra("products", message[3]);
+            in.putExtra("price", message[4]);
+            in.putExtra("position", message[5]);
+            in.putExtra("vouchersName", message[6]);
+            startActivity(in);
+        }
+        else {
+            Toast.makeText(getApplicationContext(), "Encomenda invalida", Toast.LENGTH_SHORT).show();
+        }
     }
 }
