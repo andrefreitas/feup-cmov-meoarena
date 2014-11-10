@@ -226,7 +226,7 @@ def delete_vouchers(customer_id):
 def create_cafeteria_transaction(customer_id, total):
     transaction = {
         "description": "Compra cafetaria",
-        "amount": str(total),
+        "amount": total,
         "date": datetime.datetime.today(),
         "customerID": ObjectId(customer_id)
     }
