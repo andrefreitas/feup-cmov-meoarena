@@ -185,7 +185,7 @@ public class ShowActivity extends Activity implements NumberPicker.OnValueChange
         api.getVouchers(customerID, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-
+                db.dropVouchers();
                 for (int i = 0; i < response.length(); i++) {
                     JSONObject obj = null;
                     try {

@@ -18,8 +18,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -81,6 +85,8 @@ public class OrdersActivity extends ListActivity {
                 String price = intent.getStringExtra("price");
                 position_i = intent.getStringExtra("position");
                 String vouchersName = intent.getStringExtra("vouchersName");
+
+                saveVouchers(db.get("id"));
 
                 // Add position to disable
                 String pos = db.get("positions");
@@ -236,6 +242,37 @@ public class OrdersActivity extends ListActivity {
         };
 
         setListAdapter(adapter);
+    }
+
+    private void saveVouchers(String customerID) {
+        api.getVouchers(customerID, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                db.dropVouchers();
+                for (int i = 0; i < response.length(); i++) {
+                    JSONObject obj = null;
+                    try {
+                        obj = response.getJSONObject(i);
+                        db.saveVoucher(obj.getString("id"), db.get("id"), obj.getString("product"),
+                                obj.getString("discount"), obj.getString("status"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Toast.makeText(getApplicationContext(), R.string.save_vouchers, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Toast.makeText(getApplicationContext(), R.string.no_internet, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Toast.makeText(getApplicationContext(), R.string.no_vouchers, Toast.LENGTH_SHORT).show();
+            }
+
+        });
     }
 
 }

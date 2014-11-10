@@ -93,6 +93,11 @@ public class Storage extends SQLiteOpenHelper {
         return db.delete("vouchers", "voucherID='" + voucherID + "'", null) > 0;
     }
 
+    public boolean dropVouchers() {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete("vouchers", null, null);
+        return true;
+    }
 
     public boolean saveTicket(String id, String customerID, String showID, String seat, String status, String date, String name) {
         SQLiteDatabase db = getWritableDatabase();
