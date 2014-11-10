@@ -118,14 +118,39 @@ public class OrdersActivity extends ListActivity {
                     else if (products_list[i].equals("popcorn")) {
                         p += " Pipocas";
                     }
+
+                    if (i != products_list.length-1) {
+                        p += ",";
+                    }
                 }
 
                 if (vouchersName.equals("nonames")) {
                     message = "Foi validada a sua encomenda com o id " + orderID + ", os produtos:" + p
                              + " pelo preco de " + price + " EUR";
                 } else {
-                    message = "Foi validada a sua encomenda com o id " + orderID + " , os produtos " + products
-                            + " e os vouchers " + vouchersName + " pelo preco de " + price + " EUR";
+                    String v = "";
+                    String[] v_list = vouchersName.split(",");
+
+                    for (int i=0; i < v_list.length; i++) {
+                        if (v_list[i].equals("all")) {
+                            v += " 5% cafetaria";
+                        }
+                        else if (v_list[i].equals("coffee")) {
+                            v += " Cafe gratis";
+                        }
+                        else if (v_list[i].equals("popcorn")) {
+                            v += " Pipocas gratis";
+                        }
+
+                        if (i != v_list.length-1) {
+                            v += ",";
+                        }
+
+                    }
+
+
+                    message = "Foi validada a sua encomenda com o id " + orderID + ", os produtos:" + p
+                            + " e os vouchers: " + v + " pelo preco de " + price + " EUR";
                 }
                 alert.setMessage(message);
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {

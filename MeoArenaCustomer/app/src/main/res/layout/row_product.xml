@@ -17,14 +17,14 @@
         />
 
     <CheckBox
-        android:layout_width="232dp"
+        android:layout_width="170dp"
         android:layout_height="35dp"
         android:layout_marginLeft="15dp"
         android:text="New CheckBox"
         android:id="@+id/product"
         android:checked="false"
-        android:layout_alignBottom="@+id/product_quantity"
-        android:layout_toEndOf="@+id/product_quantity" />
+        android:layout_toEndOf="@+id/product_quantity"
+        android:layout_alignBottom="@+id/product_quantity" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -32,10 +32,9 @@
         android:text="New Text"
         android:id="@+id/product_price"
         android:layout_toEndOf="@+id/product"
-        android:layout_alignBottom="@+id/product_quantity"
+        android:gravity="center"
         android:layout_alignTop="@+id/product"
-        android:layout_centerVertical="true"
-        android:gravity="center"/>
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
