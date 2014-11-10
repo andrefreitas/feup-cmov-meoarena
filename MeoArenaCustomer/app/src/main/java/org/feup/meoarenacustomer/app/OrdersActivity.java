@@ -94,8 +94,26 @@ public class OrdersActivity extends ListActivity {
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
                 alert.setTitle("Encomenda validada");
                 String message="";
+                String p = "";
+                String[] products_list = products.split(",");
+
+                for (int i=0; i < products_list.length; i++) {
+                    if (products_list[i].equals("coffee")) {
+                        p += " Cafe";
+                    }
+                    else if (products_list[i].equals("juice")) {
+                        p += " Sumo";
+                    }
+                    else if (products_list[i].equals("sandwich")) {
+                        p += " Sandes";
+                    }
+                    else if (products_list[i].equals("popcorn")) {
+                        p += " Pipocas";
+                    }
+                }
+
                 if (vouchersName.equals("nonames")) {
-                    message = "Foi validada a sua encomenda com o id " + orderID + " , os produtos " + products
+                    message = "Foi validada a sua encomenda com o id " + orderID + ", os produtos:" + p
                              + " pelo preco de " + price + " EUR";
                 } else {
                     message = "Foi validada a sua encomenda com o id " + orderID + " , os produtos " + products
