@@ -62,6 +62,11 @@ public class TicketsActivity extends Activity {
                 adapter.disableCheck(Integer.parseInt(positions[i]));
                 db.updateTicket(tickets[i], "used");
             }
+
+            Toast.makeText(getApplicationContext(), R.string.success_valid_tickets, Toast.LENGTH_SHORT).show();
+
+            Intent i = new Intent(this, HomeActivity.class);
+            startActivity(i);
         }
     }
 

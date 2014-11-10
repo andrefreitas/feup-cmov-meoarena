@@ -70,9 +70,7 @@
             android:label="@string/title_activity_validate_tickets" >
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:mimeType="application/nfc.feup.apm.message.type1" />
             </intent-filter>
         </activity>
@@ -81,9 +79,7 @@
             android:label="@string/title_activity_home" >
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:mimeType="application/nfc.feup.apm.message.type1" />
             </intent-filter>
         </activity>

@@ -43,6 +43,14 @@ public class Storage extends SQLiteOpenHelper {
 
     }
 
+    public void dropTables() {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete("dictionary", null, null);
+        db.delete("vouchers", null, null);
+        db.delete("tickets", null, null);
+        db.delete("orders", null, null);
+    }
+
     public boolean saveOrder(String customerID, String pin, String vouchers, String products,
                              String productsID, String quantity, String price, String status) {
         SQLiteDatabase db = getWritableDatabase();

@@ -83,4 +83,5 @@
     <string name="wrong_pin">Pin inválido. Por favor, tente novamente.</string>
     <string name="success_orders">Encomenda efetuada com sucesso.</string>
     <string name="no_available_orders">Não há encomendas disponíveis de momento.</string>
+    <string name="success_valid_tickets">Bilhetes validados com sucesso</string>
 </resources>
