@@ -315,6 +315,12 @@ def create_cafeteria_order(customerID, pin, vouchers, products, quantity, price)
             "price": total_price
         }
 
+        total = get_total_ammount(customerID) % 100
+        remain = math.floor((total_price + total) / 100)
+        if (remain > 0):
+            for i in range(0, remain, 1):
+                create_discount_voucher(customerID)
+
         order_id = db.orders.insert(doc)
         order = db.orders.find_one({"_id": order_id})
         order["id"] = str(order["_id"])
