@@ -92,7 +92,6 @@ public class ShowActivity extends Activity implements NumberPicker.OnValueChange
 
     public void buyTickets() {
         Button button = (Button) findViewById(R.id.buyTickets);
-
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             //On click function
@@ -169,6 +168,7 @@ public class ShowActivity extends Activity implements NumberPicker.OnValueChange
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse){
                 Toast.makeText(getApplicationContext(), R.string.invalid_buy_tickets, Toast.LENGTH_SHORT).show();
             }
+
 
         });
     }

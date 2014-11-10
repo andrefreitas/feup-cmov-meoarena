@@ -12,7 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-public class SendValidateTickets extends Activity implements NfcAdapter.OnNdefPushCompleteCallback {
+public class SendActivity extends Activity implements NfcAdapter.OnNdefPushCompleteCallback {
     NfcApp app;
 
     @Override
@@ -37,7 +37,10 @@ public class SendValidateTickets extends Activity implements NfcAdapter.OnNdefPu
         Bundle extras = getIntent().getExtras();
         tag = "application/nfc.feup.apm.message.type1";
         message = extras.getString("message").getBytes();
-        NdefMessage msg = new NdefMessage(new NdefRecord[] { createMimeRecord(tag, message) });
+        byte[] origin = extras.getString("origin").getBytes();
+        NdefMessage msg = new NdefMessage(new NdefRecord[] {
+                createMimeRecord(tag, origin),
+                createMimeRecord(tag, message) });
 
         // Register a NDEF message to be sent in a beam operation (P2P)
         mNfcAdapter.setNdefPushMessage(msg, this);

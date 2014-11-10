@@ -83,6 +83,14 @@ public class ValidationActivity extends Activity {
 
     public void sendOrders() {
         Intent i = new Intent(this, SendActivity.class);
+        i.putExtra("origin", "order");
+        i.putExtra("pin", getIntent().getStringExtra("pin"));
+        i.putExtra("customerID", getIntent().getStringExtra("customerID"));
+        i.putExtra("products", getIntent().getStringExtra("products"));
+        i.putExtra("vouchers", getIntent().getStringExtra("vouchers"));
+        i.putExtra("quantity", getIntent().getStringExtra("quantity"));
+        i.putExtra("price", getIntent().getStringExtra("price"));
+        i.putExtra("position", getIntent().getStringExtra("position"));
         startActivity(i);
     }
 
@@ -93,6 +101,7 @@ public class ValidationActivity extends Activity {
 
     public void sendTickets() {
         Intent i = new Intent(this, SendActivity.class);
+        i.putExtra("origin", "ticket");
         i.putExtra("tickets", getIntent().getStringExtra("tickets"));
         i.putExtra("customerID", getIntent().getStringExtra("customerID"));
         i.putExtra("positions", getIntent().getStringExtra("positions"));

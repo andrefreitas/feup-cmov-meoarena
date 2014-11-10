@@ -19,7 +19,10 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.apache.http.Header;
 
 import java.util.ArrayList;
 
@@ -72,8 +75,6 @@ public class ProductsOrder extends ListActivity {
     public void onListItemClick(ListView parent, View v,int position,long id){
         CheckedTextView item = (CheckedTextView) v;
 
-        //TODO: Array and check if item is there or not,
-        // add only if not there and remove if exists
         if (checkedItems.contains(vouchersID[position])) {
             checkedItems.remove(vouchersID[position]);
         } else {
@@ -91,7 +92,7 @@ public class ProductsOrder extends ListActivity {
                 if (sparseBooleanArray.size() > 3) {
                     Toast.makeText(getApplicationContext(), R.string.limit_vouchers_used, Toast.LENGTH_SHORT).show();
                 } else {
-                    askPin(getIntent().getStringExtra("price"), getIntent().getStringExtra("products"),
+                    askPin(getIntent().getStringExtra("products_id"), getIntent().getStringExtra("price"), getIntent().getStringExtra("products"),
                             getIntent().getStringExtra("quantity"), db.get("id"), checkedItems);
                 }
 
@@ -134,7 +135,8 @@ public class ProductsOrder extends ListActivity {
 
     }
 
-    public void askPin(final String price, final String products, final String quantity, final String customerID, ArrayList<String> checkedItems) {
+    public void askPin(final String productsID, final String price, final String products, final String quantity,
+                       final String customerID, ArrayList<String> checkedItems) {
         // Ask for pin
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Pin");
@@ -154,11 +156,23 @@ public class ProductsOrder extends ListActivity {
             }
         }
 
+        final String f_price = price.split(" ")[0];
         final String finalVouchers = vouchers;
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                db.saveOrder(customerID, db.get("pin"), finalVouchers, products, quantity, price);
-                Toast.makeText(getApplicationContext(), R.string.success_orders, Toast.LENGTH_SHORT).show();
+                final String pin = input.getText().toString();
+                api.checkValidPin(customerID, pin, new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        db.saveOrder(customerID, pin, finalVouchers, products, productsID, quantity, f_price, "unused");
+                        successOrder();
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        Toast.makeText(getApplicationContext(), R.string.wrong_pin, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
@@ -169,5 +183,11 @@ public class ProductsOrder extends ListActivity {
         });
 
         alert.show();
+    }
+
+    public void successOrder() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+        Toast.makeText(getApplicationContext(), R.string.success_orders, Toast.LENGTH_SHORT).show();
     }
 }

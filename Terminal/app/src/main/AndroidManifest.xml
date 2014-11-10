@@ -22,7 +22,7 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".ReceiveTickets"
+            android:name=".ReceiveActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop" >
             <intent-filter>
@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SendValidateTickets"
+            android:name=".SendActivity"
             android:label="@string/app_name" >
         </activity>
         <activity

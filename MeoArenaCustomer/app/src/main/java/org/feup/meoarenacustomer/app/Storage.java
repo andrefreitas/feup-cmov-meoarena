@@ -33,7 +33,7 @@ public class Storage extends SQLiteOpenHelper {
         db.execSQL(tickets);
 
         String orders = "CREATE TABLE orders "
-                + "(customerID TEXT, pin TEXT, vouchers TEXT, products TEXT, quantity TEXT, price TEXT);";
+                + "(customerID TEXT, pin TEXT, vouchers TEXT, products TEXT, quantity TEXT, price TEXT, products_id TEXT, status TEXT);";
 
         db.execSQL(orders);
     }
@@ -43,7 +43,8 @@ public class Storage extends SQLiteOpenHelper {
 
     }
 
-    public boolean saveOrder(String customerID, String pin, String vouchers, String products, String quantity, String price) {
+    public boolean saveOrder(String customerID, String pin, String vouchers, String products,
+                             String productsID, String quantity, String price, String status) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("customerID", customerID);
@@ -52,6 +53,8 @@ public class Storage extends SQLiteOpenHelper {
         contentValues.put("products", products);
         contentValues.put("quantity", quantity);
         contentValues.put("price", price);
+        contentValues.put("products_id", productsID);
+        contentValues.put("status", status);
         db.insert("orders", null, contentValues);
         db.close();
         return true;
@@ -59,7 +62,7 @@ public class Storage extends SQLiteOpenHelper {
 
     public String[][] getOrders(String customerID) {
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT pin, vouchers, products, quantity, price FROM orders WHERE customerID='"
+        Cursor cursor = db.rawQuery("SELECT pin, customerID, vouchers, products, quantity, price, products_id, status FROM orders WHERE customerID='"
                 + customerID +"';", null);
         int count = cursor.getCount();
         String orders[][] = null;
@@ -67,13 +70,15 @@ public class Storage extends SQLiteOpenHelper {
             cursor.moveToFirst();
             orders = new String[cursor.getCount()][];
             for (int i=0; i < cursor.getCount(); i++) {
-                String[] order = new String[6];
+                String[] order = new String[8];
                 order[0] = cursor.getString(0); //pin
                 order[1] = cursor.getString(1); //customerID
                 order[2] = cursor.getString(2); //vouchers
                 order[3] = cursor.getString(3); //products
                 order[4] = cursor.getString(4); //quantity
                 order[5] = cursor.getString(5); //price
+                order[6] = cursor.getString(6); //products_id
+                order[7] = cursor.getString(7); //status
                 orders[i] = order;
                 cursor.moveToNext();
             }
@@ -208,6 +213,16 @@ public class Storage extends SQLiteOpenHelper {
         db.close();
         return value;
 
+    }
+
+    public boolean updateKey(String key, String value) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("key", key);
+        contentValues.put("value", value);
+        db.update("dictionary", contentValues, "key='"+key+"'", null);
+        db.close();
+        return true;
     }
 
 }

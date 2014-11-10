@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class HomeActivity extends Activity implements View.OnClickListener{
@@ -28,15 +26,37 @@ public class HomeActivity extends Activity implements View.OnClickListener{
     }
 
     public void onClick(View v) {
-        Intent intent = new Intent(this, SendValidateTickets.class);
+        Intent intent = new Intent(this, SendActivity.class);
         String message;
 
         // Enviar mensagem
         if (sendMsg.getText().toString().equals("Bilhetes validos!")) {
             message = "True "+app.positions + " " +app.tickets;
+            sendTickets(message);
+        } else if (sendMsg.getText().toString().equals("Bilhetes nao validos!")){
+            message = "False ";
+            sendTickets(message);
+        } else if (sendMsg.getText().toString().equals("Encomenda validada!")){
+            message = "True " + app.orderID + " " + app.vouchers + " " + app.products + " " + app.price + " " + app.position + " " + app.vouchersName;
+            sendOrders(message);
         } else {
             message = "False ";
+            sendOrders(message);
         }
+
+    }
+
+    public void sendTickets(String message) {
+        Intent intent = new Intent(this, SendActivity.class);
+        intent.putExtra("origin", "ticket");
+        intent.putExtra("message", message);
+        intent.putExtra("tag", "application/nfc.feup.apm.message.type1");
+        startActivity(intent);
+    }
+
+    public void sendOrders(String message) {
+        Intent intent = new Intent(this, SendActivity.class);
+        intent.putExtra("origin", "order");
         intent.putExtra("message", message);
         intent.putExtra("tag", "application/nfc.feup.apm.message.type1");
         startActivity(intent);

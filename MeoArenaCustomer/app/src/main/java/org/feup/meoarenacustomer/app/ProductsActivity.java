@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
@@ -79,11 +80,12 @@ public class ProductsActivity extends Activity {
 
                     JSONObject obj = null;
                     try {
-                        String[] product = new String[4];
+                        String[] product = new String[5];
                         obj = response.getJSONObject(i);
                         product[0] = obj.getString("description");
                         product[1] = obj.getString("name");
                         product[2] = obj.getString("price");
+                        product[3] = obj.getString("id");
                         allProducts[i] = product;
 
                     } catch (JSONException e) {
@@ -92,7 +94,6 @@ public class ProductsActivity extends Activity {
                 }
 
                 populateListView(allProducts);
-                Toast.makeText(getApplicationContext(), "Chegou à API corretamente", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -130,6 +131,7 @@ public class ProductsActivity extends Activity {
                 ProductsAdapter bAdapter = adapter;
                 Iterator<String> it = bAdapter.getCheckedItems().values().iterator();
                 String products_list = "";
+                String products_id = "";
                 String quantity_list = "";
                 // Get both products and quantity list to send and save
                 int size = bAdapter.getCheckedItems().size();
@@ -137,26 +139,31 @@ public class ProductsActivity extends Activity {
                     ArrayList<String> item = new ArrayList<String>();
                     Integer position = Integer.parseInt(it.next());
                     String name = bAdapter.getItem(position)[1];
-                    String quantity = bAdapter.getItem(position)[3];
+                    String quantity = bAdapter.getItem(position)[4];
+                    String id = bAdapter.getItem(position)[3];
 
+                    String[] p = bAdapter.getItem(position);
                     //Only possible: juice, coffee, sandwich and popcorn
                     if (i == size - 1) {
-                     products_list += name;
-                     quantity_list += quantity;
+                        products_list += name;
+                        quantity_list += quantity;
+                        products_id += id;
                     } else {
-                     products_list += name + ",";
-                     quantity_list += quantity + ",";
+                        products_list += name + ",";
+                        quantity_list += quantity + ",";
+                        products_id += id + ",";
                     }
                 }
 
                 if (db.getVouchers(customerID) == null || db.getVouchers(customerID).length == 0) {
-                    askPin(total_price.getText().toString(), products_list, quantity_list, customerID);
+                    askPin(total_price.getText().toString(), products_list, quantity_list, products_id, customerID, "unused");
                 }
                 else {
                     Intent intent = new Intent(ProductsActivity.this, ProductsOrder.class);
                     intent.putExtra("price", total_price.getText().toString());
                     intent.putExtra("products", products_list);
                     intent.putExtra("quantity", quantity_list);
+                    intent.putExtra("products_id", products_id);
                     startActivity(intent);
                 }
 
@@ -165,7 +172,8 @@ public class ProductsActivity extends Activity {
         });
     }
 
-    public void askPin(String price, String products, String quantity, String customerID) {
+    public void askPin(String price, final String products, final String quantity,
+                       final String products_id, final String customerID,  final String status) {
         // Ask for pin
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
@@ -175,10 +183,22 @@ public class ProductsActivity extends Activity {
         // Set an EditText view to get user input
         final EditText input = new EditText(this);
         alert.setView(input);
-
+        final String f_price = price.split(" ")[0];
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
+                final String pin = input.getText().toString();
+                api.checkValidPin(customerID, pin, new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        db.saveOrder(customerID, pin, "", products, products_id, quantity, f_price, status);
+                        successOrder();
+                    }
 
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        Toast.makeText(getApplicationContext(), R.string.wrong_pin, Toast.LENGTH_SHORT).show();
+                    }
+                });
 
             }
         });
@@ -190,6 +210,12 @@ public class ProductsActivity extends Activity {
         });
 
         alert.show();
+    }
+
+    public void successOrder() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+        Toast.makeText(getApplicationContext(), R.string.success_orders, Toast.LENGTH_SHORT).show();
     }
 
  }

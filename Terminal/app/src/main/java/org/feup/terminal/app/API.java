@@ -33,8 +33,17 @@ public class API {
         client.get(url + "/validateTickets", params, responseHandler);
     }
 
-    public void getProducts(AsyncHttpResponseHandler responseHandler) {
-        client.get(url + "/products", responseHandler);
+    public void validateOrders(String pin, String customerID, String vouchers, String products,
+                               String quantity, String price, AsyncHttpResponseHandler responseHandler) {
+        RequestParams params = new RequestParams();
+        params.put("pin", pin);
+        params.put("customerID", customerID);
+        params.put("vouchers", vouchers);
+        params.put("products", products);
+        params.put("quantity", quantity);
+        params.put("price", price);
+
+        client.post(url + "/orders", params, responseHandler);
     }
 
 }
