@@ -24,6 +24,7 @@ public class ShowsActivity extends Activity {
 
     API api;
     Button showButton;
+    Storage db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class ShowsActivity extends Activity {
         setContentView(R.layout.activity_shows);
         setTitle("Espetáculos");
 
+        db = new Storage(this);
         api = new API();
         listShows();
     }
@@ -49,8 +51,10 @@ public class ShowsActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_logout) {
+            db.dropTables();
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
