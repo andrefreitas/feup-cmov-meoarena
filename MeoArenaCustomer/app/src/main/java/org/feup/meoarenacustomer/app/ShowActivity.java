@@ -116,12 +116,25 @@ public class ShowActivity extends Activity implements NumberPicker.OnValueChange
 
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                Intent intent = getIntent();
-                String showID = intent.getStringExtra("showID");
-                String customerID = db.get("id");
-                String pin = input.getText().toString();
-                NumberPicker np = (NumberPicker) findViewById(R.id.number_to_buy);
-                callAPI(showID, customerID, pin, np.getValue());
+                final String pin = input.getText().toString();
+                api.checkValidPin(db.get("id"), pin, new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        Intent intent = getIntent();
+                        String showID = intent.getStringExtra("showID");
+                        String customerID = db.get("id");
+                        String pin = input.getText().toString();
+                        NumberPicker np = (NumberPicker) findViewById(R.id.number_to_buy);
+                        callAPI(showID, customerID, pin, np.getValue());
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        Toast.makeText(getApplicationContext(), R.string.wrong_pin, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
             }
         });
 
