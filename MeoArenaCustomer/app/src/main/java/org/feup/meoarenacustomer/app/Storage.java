@@ -88,11 +88,6 @@ public class Storage extends SQLiteOpenHelper {
         return orders;
     }
 
-    public boolean updateOrder() {
-        SQLiteDatabase db = getWritableDatabase();
-        return true;
-    }
-
     public boolean deleteVoucher(String voucherID) {
         SQLiteDatabase db = getWritableDatabase();
         return db.delete("vouchers", "voucherID='" + voucherID + "'", null) > 0;
